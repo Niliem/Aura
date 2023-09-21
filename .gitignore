@@ -1,5 +1,7 @@
-# Visual Studio 2015 user specific files
+# Visual Studio user specific files
 .vs/
+.vsconfig
+UpgradeLog.htm
 
 # Rider user specific files
 .idea/
