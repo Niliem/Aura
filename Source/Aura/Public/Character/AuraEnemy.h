@@ -19,4 +19,8 @@ public:
     // Inherited via IEnemyInterface
     virtual void HighlightActor() override;
     virtual void UnHighlightActor() override;
+
+protected:
+    UPROPERTY(BlueprintReadOnly)
+    bool bIsHighlighted = false;
 };
