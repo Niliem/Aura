@@ -8,8 +8,8 @@
 AAuraEnemy::AAuraEnemy()
 {
     GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
-
     GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+
     Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
 
     AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
@@ -17,6 +17,13 @@ AAuraEnemy::AAuraEnemy()
     AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
     AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+}
+
+void AAuraEnemy::BeginPlay()
+{
+    Super::BeginPlay();
+
+    AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
 
 void AAuraEnemy::HighlightActor()
