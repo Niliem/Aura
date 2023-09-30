@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Character/AuraEnemy.h"
-#include <Aura/Aura.h>
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
+#include "Aura/Aura.h"
 
 AAuraEnemy::AAuraEnemy()
 {
@@ -9,6 +11,11 @@ AAuraEnemy::AAuraEnemy()
 
     GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
     Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+
+    AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+    AbilitySystemComponent->SetIsReplicated(true);
+
+    AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::HighlightActor()
