@@ -26,18 +26,21 @@ enum class EEffectRemovalPolicy
 };
 
 USTRUCT(BlueprintType)
-struct FEffectToApply
+struct FAppliedEffect
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
     TSubclassOf<UGameplayEffect> GameplayEffectClass;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
     EEffectApplicationPolicy EffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
     EEffectRemovalPolicy EffectRemovalPolicy = EEffectRemovalPolicy::DoNotRemove;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
+    int32 StackRemovalCount = -1;
 };
 
 UCLASS()
@@ -52,19 +55,20 @@ protected:
     virtual void BeginPlay() override;
 
     UFUNCTION(BlueprintCallable)
-    void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass, EEffectRemovalPolicy EffectRemovalPolicy = EEffectRemovalPolicy::DoNotRemove);
-
-    UFUNCTION(BlueprintCallable)
     void OnOverlap(AActor* TargetActor);
 
     UFUNCTION(BlueprintCallable)
     void OnEndOverlap(AActor* TargetActor);
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
-    TArray<FEffectToApply> EffectsToApply;
+    TArray<FAppliedEffect> EffectsToApply;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
     bool bDestroyOnEffectRemoval = false;
+
+private:
+    void ApplyEffectToTarget(AActor* TargetActor, const FAppliedEffect& Effect);
+    void RemoveEffectFromTarget(AActor* TargetActor, const FAppliedEffect& Effect);
 
     TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
 };
