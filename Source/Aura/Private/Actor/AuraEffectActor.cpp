@@ -17,7 +17,7 @@ void AAuraEffectActor::BeginPlay()
     Super::BeginPlay();
 }
 
-bool AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
     check(GameplayEffectClass);
     if (auto TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
@@ -28,11 +28,29 @@ bool AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
         const FGameplayEffectSpecHandle GameplayEffectSpecHandle = TargetAbilitySystemComponent->MakeOutgoingSpec(GameplayEffectClass, 1.0f, GameplayEffectContextHandle);
 
         TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*GameplayEffectSpecHandle.Data.Get());
-        return true;
     }
-    return false;
 }
 
-void AAuraEffectActor::OnOverlap(AActor* TargetActor) {}
+void AAuraEffectActor::OnOverlap(AActor* TargetActor)
+{
+    if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
+    }
+    if (DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+    }
+}
 
-void AAuraEffectActor::OnEndOverlap(AActor* TargetActor) {}
+void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
+{
+    if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
+    }
+    if (DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+    }
+}
