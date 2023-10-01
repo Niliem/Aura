@@ -14,9 +14,10 @@ void AAuraPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
 
-    UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
-
-    EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+    if (auto EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
+    {
+        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+    }
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -25,10 +26,10 @@ void AAuraPlayerController::BeginPlay()
 
     check(AuraContext);
 
-    UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-    check(InputSubsystem);
-
-    InputSubsystem->AddMappingContext(AuraContext, 0);
+    if (auto InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+    {
+        InputSubsystem->AddMappingContext(AuraContext, 0);
+    }
 
     bShowMouseCursor = true;
     DefaultMouseCursor = EMouseCursor::Default;
