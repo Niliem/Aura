@@ -34,6 +34,9 @@ struct FAppliedEffect
     TSubclassOf<UGameplayEffect> GameplayEffectClass;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
+    float EffectLevel = 1.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
     EEffectApplicationPolicy EffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
