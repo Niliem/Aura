@@ -1,6 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
+#include "GameplayEffectExtension.h"
+#include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
@@ -32,6 +36,50 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
     if (Attribute == GetManaAttribute())
     {
         NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
+    }
+}
+
+void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+    Super::PostGameplayEffectExecute(Data);
+
+    FEffectProperties Props;
+    SetEffectProperties(Data, Props);
+}
+
+void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectProperties)
+{
+    EffectProperties.GameplayEffectContextHandle = Data.EffectSpec.GetContext();
+
+    EffectProperties.SourceAbilitySystemComponent = EffectProperties.GameplayEffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
+    if (IsValid(EffectProperties.SourceAbilitySystemComponent))
+    {
+        EffectProperties.SourceAvatarActor = EffectProperties.SourceAbilitySystemComponent->GetAvatarActor();
+        if (IsValid(EffectProperties.SourceAvatarActor))
+        {
+            EffectProperties.SourceCharacter = Cast<ACharacter>(EffectProperties.SourceAvatarActor);
+
+            EffectProperties.SourceController = EffectProperties.SourceAbilitySystemComponent->AbilityActorInfo->PlayerController.Get();
+            if (EffectProperties.SourceController == nullptr && EffectProperties.SourceCharacter != nullptr)
+            {
+                if (const APawn* SourcePawn = Cast<APawn>(EffectProperties.SourceAvatarActor))
+                {
+                    EffectProperties.SourceController = SourcePawn->GetController();
+                }
+            }
+            else
+            {
+                EffectProperties.SourceCharacter = Cast<ACharacter>(EffectProperties.SourceController->GetPawn());
+            }
+        }
+    }
+
+    if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+    {
+        EffectProperties.TargetAvatarActor = Data.Target.GetAvatarActor();
+        EffectProperties.TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
+        EffectProperties.TargetCharacter = Cast<ACharacter>(EffectProperties.TargetAvatarActor);
+        EffectProperties.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(EffectProperties.TargetAvatarActor);
     }
 }
 
