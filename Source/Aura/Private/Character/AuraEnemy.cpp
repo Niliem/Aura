@@ -12,7 +12,7 @@ AAuraEnemy::AAuraEnemy()
 
     Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
 
-    AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+    AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
     AbilitySystemComponent->SetIsReplicated(true);
     AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
@@ -23,7 +23,13 @@ void AAuraEnemy::BeginPlay()
 {
     Super::BeginPlay();
 
+    InitAbilityActorInfo();
+}
+
+void AAuraEnemy::InitAbilityActorInfo()
+{
     AbilitySystemComponent->InitAbilityActorInfo(this, this);
+    Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }
 
 void AAuraEnemy::HighlightActor()
