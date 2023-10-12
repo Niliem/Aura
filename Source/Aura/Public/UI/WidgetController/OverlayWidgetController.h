@@ -67,4 +67,13 @@ protected:
 
     void ManaChanged(const FOnAttributeChangeData& Data) const;
     void MaxManaChanged(const FOnAttributeChangeData& Data) const;
+
+    template <typename T>
+    T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag) const;
 };
+
+template <typename T>
+inline T* UOverlayWidgetController::GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag) const
+{
+    return DataTable->FindRow<T>(Tag.GetTagName(), TEXT(""));
+}
