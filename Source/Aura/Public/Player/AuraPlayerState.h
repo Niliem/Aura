@@ -28,7 +28,7 @@ public:
 
     UAttributeSet* GetAttributeSet() const;
 
-    FORCEINLINE int32 GetLevel() const { return Level; }
+    FORCEINLINE int32 GetCharacterLevel() const { return Level; }
 
 protected:
     UPROPERTY(VisibleAnywhere)
