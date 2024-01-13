@@ -7,11 +7,7 @@
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
 
-UAuraAttributeSet::UAuraAttributeSet()
-{
-    InitHealth(50.0f);
-    InitMana(40.0f);
-}
+UAuraAttributeSet::UAuraAttributeSet() {}
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
