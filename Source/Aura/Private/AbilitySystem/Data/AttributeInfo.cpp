@@ -2,7 +2,7 @@
 
 #include "AbilitySystem/Data/AttributeInfo.h"
 
-FAuraAttributeInfo UAttributeInfo::FindAuraAttributeInfoForTag(const FGameplayTag& Tag) const
+FAuraAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplayTag& Tag) const
 {
     for (auto& AttributeInfo : AttributeInformation)
     {

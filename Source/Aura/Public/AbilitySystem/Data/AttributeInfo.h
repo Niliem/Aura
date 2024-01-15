@@ -34,7 +34,7 @@ class AURA_API UAttributeInfo : public UDataAsset
     GENERATED_BODY()
 
 public:
-    FAuraAttributeInfo FindAuraAttributeInfoForTag(const FGameplayTag& Tag) const;
+    FAuraAttributeInfo FindAttributeInfoForTag(const FGameplayTag& Tag) const;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "Tag"))
     TArray<FAuraAttributeInfo> AttributeInformation;
