@@ -8,11 +8,12 @@ AccessModifierOffset: -4
 SortIncludes: false
 AllowShortBlocksOnASingleLine: false
 AlignAfterOpenBracket: DontAlign
-AllowShortFunctionsOnASingleLine: Inline
+AllowShortFunctionsOnASingleLine: None
 PointerAlignment: Left
 AllowShortIfStatementsOnASingleLine: false
 SpacesBeforeTrailingComments: 2
-AllowShortCaseLabelsOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortLambdasOnASingleLine: None
 IndentCaseLabels: true
 AlwaysBreakTemplateDeclarations: Yes
 AlignEscapedNewlines: Left

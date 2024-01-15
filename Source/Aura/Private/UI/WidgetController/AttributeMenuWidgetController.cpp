@@ -14,7 +14,20 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
     }
 }
 
-void UAttributeMenuWidgetController::BindCallbacksToDependencies() {}
+void UAttributeMenuWidgetController::BindCallbacksToDependencies()
+{
+    check(AttributeInfo);
+
+    for (auto& Info : AttributeInfo.Get()->AttributeInformation)
+    {
+        AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Info.Attribute)
+            .AddLambda(
+                [this, Info](const FOnAttributeChangeData& Data)
+                {
+                    BroadcastAttributeInfo(Info.Tag);
+                });
+    }
+}
 
 void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& Tag) const
 {
