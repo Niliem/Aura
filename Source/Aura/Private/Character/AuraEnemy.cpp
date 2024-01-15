@@ -25,6 +25,7 @@ void AAuraEnemy::BeginPlay()
 
     InitAbilityActorInfo();
     InitializeDefaultAttributes();
+    AddStartupAbilities();
 }
 
 void AAuraEnemy::InitAbilityActorInfo()

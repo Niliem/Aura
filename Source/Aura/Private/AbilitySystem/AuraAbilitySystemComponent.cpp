@@ -7,6 +7,16 @@ void UAuraAbilitySystemComponent::AbilityActorInfoSet()
     OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::EffectApplied);
 }
 
+void UAuraAbilitySystemComponent::AddAbilities(const TArray<TSubclassOf<UGameplayAbility>>& Abilities)
+{
+    for (auto& AbilityClass : Abilities)
+    {
+        FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+        // GiveAbility(GameplayAbilitySpec);
+        GiveAbilityAndActivateOnce(GameplayAbilitySpec);
+    }
+}
+
 void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle)
 {
     FGameplayTagContainer TagContainer;
