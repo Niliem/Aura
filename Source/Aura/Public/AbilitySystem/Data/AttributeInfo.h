@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "AttributeSet.h"
 #include "GameplayTagContainer.h"
 #include "AttributeInfo.generated.h"
 
@@ -11,6 +12,9 @@ USTRUCT(BlueprintType)
 struct FAuraAttributeInfo
 {
     GENERATED_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FGameplayAttribute Attribute = FGameplayAttribute();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     FGameplayTag Tag = FGameplayTag();
@@ -36,6 +40,6 @@ class AURA_API UAttributeInfo : public UDataAsset
 public:
     FAuraAttributeInfo FindAttributeInfoForTag(const FGameplayTag& Tag) const;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "Tag"))
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "Attribute"))
     TArray<FAuraAttributeInfo> AttributeInformation;
 };

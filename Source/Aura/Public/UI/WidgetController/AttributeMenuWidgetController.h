@@ -27,4 +27,6 @@ public:
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilitySystem|Attributes")
     TObjectPtr<UAttributeInfo> AttributeInfo;
+
+    void BroadcastAttributeInfo(const FGameplayTag& Tag) const;
 };

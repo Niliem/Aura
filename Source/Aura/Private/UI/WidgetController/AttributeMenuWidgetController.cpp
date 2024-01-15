@@ -6,15 +6,19 @@
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
-    if (auto AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet))
+    check(AttributeInfo);
+
+    for (auto& Info : AttributeInfo.Get()->AttributeInformation)
     {
-        check(AttributeInfo);
-
-        FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(TAG_Attributes_Primary_Strength);
-        Info.Value = AuraAttributeSet->GetStrength();
-
-        AttributeInfoDelegate.Broadcast(Info);
+        BroadcastAttributeInfo(Info.Tag);
     }
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies() {}
+
+void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& Tag) const
+{
+    FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Tag);
+    Info.Value = Info.Attribute.GetNumericValue(AttributeSet);
+    AttributeInfoDelegate.Broadcast(Info);
+}
