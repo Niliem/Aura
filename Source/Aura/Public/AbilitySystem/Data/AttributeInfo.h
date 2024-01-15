@@ -27,6 +27,10 @@ struct FAuraAttributeInfo
 
     UPROPERTY(BlueprintReadOnly)
     float Value = 0.0f;
+
+#if WITH_EDITOR
+    EDataValidationResult IsDataValid(FDataValidationContext& Context, const int Index) const;
+#endif
 };
 
 /**
@@ -38,6 +42,10 @@ class AURA_API UAttributeInfo : public UDataAsset
     GENERATED_BODY()
 
 public:
+#if WITH_EDITOR
+    virtual EDataValidationResult IsDataValid(FDataValidationContext& Context) const override;
+#endif
+
     FAuraAttributeInfo FindAttributeInfoForTag(const FGameplayTag& Tag) const;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "Attribute"))
