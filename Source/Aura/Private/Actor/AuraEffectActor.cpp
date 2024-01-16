@@ -73,10 +73,12 @@ void AAuraEffectActor::RemoveEffectFromTarget(AActor* TargetActor, const FApplie
     TArray<FActiveGameplayEffectHandle> HandlesToRemove;
     for (auto& HandlePair : ActiveEffectHandles)
     {
-        if (UAbilitySystemBlueprintLibrary::GetGameplayEffectFromActiveEffectHandle(HandlePair.Key)->IsA(Effect.GameplayEffectClass))
+        if (TargetAbilitySystemComponent == HandlePair.Value)
         {
-            if (TargetAbilitySystemComponent == HandlePair.Value)
+            auto ActiveEffectFromHandle = UAbilitySystemBlueprintLibrary::GetGameplayEffectFromActiveEffectHandle(HandlePair.Key);
+            if (ActiveEffectFromHandle && ActiveEffectFromHandle->IsA(Effect.GameplayEffectClass))
             {
+
                 TargetAbilitySystemComponent->RemoveActiveGameplayEffect(HandlePair.Key, Effect.StackRemovalCount);
                 HandlesToRemove.Add(HandlePair.Key);
             }

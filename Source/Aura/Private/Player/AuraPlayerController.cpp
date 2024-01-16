@@ -42,7 +42,9 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
     Super::PlayerTick(DeltaTime);
 
-    CursorTrace();
+    GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+
+    TraceTargetUnderCursor();
     AutoRun();
 }
 
@@ -81,43 +83,34 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
         bAutoRunning = false;
     }
 
-    if (GetAuraAbilitySystemComponent() != nullptr)
-    {
+    if (GetAuraAbilitySystemComponent())
         GetAuraAbilitySystemComponent()->AbilityInputTagPressed(InputTag);
-    }
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-    if (!InputTag.MatchesTagExact(AuraGameplayTags::InputTag_LMB))
+    if (!InputTag.MatchesTagExact(AuraGameplayTags::InputTag_LMB) || bTargeting)
     {
-        if (GetAuraAbilitySystemComponent() != nullptr)
-        {
+        if (GetAuraAbilitySystemComponent())
             GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
-        }
-    }
-    if (bTargeting)
-    {
-        if (GetAuraAbilitySystemComponent() != nullptr)
-        {
-            GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
-        }
     }
     else
     {
-        auto ControlledPawn = GetPawn<APawn>();
+        const auto ControlledPawn = GetPawn<APawn>();
         if (FollowTime <= ShortPressThreshold && ControlledPawn)
         {
             if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
             {
-                Spline->ClearSplinePoints();
-                for (auto& PointLocation : NavPath->PathPoints)
+                if (NavPath->PathPoints.Num() > 0)
                 {
-                    Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World);
-                    DrawDebugSphere(GetWorld(), PointLocation, 8.0f, 8, FColor::Green, false, 5.0f);
+                    Spline->ClearSplinePoints();
+                    for (auto& PointLocation : NavPath->PathPoints)
+                    {
+                        Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World);
+                    }
+                    CachedDestination = NavPath->PathPoints.Last();
+                    bAutoRunning = true;
                 }
-                CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
-                bAutoRunning = true;
             }
         }
         FollowTime = 0.0f;
@@ -127,30 +120,18 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-    if (!InputTag.MatchesTagExact(AuraGameplayTags::InputTag_LMB))
+    if (!InputTag.MatchesTagExact(AuraGameplayTags::InputTag_LMB) || bTargeting)
     {
-        if (GetAuraAbilitySystemComponent() != nullptr)
-        {
+        if (GetAuraAbilitySystemComponent())
             GetAuraAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
-        }
         return;
-    }
-    if (bTargeting)
-    {
-        if (GetAuraAbilitySystemComponent() != nullptr)
-        {
-            GetAuraAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
-        }
     }
     else
     {
         FollowTime += GetWorld()->GetDeltaSeconds();
 
-        FHitResult CursorHit;
-        if (GetHitResultUnderCursor(ECC_Visibility, false, CursorHit))
-        {
+        if (CursorHit.bBlockingHit)
             CachedDestination = CursorHit.ImpactPoint;
-        }
 
         if (auto ControlledPawn = GetPawn<APawn>())
         {
@@ -158,50 +139,6 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
             ControlledPawn->AddMovementInput(WorldDirection);
         }
     }
-}
-
-void AAuraPlayerController::CursorTrace()
-{
-    FHitResult CursorHit;
-    GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
-
-    if (!CursorHit.bBlockingHit)
-        return;
-
-    LastTarget = CurrentTarget;
-    CurrentTarget = CursorHit.GetActor();
-
-    if (LastTarget == nullptr)
-    {
-        if (CurrentTarget != nullptr)
-        {
-            CurrentTarget->HighlightActor();
-        }
-    }
-    else
-    {
-        if (CurrentTarget == nullptr)
-        {
-            LastTarget->UnHighlightActor();
-        }
-        else
-        {
-            if (LastTarget != CurrentTarget)
-            {
-                LastTarget->UnHighlightActor();
-                CurrentTarget->HighlightActor();
-            }
-        }
-    }
-}
-
-UAuraAbilitySystemComponent* AAuraPlayerController::GetAuraAbilitySystemComponent()
-{
-    if (AuraAbilitySystemComponent == nullptr)
-    {
-        AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
-    }
-    return AuraAbilitySystemComponent;
 }
 
 void AAuraPlayerController::AutoRun()
@@ -221,4 +158,28 @@ void AAuraPlayerController::AutoRun()
             bAutoRunning = false;
         }
     }
+}
+
+void AAuraPlayerController::TraceTargetUnderCursor()
+{
+    if (!CursorHit.bBlockingHit)
+        return;
+
+    LastTarget = CurrentTarget;
+    CurrentTarget = CursorHit.GetActor();
+
+    if (LastTarget != CurrentTarget)
+    {
+        if (LastTarget)
+            LastTarget->UnHighlightActor();
+        if (CurrentTarget)
+            CurrentTarget->HighlightActor();
+    }
+}
+
+UAuraAbilitySystemComponent* AAuraPlayerController::GetAuraAbilitySystemComponent()
+{
+    if (AuraAbilitySystemComponent == nullptr)
+        AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+    return AuraAbilitySystemComponent;
 }

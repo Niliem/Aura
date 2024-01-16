@@ -49,9 +49,11 @@ private:
     void AbilityInputTagReleased(FGameplayTag InputTag);
     void AbilityInputTagHeld(FGameplayTag InputTag);
 
-    void CursorTrace();
+    void TraceTargetUnderCursor();
     TScriptInterface<IEnemyInterface> LastTarget;
     TScriptInterface<IEnemyInterface> CurrentTarget;
+
+    FHitResult CursorHit;
 
     UPROPERTY()
     TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
