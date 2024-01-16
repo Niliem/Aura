@@ -4,13 +4,8 @@
 #include "Actor/AuraProjectileActor.h"
 #include "Interaction/CombatInterface.h"
 
-void UAuraProjectileAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
+void UAuraProjectileAbility::SpawnProjectile()
 {
-    Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-
-    if (!HasAuthority(&ActivationInfo))
-        return;
-
     check(ProjectileActorClass);
     if (TScriptInterface<ICombatInterface> CombatInterface = GetAvatarActorFromActorInfo())
     {
