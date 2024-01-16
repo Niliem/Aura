@@ -66,4 +66,6 @@ private:
     bool bTargeting = false;
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<USplineComponent> Spline;
+
+    void AutoRun();
 };
