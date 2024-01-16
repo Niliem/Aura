@@ -7,6 +7,8 @@
 
 #include "AuraProjectileAbility.generated.h"
 
+class AAuraProjectileActor;
+
 /**
  *
  */
@@ -17,4 +19,7 @@ class AURA_API UAuraProjectileAbility : public UAuraGameplayAbility
 
 protected:
     virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TSubclassOf<AAuraProjectileActor> ProjectileActorClass;
 };
