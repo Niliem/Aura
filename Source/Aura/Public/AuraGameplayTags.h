@@ -31,4 +31,6 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_2);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_3);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_4);
+
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_FireBolt);
 };  // namespace AuraGameplayTags
