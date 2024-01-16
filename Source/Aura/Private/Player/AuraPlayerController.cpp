@@ -8,6 +8,8 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/SplineComponent.h"
 #include "AuraGameplayTags.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -82,16 +84,43 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
     {
         GetAuraAbilitySystemComponent()->AbilityInputTagPressed(InputTag);
     }
-    GEngine->AddOnScreenDebugMessage(1, 3.0f, FColor::Red, *InputTag.ToString());
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-    if (GetAuraAbilitySystemComponent() != nullptr)
+    if (!InputTag.MatchesTagExact(AuraGameplayTags::InputTag_LMB))
     {
-        GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
+        if (GetAuraAbilitySystemComponent() != nullptr)
+        {
+            GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
+        }
     }
-    GEngine->AddOnScreenDebugMessage(2, 3.0f, FColor::Blue, *InputTag.ToString());
+    if (bTargeting)
+    {
+        if (GetAuraAbilitySystemComponent() != nullptr)
+        {
+            GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
+        }
+    }
+    else
+    {
+        auto ControlledPawn = GetPawn<APawn>();
+        if (FollowTime <= ShortPressThreshold && ControlledPawn)
+        {
+            if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
+            {
+                Spline->ClearSplinePoints();
+                for (auto& PointLocation : NavPath->PathPoints)
+                {
+                    Spline->AddSplinePoint(PointLocation, ESplineCoordinateSpace::World);
+                    DrawDebugSphere(GetWorld(), PointLocation, 8.0f, 8, FColor::Green, false, 5.0f);
+                }
+                bAutoRunning = true;
+            }
+        }
+        FollowTime = 0.0f;
+        bTargeting = false;
+    }
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
@@ -125,11 +154,8 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
         {
             const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
             ControlledPawn->AddMovementInput(WorldDirection);
-
         }
     }
-
-    GEngine->AddOnScreenDebugMessage(3, 3.0f, FColor::Green, *InputTag.ToString());
 }
 
 void AAuraPlayerController::CursorTrace()
