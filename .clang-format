@@ -17,3 +17,4 @@ AllowShortLambdasOnASingleLine: None
 IndentCaseLabels: true
 AlwaysBreakTemplateDeclarations: Yes
 AlignEscapedNewlines: Left
+NamespaceIndentation: All

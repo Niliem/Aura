@@ -13,6 +13,7 @@ class UInputAction;
 class UAuraInputConfig;
 class IEnemyInterface;
 class UAuraAbilitySystemComponent;
+class USplineComponent;
 
 struct FInputActionValue;
 
@@ -49,11 +50,20 @@ private:
     void AbilityInputTagHeld(FGameplayTag InputTag);
 
     void CursorTrace();
-    TScriptInterface<IEnemyInterface> LastActor;
-    TScriptInterface<IEnemyInterface> CurrentActor;
+    TScriptInterface<IEnemyInterface> LastTarget;
+    TScriptInterface<IEnemyInterface> CurrentTarget;
 
     UPROPERTY()
     TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 
     UAuraAbilitySystemComponent* GetAuraAbilitySystemComponent();
+
+    FVector CachedDestination = FVector::ZeroVector;
+    float FollowTime = 0.0f;
+    float ShortPressThreshold = 0.5f;
+    bool bAutoRunning = false;
+    float AutoRunAcceptanceRadius = 50.0f;
+    bool bTargeting = false;
+    UPROPERTY(VisibleAnywhere)
+    TObjectPtr<USplineComponent> Spline;
 };
