@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "GameplayTagContainer.h"
-#include "AuraPlayerController.generated.h"
 
+#include "AuraPlayerController.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
 class UAuraInputConfig;
 class IEnemyInterface;
+class UAuraAbilitySystemComponent;
 
 struct FInputActionValue;
 
@@ -50,4 +51,9 @@ private:
     void CursorTrace();
     TScriptInterface<IEnemyInterface> LastActor;
     TScriptInterface<IEnemyInterface> CurrentActor;
+
+    UPROPERTY()
+    TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+    UAuraAbilitySystemComponent* GetAuraAbilitySystemComponent();
 };

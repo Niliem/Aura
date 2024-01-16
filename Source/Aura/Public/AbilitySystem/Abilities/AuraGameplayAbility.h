@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+
 #include "AuraGameplayAbility.generated.h"
 
 /**
@@ -16,4 +17,7 @@ class AURA_API UAuraGameplayAbility : public UGameplayAbility
 
 public:
     UAuraGameplayAbility();
+
+    UPROPERTY(EditDefaultsOnly, Category = "Input")
+    FGameplayTag InputTag;
 };

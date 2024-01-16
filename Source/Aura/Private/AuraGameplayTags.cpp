@@ -21,9 +21,9 @@ UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Attributes_Secondary_MaxMana, "Attributes.Sec
 UE_DEFINE_GAMEPLAY_TAG(TAG_Attributes_Vital_Health, "Attributes.Vital.Health");
 UE_DEFINE_GAMEPLAY_TAG(TAG_Attributes_Vital_Mana, "Attributes.Vital.Mana");
 
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Input_LMB, "Input.LMB", "Input for Left Mouse Button");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Input_RMB, "Input.RMB", "Input for Right Mouse Button");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Input_1, "Input.1", "Input for 1 key");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Input_2, "Input.2", "Input for 2 key");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Input_3, "Input.3", "Input for 3 key");
-UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_Input_4, "Input.4", "Input for 4 key");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_LMB, "InputTag.LMB", "Input Tag for Left Mouse Button");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_RMB, "InputTag.RMB", "Input Tag for Right Mouse Button");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_1, "InputTag.1", "Input Tag for 1 key");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_2, "InputTag.2", "Input Tag for 2 key");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_3, "InputTag.3", "Input Tag for 3 key");
+UE_DEFINE_GAMEPLAY_TAG_COMMENT(TAG_InputTag_4, "InputTag.4", "Input Tag for 4 key");
