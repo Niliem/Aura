@@ -15,7 +15,7 @@ struct FAuraInputAction
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    const UInputAction* InputAction = nullptr;
+    TObjectPtr<const UInputAction> InputAction = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     FGameplayTag InputTag = FGameplayTag();

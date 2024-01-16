@@ -10,16 +10,6 @@ AAuraPlayerController::AAuraPlayerController()
     bReplicates = true;
 }
 
-void AAuraPlayerController::SetupInputComponent()
-{
-    Super::SetupInputComponent();
-
-    if (auto EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
-    {
-        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
-    }
-}
-
 void AAuraPlayerController::BeginPlay()
 {
     Super::BeginPlay();
@@ -45,6 +35,16 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
     Super::PlayerTick(DeltaTime);
 
     CursorTrace();
+}
+
+void AAuraPlayerController::SetupInputComponent()
+{
+    Super::SetupInputComponent();
+
+    if (auto EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
+    {
+        EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
+    }
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
