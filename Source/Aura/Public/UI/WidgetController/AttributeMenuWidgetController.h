@@ -7,7 +7,7 @@
 #include "AbilitySystem/Data/AttributeInfo.h"
 #include "AttributeMenuWidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttributeInfoSignature, const FAuraAttributeInfo&, Info);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttributeInfoDelegate, const FAuraAttributeInfo&, Info);
 
 /**
  *
@@ -22,7 +22,7 @@ public:
     virtual void BindCallbacksToDependencies() override;
 
     UPROPERTY(BlueprintAssignable, Category = "AbilitySystem|Attributes")
-    FAttributeInfoSignature AttributeInfoDelegate;
+    FAttributeInfoDelegate AttributeInfoDelegate;
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilitySystem|Attributes")
