@@ -43,7 +43,19 @@ private:
     UPROPERTY(EditAnywhere, Category = "Input")
     TObjectPtr<UInputAction> MoveAction;
 
+    UPROPERTY(EditAnywhere, Category = "Input")
+    TObjectPtr<UInputAction> ShiftAction;
+
     void Move(const FInputActionValue& InputActionValue);
+    void ShiftPressed()
+    {
+        bShiftPressed = true;
+    }
+    void ShiftReleased()
+    {
+        bShiftPressed = false;
+    }
+    bool bShiftPressed = false;
 
     void AbilityInputTagPressed(FGameplayTag InputTag);
     void AbilityInputTagReleased(FGameplayTag InputTag);
