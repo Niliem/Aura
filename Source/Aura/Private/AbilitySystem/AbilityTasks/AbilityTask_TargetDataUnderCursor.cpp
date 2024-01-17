@@ -21,6 +21,14 @@ void UAbilityTask_TargetDataUnderCursor::Activate()
     }
     else
     {
+        const FGameplayAbilitySpecHandle SpecHandle = GetAbilitySpecHandle();
+        const FPredictionKey ActivationPredictionKey = GetActivationPredictionKey();
+        AbilitySystemComponent->AbilityTargetDataSetDelegate(SpecHandle, ActivationPredictionKey).AddUObject(this, &UAbilityTask_TargetDataUnderCursor::OnTargetDataReplicatedCallback);
+        const bool bCalledDelegate = AbilitySystemComponent->CallReplicatedTargetDataDelegatesIfSet(SpecHandle, ActivationPredictionKey);
+        if (!bCalledDelegate)
+        {
+            SetWaitingOnRemotePlayerData();
+        }
     }
 }
 
@@ -44,6 +52,14 @@ void UAbilityTask_TargetDataUnderCursor::SendTargetDataUnderCursor()
     DataHandle.Add(Data);
 
     AbilitySystemComponent->ServerSetReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey(), DataHandle, FGameplayTag(), AbilitySystemComponent->ScopedPredictionKey);
+
+    if (ShouldBroadcastAbilityTaskDelegates())
+        ValidData.Broadcast(DataHandle);
+}
+
+void UAbilityTask_TargetDataUnderCursor::OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle, FGameplayTag ActivationTag)
+{
+    AbilitySystemComponent->ConsumeClientReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey());
 
     if (ShouldBroadcastAbilityTaskDelegates())
         ValidData.Broadcast(DataHandle);
