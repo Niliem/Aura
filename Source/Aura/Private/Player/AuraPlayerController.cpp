@@ -126,7 +126,6 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
     {
         if (GetAuraAbilitySystemComponent())
             GetAuraAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
-        return;
     }
     else
     {
