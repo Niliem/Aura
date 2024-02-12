@@ -2,6 +2,8 @@
 
 #include "AbilitySystem/Abilities/AuraProjectileAbility.h"
 #include "Actor/AuraProjectileActor.h"
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
 #include "Interaction/CombatInterface.h"
 
 void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
@@ -19,6 +21,9 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
 
         AAuraProjectileActor* Projectile =
             GetWorld()->SpawnActorDeferred<AAuraProjectileActor>(ProjectileActorClass, SpawnTransform, GetOwningActorFromActorInfo(), Cast<APawn>(GetOwningActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+        const UAbilitySystemComponent* SourceAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+        Projectile->DamageEffectSpecHandle = SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceAbilitySystemComponent->MakeEffectContext());
 
         Projectile->FinishSpawning(SpawnTransform);
     }
