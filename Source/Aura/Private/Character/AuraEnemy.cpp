@@ -3,6 +3,9 @@
 #include "Character/AuraEnemy.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "UI/WidgetController/EnemyWidgetController.h"
+#include "Components/WidgetComponent.h"
+#include "UI/Widget/AuraUserWidget.h"
 #include "Aura/Aura.h"
 
 AAuraEnemy::AAuraEnemy()
@@ -17,6 +20,12 @@ AAuraEnemy::AAuraEnemy()
     AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
     AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+
+    HealthWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthWidgetComponent"));
+    HealthWidget->SetupAttachment(GetRootComponent());
+    HealthWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
+    HealthWidget->SetWidgetSpace(EWidgetSpace::Screen);
+    HealthWidget->SetDrawSize({100, 20});
 }
 
 void AAuraEnemy::BeginPlay()
@@ -32,6 +41,20 @@ void AAuraEnemy::InitAbilityActorInfo()
 {
     AbilitySystemComponent->InitAbilityActorInfo(this, this);
     Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+
+    EnemyWidgetController = NewObject<UEnemyWidgetController>(this, EnemyWidgetControllerClass);
+    EnemyWidgetController->SetWidgetControllerParams({nullptr, nullptr, AbilitySystemComponent, AttributeSet});
+    EnemyWidgetController->BindCallbacksToDependencies();
+
+    UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), HealthWidgetClass);
+    HealthWidget->SetWidget(Widget);
+
+    if (auto AuraUserWidget = Cast<UAuraUserWidget>(Widget))
+    {
+        AuraUserWidget->SetWidgetController(EnemyWidgetController);
+    }
+
+    EnemyWidgetController->BroadcastInitialValues();
 }
 
 void AAuraEnemy::HighlightActor()
