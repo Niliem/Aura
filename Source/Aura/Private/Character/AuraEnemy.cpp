@@ -25,7 +25,6 @@ AAuraEnemy::AAuraEnemy()
     HealthWidget->SetupAttachment(GetRootComponent());
     HealthWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
     HealthWidget->SetWidgetSpace(EWidgetSpace::Screen);
-    HealthWidget->SetDrawSize({100, 20});
 }
 
 void AAuraEnemy::BeginPlay()
