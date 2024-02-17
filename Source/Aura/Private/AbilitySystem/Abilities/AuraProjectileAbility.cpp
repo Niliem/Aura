@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Interaction/CombatInterface.h"
+#include "AuraGameplayTags.h"
 
 void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
 {
@@ -23,7 +24,11 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
             GetWorld()->SpawnActorDeferred<AAuraProjectileActor>(ProjectileActorClass, SpawnTransform, GetOwningActorFromActorInfo(), Cast<APawn>(GetOwningActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
         const UAbilitySystemComponent* SourceAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
-        Projectile->DamageEffectSpecHandle = SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceAbilitySystemComponent->MakeEffectContext());
+        const FGameplayEffectSpecHandle GameplayEffectSpecHandle = SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceAbilitySystemComponent->MakeEffectContext());
+
+        UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(GameplayEffectSpecHandle, AuraGameplayTags::SetByCaller_Damage, 50.0f);
+
+        Projectile->DamageEffectSpecHandle = GameplayEffectSpecHandle;
 
         Projectile->FinishSpawning(SpawnTransform);
     }
