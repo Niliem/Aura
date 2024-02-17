@@ -5,6 +5,8 @@
 #include "UI/HUD/AuraHUD.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "Player/AuraPlayerState.h"
+#include "Game/AuraGameModeBase.h"
+#include "AbilitySystemComponent.h"
 
 UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -46,4 +48,34 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
     }
 
     return nullptr;
+}
+
+void UAuraAbilitySystemLibrary::InitializeAttributesForClass(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent)
+{
+    const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+    if (!IsValid(AuraGameMode))
+        return;
+
+    AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
+
+    const auto ClassInfo = AuraGameMode->CharacterClassInfo;
+    if (!IsValid(ClassInfo))
+        return;
+
+    const auto ClassDefaultInfo = ClassInfo->GetClassDefaultInfo(CharacterClass);
+
+    auto PrimaryAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();
+    PrimaryAttributesContextHandle.AddSourceObject(AvatarActor);
+    const auto PrimaryAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassDefaultInfo.PrimaryAttributes, Level, PrimaryAttributesContextHandle);
+    AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*PrimaryAttributesSpecHandle.Data.Get());
+
+    auto SecondatyAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();
+    SecondatyAttributesContextHandle.AddSourceObject(AvatarActor);
+    const auto SecondatyAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->SecondatyAttributes, Level, SecondatyAttributesContextHandle);
+    AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SecondatyAttributesSpecHandle.Data.Get());
+
+    auto VitalAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();
+    VitalAttributesContextHandle.AddSourceObject(AvatarActor);
+    const auto VitalAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->VitalAttributes, Level, VitalAttributesContextHandle);
+    AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*VitalAttributesSpecHandle.Data.Get());
 }

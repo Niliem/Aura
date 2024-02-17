@@ -3,6 +3,7 @@
 #include "Character/AuraEnemy.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "UI/WidgetController/EnemyWidgetController.h"
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
@@ -38,11 +39,11 @@ void AAuraEnemy::BeginPlay()
 
 void AAuraEnemy::InitAbilityActorInfo()
 {
-    AbilitySystemComponent->InitAbilityActorInfo(this, this);
-    Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+    GetAbilitySystemComponent()->InitAbilityActorInfo(this, this);
+    Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent())->AbilityActorInfoSet();
 
     EnemyWidgetController = NewObject<UEnemyWidgetController>(this, EnemyWidgetControllerClass);
-    EnemyWidgetController->SetWidgetControllerParams({nullptr, nullptr, AbilitySystemComponent, AttributeSet});
+    EnemyWidgetController->SetWidgetControllerParams({nullptr, nullptr, GetAbilitySystemComponent(), GetAttributeSet()});
     EnemyWidgetController->BindCallbacksToDependencies();
 
     UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), HealthWidgetClass);
@@ -54,6 +55,11 @@ void AAuraEnemy::InitAbilityActorInfo()
     }
 
     EnemyWidgetController->BroadcastInitialValues();
+}
+
+void AAuraEnemy::InitializeDefaultAttributes()
+{
+    UAuraAbilitySystemLibrary::InitializeAttributesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
 }
 
 void AAuraEnemy::HighlightActor()

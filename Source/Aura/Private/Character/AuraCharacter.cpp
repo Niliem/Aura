@@ -58,7 +58,14 @@ void AAuraCharacter::InitAbilityActorInfo()
     {
         if (auto AuraHUD = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
         {
-            AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
+            AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, GetAbilitySystemComponent(), GetAttributeSet());
         }
     }
+}
+
+void AAuraCharacter::InitializeDefaultAttributes()
+{
+    ApplyGameplayEffectToSelf(DefaultPrimaryAttributes, 1.0f);
+    ApplyGameplayEffectToSelf(DefaultSecondaryAttributes, 1.0f);
+    ApplyGameplayEffectToSelf(DefaultVitalAttributes, 1.0f);
 }

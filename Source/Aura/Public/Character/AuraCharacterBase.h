@@ -31,8 +31,8 @@ protected:
     virtual void BeginPlay() override;
 
     virtual void InitAbilityActorInfo();
+    virtual void InitializeDefaultAttributes();
 
-    void InitializeDefaultAttributes() const;
     void ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> EffectClassToApply, const float Level = 1.0f) const;
 
     void AddStartupAbilities();
@@ -51,15 +51,6 @@ protected:
 
     UPROPERTY()
     TObjectPtr<UAttributeSet> AttributeSet;
-
-    UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
-    TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
-
-    UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
-    TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
-
-    UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
-    TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
 private:
     UPROPERTY(EditAnywhere, Category = "Abilities")
