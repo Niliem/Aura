@@ -26,7 +26,7 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
         const UAbilitySystemComponent* SourceAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
         const FGameplayEffectSpecHandle GameplayEffectSpecHandle = SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceAbilitySystemComponent->MakeEffectContext());
 
-        UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(GameplayEffectSpecHandle, AuraGameplayTags::SetByCaller_Damage, 50.0f);
+        UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(GameplayEffectSpecHandle, AuraGameplayTags::SetByCaller_Damage, Damage.GetValueAtLevel(GetAbilityLevel()));
 
         Projectile->DamageEffectSpecHandle = GameplayEffectSpecHandle;
 
