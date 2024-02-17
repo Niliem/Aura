@@ -82,6 +82,9 @@ public:
     ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
     ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 
+    // Meta attributes
+    ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+
 protected:
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
@@ -183,6 +186,9 @@ private:
 
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attributes", Meta = (AllowPrivateAccess = true))
     FGameplayAttributeData Mana;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes", Meta = (AllowPrivateAccess = true))
+    FGameplayAttributeData IncomingDamage;
 
     void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectProperties);
 };
