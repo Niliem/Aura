@@ -27,6 +27,9 @@ public:
 
     UAttributeSet* GetAttributeSet() const;
 
+    // Inherited via ICombatInterface
+    virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
+
 protected:
     virtual void BeginPlay() override;
 
@@ -43,7 +46,7 @@ protected:
     UPROPERTY(EditAnywhere, Category = "Combat")
     FName WeaponTipSocketName;
 
-    // Inherited via IAbilitySystemInterface
+    // Inherited via ICombatInterface
     virtual FVector GetCombatSocketLocation() const override;
 
     UPROPERTY()
@@ -55,4 +58,7 @@ protected:
 private:
     UPROPERTY(EditAnywhere, Category = "Abilities")
     TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Abilities")
+    TObjectPtr<UAnimMontage> HitReactMontage;
 };

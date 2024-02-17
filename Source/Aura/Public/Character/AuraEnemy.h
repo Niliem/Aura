@@ -6,6 +6,7 @@
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "GameplayTags.h"
 #include "AuraEnemy.generated.h"
 
 class UAuraUserWidget;
@@ -29,6 +30,11 @@ public:
 
     // Inherited via ICombatInterface
     virtual int32 GetCharacterLevel() const override;
+
+    void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+
+    UPROPERTY(BlueprintReadOnly, Category = "Combat")
+    bool bHitReacting = false;
 
 protected:
     virtual void BeginPlay() override;

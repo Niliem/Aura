@@ -6,7 +6,9 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "UI/WidgetController/EnemyWidgetController.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
+#include "AuraGameplayTags.h"
 #include "Aura/Aura.h"
 
 AAuraEnemy::AAuraEnemy()
@@ -35,6 +37,8 @@ void AAuraEnemy::BeginPlay()
     InitAbilityActorInfo();
     InitializeDefaultAttributes();
     AddStartupAbilities();
+     
+    GetAbilitySystemComponent()->RegisterGameplayTagEvent(AuraGameplayTags::Effect_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraEnemy::HitReactTagChanged);
 }
 
 void AAuraEnemy::InitAbilityActorInfo()
@@ -77,4 +81,10 @@ void AAuraEnemy::UnHighlightActor()
 int32 AAuraEnemy::GetCharacterLevel() const
 {
     return Level;
+}
+
+void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+    bHitReacting = NewCount > 0;
+    GetCharacterMovement()->StopActiveMovement();
 }
