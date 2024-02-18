@@ -4,6 +4,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Aura/Aura.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -32,6 +33,7 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 
 void AAuraCharacterBase::InitializeDefaultAttributes()
 {
+    UAuraAbilitySystemLibrary::InitializeAttributesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
 }
 
 void AAuraCharacterBase::ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> EffectClassToApply, const float Level) const
@@ -54,6 +56,8 @@ void AAuraCharacterBase::AddStartupAbilities()
         return;
 
     AuraAbilitySystemComponent->AddAbilities(StartupAbilities);
+
+    UAuraAbilitySystemLibrary::GiveAbilitiesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
 }
 
 FVector AAuraCharacterBase::GetCombatSocketLocation() const

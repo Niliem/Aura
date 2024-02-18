@@ -17,6 +17,8 @@ AAuraCharacter::AAuraCharacter()
     bUseControllerRotationPitch = false;
     bUseControllerRotationRoll = false;
     bUseControllerRotationYaw = false;
+
+    CharacterClass = ECharacterClass::AuraHero;
 }
 
 void AAuraCharacter::PossessedBy(AController* NewController)
@@ -61,11 +63,4 @@ void AAuraCharacter::InitAbilityActorInfo()
             AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, GetAbilitySystemComponent(), GetAttributeSet());
         }
     }
-}
-
-void AAuraCharacter::InitializeDefaultAttributes()
-{
-    ApplyGameplayEffectToSelf(DefaultPrimaryAttributes, 1.0f);
-    ApplyGameplayEffectToSelf(DefaultSecondaryAttributes, 1.0f);
-    ApplyGameplayEffectToSelf(DefaultVitalAttributes, 1.0f);
 }

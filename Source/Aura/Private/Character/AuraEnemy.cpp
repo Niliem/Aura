@@ -61,11 +61,6 @@ void AAuraEnemy::InitAbilityActorInfo()
     EnemyWidgetController->BroadcastInitialValues();
 }
 
-void AAuraEnemy::InitializeDefaultAttributes()
-{
-    UAuraAbilitySystemLibrary::InitializeAttributesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
-}
-
 void AAuraEnemy::HighlightActor()
 {
     GetMesh()->SetRenderCustomDepth(true);

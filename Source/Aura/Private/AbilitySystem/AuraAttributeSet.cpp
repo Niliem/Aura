@@ -6,6 +6,7 @@
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
+#include "AuraGameplayTags.h"
 
 UAuraAttributeSet::UAuraAttributeSet() {}
 
@@ -72,6 +73,14 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
         {
             const float NewHealth = GetHealth() - LocalIncomingDamage;
             SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
+
+            const bool bFatal = NewHealth <= 0.0f;
+            if(!bFatal)
+            {
+                FGameplayTagContainer TagContaier;
+                TagContaier.AddTag(AuraGameplayTags::Ability_HitReact);
+                Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContaier);
+            }
         }
     }
 }

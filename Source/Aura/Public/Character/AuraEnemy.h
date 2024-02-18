@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "GameplayTags.h"
 #include "AuraEnemy.generated.h"
 
@@ -42,12 +41,8 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
     int32 Level = 1;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
-    ECharacterClass CharacterClass = ECharacterClass::Warrior;
-
 private:
     virtual void InitAbilityActorInfo() override;
-    virtual void InitializeDefaultAttributes() override;
 
     UPROPERTY(EditDefaultsOnly)
     TSubclassOf<UAuraUserWidget> HealthWidgetClass;

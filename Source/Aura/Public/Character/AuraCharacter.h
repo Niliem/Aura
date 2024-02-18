@@ -23,17 +23,6 @@ public:
     // Inherited via ICombatInterface
     virtual int32 GetCharacterLevel() const override;
 
-protected:
-    UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
-    TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
-
-    UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
-    TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
-
-    UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
-    TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
-
 private:
     virtual void InitAbilityActorInfo() override;
-    virtual void InitializeDefaultAttributes() override;
 };

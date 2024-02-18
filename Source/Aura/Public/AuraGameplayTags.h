@@ -25,6 +25,9 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Health);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Mana);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_FireBolt);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_HitReact);
+
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_HitReact);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);

@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interaction/CombatInterface.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 
 #include "AuraCharacterBase.generated.h"
 
@@ -45,6 +46,9 @@ protected:
 
     UPROPERTY(EditAnywhere, Category = "Combat")
     FName WeaponTipSocketName;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
+    ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
     // Inherited via ICombatInterface
     virtual FVector GetCombatSocketLocation() const override;
