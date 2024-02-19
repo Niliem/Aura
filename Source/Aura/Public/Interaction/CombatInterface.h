@@ -32,4 +32,6 @@ public:
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
     void SetFacingTarget(const FVector& TargetLocation);
+
+    virtual void Die() = 0;
 };

@@ -29,6 +29,7 @@ public:
 
     // Inherited via ICombatInterface
     virtual int32 GetCharacterLevel() const override;
+    virtual void Die() override;
 
     void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 

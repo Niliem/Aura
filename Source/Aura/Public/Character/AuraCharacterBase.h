@@ -30,6 +30,11 @@ public:
 
     // Inherited via ICombatInterface
     virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
+    virtual FVector GetCombatSocketLocation() const override;
+    virtual void Die() override;
+
+    UFUNCTION(NetMulticast, Reliable)
+    virtual void MulticastHandleDeath();
 
 protected:
     virtual void BeginPlay() override;
@@ -49,9 +54,6 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
     ECharacterClass CharacterClass = ECharacterClass::Warrior;
-
-    // Inherited via ICombatInterface
-    virtual FVector GetCombatSocketLocation() const override;
 
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
