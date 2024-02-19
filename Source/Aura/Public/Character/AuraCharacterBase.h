@@ -61,6 +61,20 @@ protected:
     UPROPERTY()
     TObjectPtr<UAttributeSet> AttributeSet;
 
+    void Dissolve();
+
+    UFUNCTION(BlueprintImplementableEvent)
+    void AnimateMeshDissolveMaterial(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+    UFUNCTION(BlueprintImplementableEvent)
+    void AnimateWeaponDissolveMaterial(UMaterialInstanceDynamic* DynamicMaterialInstance);
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TObjectPtr<UMaterialInstance> MeshDissolveMaterialInstance;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
 private:
     UPROPERTY(EditAnywhere, Category = "Abilities")
     TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

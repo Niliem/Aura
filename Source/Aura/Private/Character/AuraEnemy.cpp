@@ -81,6 +81,7 @@ int32 AAuraEnemy::GetCharacterLevel() const
 void AAuraEnemy::Die()
 {
     SetLifeSpan(5.0f);
+    HealthWidget->SetVisibility(false);
     Super::Die();
 }
 

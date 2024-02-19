@@ -60,6 +60,22 @@ void AAuraCharacterBase::AddStartupAbilities()
     UAuraAbilitySystemLibrary::GiveAbilitiesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
 }
 
+void AAuraCharacterBase::Dissolve()
+{
+    if (IsValid(MeshDissolveMaterialInstance))
+    {
+        UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(MeshDissolveMaterialInstance, this);
+        GetMesh()->SetMaterial(0, DynamicMaterialInstance);
+        AnimateMeshDissolveMaterial(DynamicMaterialInstance);
+    }
+    if (IsValid(WeaponDissolveMaterialInstance))
+    {
+        UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+        Weapon->SetMaterial(0, DynamicMaterialInstance);
+        AnimateWeaponDissolveMaterial(DynamicMaterialInstance);
+    }
+}
+
 FVector AAuraCharacterBase::GetCombatSocketLocation() const
 {
     check(Weapon);
@@ -84,6 +100,8 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
     GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+    Dissolve();
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
