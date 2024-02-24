@@ -8,8 +8,12 @@
 #include "Net/UnrealNetwork.h"
 #include "Interaction/CombatInterface.h"
 #include "AuraGameplayTags.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/AuraPlayerController.h"
 
-UAuraAttributeSet::UAuraAttributeSet() {}
+UAuraAttributeSet::UAuraAttributeSet()
+{
+}
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
@@ -66,17 +70,17 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
     {
         SetMana(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
     }
-    if(Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+    if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
     {
         const float LocalIncomingDamage = GetIncomingDamage();
         SetIncomingDamage(0.0f);
-        if(LocalIncomingDamage > 0.0f)
+        if (LocalIncomingDamage > 0.0f)
         {
             const float NewHealth = GetHealth() - LocalIncomingDamage;
             SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
 
             const bool bFatal = NewHealth <= 0.0f;
-            if(bFatal)
+            if (bFatal)
             {
                 TScriptInterface<ICombatInterface> CombatInterface = Props.TargetAvatarActor;
                 if (CombatInterface)
@@ -90,6 +94,19 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
                 TagContaier.AddTag(AuraGameplayTags::Ability_HitReact);
                 Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContaier);
             }
+
+            ShowFloatingDamageText(Props, LocalIncomingDamage);
+        }
+    }
+}
+
+void UAuraAttributeSet::ShowFloatingDamageText(const FEffectProperties& Props, float Damage) const
+{
+    if (Props.SourceCharacter != Props.TargetCharacter)
+    {
+        if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+        {
+            PlayerController->ClientShowFloatingDamageNumber(Damage, Props.TargetCharacter);
         }
     }
 }

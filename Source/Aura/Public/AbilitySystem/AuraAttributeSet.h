@@ -191,4 +191,5 @@ private:
     FGameplayAttributeData IncomingDamage;
 
     void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectProperties);
+    void ShowFloatingDamageText(const FEffectProperties& Props, float Damage) const;
 };

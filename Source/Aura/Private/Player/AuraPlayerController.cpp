@@ -10,12 +10,25 @@
 #include "AuraGameplayTags.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
+#include "UI/Widget/FloatingTextWidgetComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
     bReplicates = true;
 
     Spline = CreateDefaultSubobject<USplineComponent>("Spline");
+}
+
+void AAuraPlayerController::ClientShowFloatingDamageNumber_Implementation(float DamageAmount, AActor* Target)
+{
+    if (IsValid(Target) && FloatingDamageTextComponentClass)
+    {
+        UFloatingTextWidgetComponent* DamageText = NewObject<UFloatingTextWidgetComponent>(Target, FloatingDamageTextComponentClass);
+        DamageText->RegisterComponent();
+        DamageText->AttachToComponent(Target->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+        DamageText->SetFloatingTextFromNumber(DamageAmount);
+        DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+    }
 }
 
 void AAuraPlayerController::BeginPlay()

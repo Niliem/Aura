@@ -14,6 +14,7 @@ class UAuraInputConfig;
 class IEnemyInterface;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
+class UFloatingTextWidgetComponent;
 
 struct FInputActionValue;
 
@@ -27,6 +28,9 @@ class AURA_API AAuraPlayerController : public APlayerController
 
 public:
     AAuraPlayerController();
+
+    UFUNCTION(Client, Reliable)
+    void ClientShowFloatingDamageNumber(float DamageAmount, AActor* Target);
 
 protected:
     virtual void BeginPlay() override;
@@ -82,4 +86,7 @@ private:
     TObjectPtr<USplineComponent> Spline;
 
     void AutoRun();
+
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<UFloatingTextWidgetComponent> FloatingDamageTextComponentClass;
 };
