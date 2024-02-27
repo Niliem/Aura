@@ -52,19 +52,10 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 
 void UAuraAbilitySystemLibrary::GiveAbilitiesForClass(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent)
 {
-    const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if (!IsValid(AuraGameMode))
-        return;
-
-    AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
-
-    const auto ClassInfo = AuraGameMode->CharacterClassInfo;
-    if (!IsValid(ClassInfo))
-        return;
-
+    const auto ClassInfo = GetCharacterClassInfo(WorldContextObject);
     const auto ClassDefaultInfo = ClassInfo->GetClassDefaultInfo(CharacterClass);
 
-    for(const auto& AbilityClass : ClassInfo->CommonAbilities)
+    for (const auto& AbilityClass : ClassInfo->CommonAbilities)
     {
         FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
         AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
@@ -78,17 +69,10 @@ void UAuraAbilitySystemLibrary::GiveAbilitiesForClass(const UObject* WorldContex
 
 void UAuraAbilitySystemLibrary::InitializeAttributesForClass(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent)
 {
-    const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if (!IsValid(AuraGameMode))
-        return;
-
-    AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
-
-    const auto ClassInfo = AuraGameMode->CharacterClassInfo;
-    if (!IsValid(ClassInfo))
-        return;
-
+    const auto ClassInfo = GetCharacterClassInfo(WorldContextObject);
     const auto ClassDefaultInfo = ClassInfo->GetClassDefaultInfo(CharacterClass);
+
+    const AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
 
     auto PrimaryAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();
     PrimaryAttributesContextHandle.AddSourceObject(AvatarActor);
@@ -104,4 +88,13 @@ void UAuraAbilitySystemLibrary::InitializeAttributesForClass(const UObject* Worl
     VitalAttributesContextHandle.AddSourceObject(AvatarActor);
     const auto VitalAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->VitalAttributes, Level, VitalAttributesContextHandle);
     AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*VitalAttributesSpecHandle.Data.Get());
+}
+
+UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+{
+    const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+    if (!IsValid(AuraGameMode))
+        return nullptr;
+
+    return AuraGameMode->CharacterClassInfo;
 }
