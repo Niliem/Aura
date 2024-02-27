@@ -97,7 +97,7 @@ void UAuraAbilitySystemLibrary::InitializeAttributesForClass(const UObject* Worl
 
     auto SecondatyAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();
     SecondatyAttributesContextHandle.AddSourceObject(AvatarActor);
-    const auto SecondatyAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->SecondatyAttributes, Level, SecondatyAttributesContextHandle);
+    const auto SecondatyAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassDefaultInfo.SecondatyAttributes, Level, SecondatyAttributesContextHandle);
     AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SecondatyAttributesSpecHandle.Data.Get());
 
     auto VitalAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();

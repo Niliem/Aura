@@ -28,6 +28,9 @@ struct FCharacterClassDefaultInfo
     TSubclassOf<UGameplayEffect> PrimaryAttributes;
 
     UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
+    TSubclassOf<UGameplayEffect> SecondatyAttributes;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
     TArray<TSubclassOf<UGameplayAbility>> Abilities;
 };
 
@@ -43,9 +46,6 @@ public:
 
     UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
     TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformations;
-
-    UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
-    TSubclassOf<UGameplayEffect> SecondatyAttributes;
 
     UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
     TSubclassOf<UGameplayEffect> VitalAttributes;
