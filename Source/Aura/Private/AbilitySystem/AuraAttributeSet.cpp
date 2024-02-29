@@ -113,9 +113,9 @@ void UAuraAttributeSet::ShowFloatingDamageText(const FEffectProperties& Props, f
 
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectProperties)
 {
-    EffectProperties.GameplayEffectContextHandle = Data.EffectSpec.GetContext();
+    EffectProperties.EffectContextHandle = Data.EffectSpec.GetContext();
 
-    EffectProperties.SourceAbilitySystemComponent = EffectProperties.GameplayEffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
+    EffectProperties.SourceAbilitySystemComponent = EffectProperties.EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
     if (IsValid(EffectProperties.SourceAbilitySystemComponent))
     {
         EffectProperties.SourceAvatarActor = EffectProperties.SourceAbilitySystemComponent->GetAvatarActor();

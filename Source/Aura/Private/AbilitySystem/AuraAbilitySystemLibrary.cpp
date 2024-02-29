@@ -53,14 +53,13 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 void UAuraAbilitySystemLibrary::GiveAbilitiesForClass(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent)
 {
     const auto ClassInfo = GetCharacterClassInfo(WorldContextObject);
-    const auto ClassDefaultInfo = ClassInfo->GetClassDefaultInfo(CharacterClass);
 
-    for (const auto& AbilityClass : ClassInfo->CommonAbilities)
+    for (const auto& AbilityClass : ClassInfo->GetCommonAbilities())
     {
         FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
         AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
     }
-    for (const auto& AbilityClass : ClassDefaultInfo.Abilities)
+    for (const auto& AbilityClass : ClassInfo->GetAbilitiesForClass(CharacterClass))
     {
         FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
         AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
@@ -70,23 +69,22 @@ void UAuraAbilitySystemLibrary::GiveAbilitiesForClass(const UObject* WorldContex
 void UAuraAbilitySystemLibrary::InitializeAttributesForClass(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent)
 {
     const auto ClassInfo = GetCharacterClassInfo(WorldContextObject);
-    const auto ClassDefaultInfo = ClassInfo->GetClassDefaultInfo(CharacterClass);
 
     const AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
 
     auto PrimaryAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();
     PrimaryAttributesContextHandle.AddSourceObject(AvatarActor);
-    const auto PrimaryAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassDefaultInfo.PrimaryAttributes, Level, PrimaryAttributesContextHandle);
+    const auto PrimaryAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->GetPrimaryAttributesForClass(CharacterClass), Level, PrimaryAttributesContextHandle);
     AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*PrimaryAttributesSpecHandle.Data.Get());
 
     auto SecondatyAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();
     SecondatyAttributesContextHandle.AddSourceObject(AvatarActor);
-    const auto SecondatyAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->SecondatyAttributes, Level, SecondatyAttributesContextHandle);
+    const auto SecondatyAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->GetSecondatyAttributesForClass(CharacterClass), Level, SecondatyAttributesContextHandle);
     AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SecondatyAttributesSpecHandle.Data.Get());
 
     auto VitalAttributesContextHandle = AbilitySystemComponent->MakeEffectContext();
     VitalAttributesContextHandle.AddSourceObject(AvatarActor);
-    const auto VitalAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->VitalAttributes, Level, VitalAttributesContextHandle);
+    const auto VitalAttributesSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(ClassInfo->GetVitalAttributesForClass(CharacterClass), Level, VitalAttributesContextHandle);
     AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*VitalAttributesSpecHandle.Data.Get());
 }
 

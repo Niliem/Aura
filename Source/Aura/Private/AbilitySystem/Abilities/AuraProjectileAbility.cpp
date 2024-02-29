@@ -24,7 +24,17 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
             GetWorld()->SpawnActorDeferred<AAuraProjectileActor>(ProjectileActorClass, SpawnTransform, GetOwningActorFromActorInfo(), Cast<APawn>(GetOwningActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
         const UAbilitySystemComponent* SourceAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
-        const FGameplayEffectSpecHandle GameplayEffectSpecHandle = SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceAbilitySystemComponent->MakeEffectContext());
+        FGameplayEffectContextHandle ContextHandle = SourceAbilitySystemComponent->MakeEffectContext();
+        ContextHandle.SetAbility(this);
+        ContextHandle.AddSourceObject(Projectile);
+        TArray<TWeakObjectPtr<AActor>> Actors;
+        Actors.Add(Projectile);
+        ContextHandle.AddActors(Actors);
+        FHitResult HitResult;
+        HitResult.Location = TargetLocation;
+        ContextHandle.AddHitResult(HitResult);
+
+        const FGameplayEffectSpecHandle GameplayEffectSpecHandle = SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), ContextHandle);
 
         UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(GameplayEffectSpecHandle, AuraGameplayTags::SetByCaller_Damage, Damage.GetValueAtLevel(GetAbilityLevel()));
 
