@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameplayEffectTypes.h"
-#include "AuraAbilityTypes.generated.h"
+#include "AuraGameplayEffectContext.generated.h"
 
 /**
  *
