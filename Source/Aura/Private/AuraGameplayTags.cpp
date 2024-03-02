@@ -27,6 +27,8 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_HitReact, "Ability.HitReact", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_HitReact, "Effect.HitReact", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_BlockedHit, "Effect.BlockedHit", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_CriticalHit, "Effect.CriticalHit", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Damage, "SetByCaller.Damage", "SetByCaller tag used by damage gameplay effects.");
 

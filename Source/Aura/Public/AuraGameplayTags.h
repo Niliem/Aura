@@ -29,6 +29,8 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_HitReact);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_HitReact);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_BlockedHit);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_CriticalHit);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
 

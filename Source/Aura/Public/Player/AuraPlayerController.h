@@ -30,7 +30,7 @@ public:
     AAuraPlayerController();
 
     UFUNCTION(Client, Reliable)
-    void ClientShowFloatingDamageNumber(float DamageAmount, AActor* Target);
+    void ClientShowFloatingDamageNumber(float DamageAmount, AActor* Target, bool bIsBlockedHit, bool bIsCriticalHit);
 
 protected:
     virtual void BeginPlay() override;

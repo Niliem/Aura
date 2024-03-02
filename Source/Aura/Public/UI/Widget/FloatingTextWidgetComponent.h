@@ -17,4 +17,7 @@ class AURA_API UFloatingTextWidgetComponent : public UWidgetComponent
 public:
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
     void SetFloatingTextFromNumber(float Value);
+
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void SetGameplayTags(FGameplayTagContainer Tags);
 };
