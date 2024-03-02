@@ -34,6 +34,17 @@ public:
         bIsCriticalHit = bInIsCriticalHit;
     }
 
+    virtual FAuraGameplayEffectContext* Duplicate() const
+    {
+        FAuraGameplayEffectContext* NewContext = new FAuraGameplayEffectContext();
+        *NewContext = *this;
+        if (GetHitResult())
+        {
+            NewContext->AddHitResult(*GetHitResult(), true);
+        }
+        return NewContext;
+    }
+
     virtual UScriptStruct* GetScriptStruct() const
     {
         return FGameplayEffectContext::StaticStruct();
@@ -47,4 +58,14 @@ protected:
 
     UPROPERTY()
     bool bIsCriticalHit = false;
+};
+
+template <>
+struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
+{
+    enum
+    {
+        WithNetSerializer = true,
+        WithCopy = true
+    };
 };
