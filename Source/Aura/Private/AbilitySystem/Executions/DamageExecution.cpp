@@ -6,7 +6,9 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "AbilitySystem/AuraGameplayEffectContext.h"
 #include "Interaction/CombatInterface.h"
+
 
 struct FDamageStatics
 {
@@ -67,6 +69,7 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
     const UCharacterClassInfo* ClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
 
     const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+    FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 
     const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
     const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
@@ -83,8 +86,9 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluateParameters, TargetBlockChance);
     TargetBlockChance = FMath::Max(TargetBlockChance, 0.0f);
 
-    const bool bBlocked = TargetBlockChance >= FMath::FRandRange(UE_SMALL_NUMBER, 100.0f);
-    if (bBlocked)
+    const bool bIsBlocked = TargetBlockChance >= FMath::FRandRange(UE_SMALL_NUMBER, 100.0f);
+    UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bIsBlocked);
+    if (bIsBlocked)
     {
         Damage *= 0.5f;
     }
@@ -125,8 +129,9 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
 
     const float EffectiveCriticalHitChance = SourceCriticalHitChance - TargetCriticalHitResistance * CriticalHitResistanceCoefficient;
 
-    const bool bCriticalHit = EffectiveCriticalHitChance >= FMath::FRandRange(UE_SMALL_NUMBER, 100.0f);
-    if (bCriticalHit)
+    const bool bIsCriticalHit = EffectiveCriticalHitChance >= FMath::FRandRange(UE_SMALL_NUMBER, 100.0f);
+    UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bIsCriticalHit);
+    if (bIsCriticalHit)
     {
         Damage = Damage * 2.0f + SourceCriticalHitDamage;
     }
