@@ -29,6 +29,9 @@ public:
     void AbilityInputTagHeld(const FGameplayTag& InputTag);
 
 protected:
-    UFUNCTION(Client, Reliable)
-    void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle);
+    UFUNCTION(Server, Reliable)
+    void ServerEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle);
+
+    UFUNCTION(NetMulticast, Unreliable)
+    void MulticastEffectApplied(FGameplayTagContainer EffectTags);
 };

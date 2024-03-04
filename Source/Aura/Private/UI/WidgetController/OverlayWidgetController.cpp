@@ -32,7 +32,6 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
                 {
                     OnMaxHealthChanged.Broadcast(Data.NewValue);
                 });
-
         AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetManaAttribute())
             .AddLambda(
                 [this](const FOnAttributeChangeData& Data)

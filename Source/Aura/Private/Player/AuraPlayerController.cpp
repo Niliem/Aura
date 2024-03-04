@@ -21,7 +21,7 @@ AAuraPlayerController::AAuraPlayerController()
 
 void AAuraPlayerController::ClientShowFloatingDamageNumber_Implementation(float DamageAmount, AActor* Target, bool bIsBlockedHit, bool bIsCriticalHit)
 {
-    if (IsValid(Target) && FloatingDamageTextComponentClass)
+    if (IsValid(Target) && FloatingDamageTextComponentClass && IsLocalController())
     {
         UFloatingTextWidgetComponent* DamageText = NewObject<UFloatingTextWidgetComponent>(Target, FloatingDamageTextComponentClass);
         DamageText->RegisterComponent();

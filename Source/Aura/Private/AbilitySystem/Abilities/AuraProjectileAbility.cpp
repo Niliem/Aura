@@ -14,7 +14,6 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
     {
         const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
         FRotator Rotation = (TargetLocation - SocketLocation).Rotation();
-        Rotation.Pitch = 0.0f;
 
         FTransform SpawnTransform;
         SpawnTransform.SetLocation(SocketLocation);

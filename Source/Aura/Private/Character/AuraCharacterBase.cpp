@@ -16,6 +16,7 @@ AAuraCharacterBase::AAuraCharacterBase()
     GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
     GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
     GetMesh()->SetGenerateOverlapEvents(true);
+    GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
 
     Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
     Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
@@ -33,6 +34,8 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 
 void AAuraCharacterBase::InitializeDefaultAttributes()
 {
+    if (!HasAuthority())
+        return;
     UAuraAbilitySystemLibrary::InitializeAttributesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
 }
 
@@ -51,10 +54,10 @@ void AAuraCharacterBase::ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> 
 
 void AAuraCharacterBase::AddStartupAbilities()
 {
-    UAuraAbilitySystemComponent* AuraAbilitySystemComponent = CastChecked<UAuraAbilitySystemComponent>(GetAbilitySystemComponent());
     if (!HasAuthority())
         return;
 
+    UAuraAbilitySystemComponent* AuraAbilitySystemComponent = CastChecked<UAuraAbilitySystemComponent>(GetAbilitySystemComponent());
     AuraAbilitySystemComponent->AddAbilities(StartupAbilities);
 
     UAuraAbilitySystemLibrary::GiveAbilitiesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
