@@ -17,7 +17,7 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
         Rotation.Pitch = 0.0f;
 
         FTransform SpawnTransform;
-        SpawnTransform.SetLocation(SocketLocation);        
+        SpawnTransform.SetLocation(SocketLocation);
         SpawnTransform.SetRotation(Rotation.Quaternion());
 
         AAuraProjectileActor* Projectile =
@@ -36,7 +36,11 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
 
         const FGameplayEffectSpecHandle GameplayEffectSpecHandle = SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), ContextHandle);
 
-        UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(GameplayEffectSpecHandle, AuraGameplayTags::SetByCaller_Damage, Damage.GetValueAtLevel(GetAbilityLevel()));
+        for (const auto& Damage : DamageTypes)
+        {
+            const float ScaledDamage = Damage.Value.GetValueAtLevel(GetAbilityLevel());
+            UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(GameplayEffectSpecHandle, Damage.Key, ScaledDamage);
+        }
 
         Projectile->DamageEffectSpecHandle = GameplayEffectSpecHandle;
 

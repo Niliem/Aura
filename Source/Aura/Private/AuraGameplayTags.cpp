@@ -30,6 +30,9 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_BlockedHit, "Effect.BlockedHit", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_CriticalHit, "Effect.CriticalHit", "");
 
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType, "DamageType", "Parent tag for all damage types");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Elemental_Fire, "DamageType.Elemental.Fire", "Fire damage type");
+
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Damage, "SetByCaller.Damage", "SetByCaller tag used by damage gameplay effects.");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_LMB, "InputTag.LMB", "Input Tag for Left Mouse Button");

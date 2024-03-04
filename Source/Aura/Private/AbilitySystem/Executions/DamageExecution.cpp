@@ -9,7 +9,6 @@
 #include "AbilitySystem/AuraGameplayEffectContext.h"
 #include "Interaction/CombatInterface.h"
 
-
 struct FDamageStatics
 {
     DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
@@ -79,7 +78,12 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
     EvaluateParameters.TargetTags = TargetTags;
 
     // Damage
-    float Damage = Spec.GetSetByCallerMagnitude(AuraGameplayTags::SetByCaller_Damage);
+    float Damage = 0;
+    FGameplayTagContainer DamageTypes = UGameplayTagsManager::Get().RequestGameplayTagChildren(AuraGameplayTags::DamageType);
+    for (const auto& DamageType : DamageTypes)
+    {
+        Damage += Spec.GetSetByCallerMagnitude(DamageType);
+    }
 
     // Block
     float TargetBlockChance = 0.0f;
@@ -90,7 +94,7 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
     UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bIsBlocked);
     if (bIsBlocked)
     {
-        Damage *= 0.5f;
+        Damage *= 0.1f;
     }
 
     // Armor

@@ -32,6 +32,9 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_BlockedHit);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_CriticalHit);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Elemental_Fire);
+
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LMB);
