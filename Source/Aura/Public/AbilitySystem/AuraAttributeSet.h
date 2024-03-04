@@ -207,6 +207,18 @@ protected:
     void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 
     UFUNCTION()
+    void OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const;
+
+    UFUNCTION()
+    void OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const;
+
+    UFUNCTION()
+    void OnRep_ArcaneResistance(const FGameplayAttributeData& OldArcaneResistance) const;
+
+    UFUNCTION()
+    void OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const;
+
+    UFUNCTION()
     void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
 
     UFUNCTION()
