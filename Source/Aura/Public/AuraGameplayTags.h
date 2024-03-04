@@ -22,6 +22,11 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Secondary_MaxHealth);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Secondary_MaxMana);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Physical);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Fire);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Arcane);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Resistance_Lightning);
+
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Health);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Mana);
 
@@ -33,7 +38,10 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_CriticalHit);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Physical);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Elemental_Fire);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Elemental_Arcane);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Elemental_Lightning);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
 

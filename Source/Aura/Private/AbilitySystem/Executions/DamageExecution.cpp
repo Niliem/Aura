@@ -79,10 +79,11 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
 
     // Damage
     float Damage = 0;
-    FGameplayTagContainer DamageTypes = UGameplayTagsManager::Get().RequestGameplayTagChildren(AuraGameplayTags::DamageType);
-    for (const auto& DamageType : DamageTypes)
+    //FGameplayTagContainer DamageTypes = UGameplayTagsManager::Get().RequestGameplayTagChildren(AuraGameplayTags::DamageType);
+    auto DamageTypesToResistance = UAuraAbilitySystemLibrary::GetDamageTypesToResistances(SourceAvatar);
+    for (const auto& Pair : DamageTypesToResistance)
     {
-        Damage += Spec.GetSetByCallerMagnitude(DamageType);
+        Damage += Spec.GetSetByCallerMagnitude(Pair.Key);
     }
 
     // Block

@@ -19,6 +19,11 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Secondary_ManaRegeneration, "Attribute.Secondary.ManaRegeneration", "Amount of Mana regenerated every 1 second");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Secondary_MaxHealth, "Attribute.Secondary.MaxHealth", "Maximum amount of Health obtainable");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Secondary_MaxMana, "Attribute.Secondary.MaxMana", "Maximum amount of Mana obtainable");
+    
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Resistance_Physical, "Attribute.Resistance.Physical", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Resistance_Fire, "Attribute.Resistance.Fire", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Resistance_Arcane, "Attribute.Resistance.Arcane", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Resistance_Lightning, "Attribute.Resistance.Lightning", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Health, "Attribute.Vital.Health", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Mana, "Attribute.Vital.Mana", "");
@@ -31,7 +36,10 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_CriticalHit, "Effect.CriticalHit", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType, "DamageType", "Parent tag for all damage types");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Physical, "DamageType.Physical", "Physical damage type");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Elemental_Fire, "DamageType.Elemental.Fire", "Fire damage type");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Elemental_Arcane, "DamageType.Elemental.Arcane", "Arcane damage type");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Elemental_Lightning, "DamageType.Elemental.Lightning", "Lightning damage type");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Damage, "SetByCaller.Damage", "SetByCaller tag used by damage gameplay effects.");
 

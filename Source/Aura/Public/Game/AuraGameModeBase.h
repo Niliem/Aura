@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "GameplayTags.h"
 #include "AuraGameModeBase.generated.h"
+
 
 class UCharacterClassInfo;
 
@@ -19,4 +21,7 @@ class AURA_API AAuraGameModeBase : public AGameModeBase
 public:
     UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
     TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage Types")
+    TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 };
