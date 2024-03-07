@@ -30,12 +30,16 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Health);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Mana);
 
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_FireBolt);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_FireBolt);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_HitReact);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Passive_Negative_Physical_Bleed);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_HitReact);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_BlockedHit);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_CriticalHit);
+
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_Status_Negative_Physical_Bleed);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_Status_Negative_Elemental_Burn);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Physical);

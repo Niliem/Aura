@@ -28,10 +28,16 @@ public:
     void AbilityInputTagReleased(const FGameplayTag& InputTag);
     void AbilityInputTagHeld(const FGameplayTag& InputTag);
 
+    UFUNCTION(BlueprintCallable, Category = "GameplayEffects")
+    void ExecuteActivePeriodicEffectByTag(const FGameplayTag& Tag);
+
 protected:
     UFUNCTION(Server, Reliable)
     void ServerEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle);
 
     UFUNCTION(NetMulticast, Unreliable)
     void MulticastEffectApplied(FGameplayTagContainer EffectTags);
+
+private:
+    void ExecuteActivePeriodicEffect(const FActiveGameplayEffectHandle Handle);
 };

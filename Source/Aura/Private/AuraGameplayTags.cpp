@@ -19,7 +19,7 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Secondary_ManaRegeneration, "Attribute.Secondary.ManaRegeneration", "Amount of Mana regenerated every 1 second");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Secondary_MaxHealth, "Attribute.Secondary.MaxHealth", "Maximum amount of Health obtainable");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Secondary_MaxMana, "Attribute.Secondary.MaxMana", "Maximum amount of Mana obtainable");
-    
+
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Resistance_Physical, "Attribute.Resistance.Physical", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Resistance_Fire, "Attribute.Resistance.Fire", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Resistance_Arcane, "Attribute.Resistance.Arcane", "");
@@ -28,12 +28,16 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Health, "Attribute.Vital.Health", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Mana, "Attribute.Vital.Mana", "");
 
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_FireBolt, "Ability.FireBolt", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_FireBolt, "Ability.Active.FireBolt", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_HitReact, "Ability.HitReact", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Passive_Negative_Physical_Bleed, "Ability.Passive.Negative.Physical.Bleed", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_HitReact, "Effect.HitReact", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_BlockedHit, "Effect.BlockedHit", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_CriticalHit, "Effect.CriticalHit", "");
+
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_Status_Negative_Physical_Bleed, "Effect.Status.Negative.Physical.Bleed", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_Status_Negative_Elemental_Burn, "Effect.Status.Negative.Elemental.Burn", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType, "DamageType", "Parent tag for all damage types");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Physical, "DamageType.Physical", "Physical damage type");

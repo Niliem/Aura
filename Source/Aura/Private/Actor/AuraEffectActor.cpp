@@ -19,6 +19,10 @@ void AAuraEffectActor::BeginPlay()
 
 void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 {
+    if (OverlapedActors.Contains(TargetActor))
+        return;
+
+    OverlapedActors.AddUnique(TargetActor);
     for (auto& EffectToApply : EffectsToApply)
     {
         if (EffectToApply.EffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
@@ -30,6 +34,7 @@ void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 
 void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 {
+    OverlapedActors.Remove(TargetActor);
     for (auto& EffectToApply : EffectsToApply)
     {
         if (EffectToApply.EffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)

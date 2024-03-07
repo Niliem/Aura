@@ -34,7 +34,7 @@ struct FCharacterClassDefaultInfo
     TSubclassOf<UGameplayEffect> VitalAttributes;
 
     UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
-    TArray<TSubclassOf<UGameplayAbility>> Abilities;
+    TMap<TSubclassOf<UGameplayAbility>, bool> Abilities;
 };
 
 /**
@@ -49,8 +49,8 @@ public:
     TSubclassOf<UGameplayEffect> GetPrimaryAttributesForClass(ECharacterClass CharacterClass) const;
     TSubclassOf<UGameplayEffect> GetSecondatyAttributesForClass(ECharacterClass CharacterClass) const;
     TSubclassOf<UGameplayEffect> GetVitalAttributesForClass(ECharacterClass CharacterClass) const;
-    TArray<TSubclassOf<UGameplayAbility>> GetAbilitiesForClass(ECharacterClass CharacterClass) const;
-    TArray<TSubclassOf<UGameplayAbility>> GetCommonAbilities() const;
+    TMap<TSubclassOf<UGameplayAbility>, bool> GetAbilitiesForClass(ECharacterClass CharacterClass) const;
+    TMap<TSubclassOf<UGameplayAbility>, bool> GetCommonAbilities() const;
     TObjectPtr<UCurveTable> GetDamageCalculationCoefficients() const;
 
 private:
@@ -66,7 +66,7 @@ private:
     TSubclassOf<UGameplayEffect> VitalAttributes;
 
     UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
-    TArray<TSubclassOf<UGameplayAbility>> CommonAbilities;
+    TMap<TSubclassOf<UGameplayAbility>, bool> CommonAbilities;
 
     UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults|Damage")
     TObjectPtr<UCurveTable> DamageCalculationCoefficients;

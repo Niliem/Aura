@@ -26,13 +26,13 @@ TSubclassOf<UGameplayEffect> UCharacterClassInfo::GetVitalAttributesForClass(ECh
     return (ClassDefaultInfo.VitalAttributes) ? ClassDefaultInfo.VitalAttributes : VitalAttributes;
 }
 
-TArray<TSubclassOf<UGameplayAbility>> UCharacterClassInfo::GetAbilitiesForClass(ECharacterClass CharacterClass) const
+TMap<TSubclassOf<UGameplayAbility>, bool> UCharacterClassInfo::GetAbilitiesForClass(ECharacterClass CharacterClass) const
 {
     const FCharacterClassDefaultInfo ClassDefaultInfo = GetClassDefaultInfo(CharacterClass);
     return ClassDefaultInfo.Abilities;
 }
 
-TArray<TSubclassOf<UGameplayAbility>> UCharacterClassInfo::GetCommonAbilities() const
+TMap<TSubclassOf<UGameplayAbility>, bool> UCharacterClassInfo::GetCommonAbilities() const
 {
     return CommonAbilities;
 }

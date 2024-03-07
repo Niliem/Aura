@@ -8,6 +8,7 @@
 #include "Game/AuraGameModeBase.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraGameplayEffectContext.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 
 UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -55,15 +56,26 @@ void UAuraAbilitySystemLibrary::GiveAbilitiesForClass(const UObject* WorldContex
 {
     const auto ClassInfo = GetCharacterClassInfo(WorldContextObject);
 
-    for (const auto& AbilityClass : ClassInfo->GetCommonAbilities())
+    auto GiveAbilityWithActivation = [AbilitySystemComponent](TSubclassOf<UGameplayAbility> AbilityClass, bool bActivate)
     {
         FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
-        AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
+        if (bActivate)
+        {
+            AbilitySystemComponent->GiveAbilityAndActivateOnce(GameplayAbilitySpec);
+        }
+        else
+        {
+            AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
+        }
+    };
+
+    for (const auto& AbilityPair : ClassInfo->GetCommonAbilities())
+    {
+        GiveAbilityWithActivation(AbilityPair.Key, AbilityPair.Value);
     }
-    for (const auto& AbilityClass : ClassInfo->GetAbilitiesForClass(CharacterClass))
+    for (const auto& AbilityPair : ClassInfo->GetAbilitiesForClass(CharacterClass))
     {
-        FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
-        AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
+        GiveAbilityWithActivation(AbilityPair.Key, AbilityPair.Value);
     }
 }
 
@@ -96,6 +108,14 @@ UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObj
         return nullptr;
 
     return AuraGameMode->CharacterClassInfo;
+}
+
+void UAuraAbilitySystemLibrary::ExecuteActivePeriodicEffectByTag(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTag EffectTag)
+{
+    if (const auto AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        AuraAbilitySystemComponent->ExecuteActivePeriodicEffectByTag(EffectTag);
+    }
 }
 
 TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResistances(const UObject* WorldContextObject)

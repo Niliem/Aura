@@ -72,6 +72,28 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputT
     }
 }
 
+void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffectByTag(const FGameplayTag& Tag)
+{
+    FGameplayTagContainer Tags;
+    Tags.AddTag(Tag);
+    const auto ActiveEffectHandles = GetActiveEffectsWithAllTags(Tags);
+    for (const auto& ActiveEffectHandle : ActiveEffectHandles)
+    {
+        ExecuteActivePeriodicEffect(ActiveEffectHandle);
+    }
+}
+
+void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffect(const FActiveGameplayEffectHandle Handle)
+{
+    if (const auto ActiveEffect = GetActiveGameplayEffect(Handle))
+    {
+        if (ActiveEffect->GetPeriod() > UGameplayEffect::NO_PERIOD)
+        {
+            ExecutePeriodicEffect(Handle);
+        }
+    }
+}
+
 void UAuraAbilitySystemComponent::ServerEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle)
 {
     FGameplayTagContainer TagContainer;
@@ -79,7 +101,6 @@ void UAuraAbilitySystemComponent::ServerEffectApplied_Implementation(UAbilitySys
 
     MulticastEffectApplied(TagContainer);
 }
-
 
 void UAuraAbilitySystemComponent::MulticastEffectApplied_Implementation(FGameplayTagContainer EffectTags)
 {

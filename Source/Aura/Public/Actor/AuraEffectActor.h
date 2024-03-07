@@ -74,4 +74,6 @@ private:
     void RemoveEffectFromTarget(AActor* TargetActor, const FAppliedEffect& Effect);
 
     TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
+
+    TArray<AActor*> OverlapedActors;
 };
