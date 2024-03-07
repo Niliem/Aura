@@ -58,7 +58,7 @@ protected:
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
-    UPROPERTY()
+    UPROPERTY(Transient)
     TObjectPtr<UAttributeSet> AttributeSet;
 
     void Dissolve();

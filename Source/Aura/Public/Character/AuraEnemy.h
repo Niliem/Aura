@@ -11,6 +11,8 @@
 class UAuraUserWidget;
 class UWidgetComponent;
 class UEnemyWidgetController;
+class UBehaviorTree;
+class AAuraAIController;
 
 /**
  *
@@ -22,6 +24,8 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 
 public:
     AAuraEnemy();
+
+    virtual void PossessedBy(AController* NewController) override;
 
     // Inherited via IEnemyInterface
     virtual void HighlightActor() override;
@@ -56,4 +60,10 @@ private:
 
     UPROPERTY()
     TObjectPtr<UEnemyWidgetController> EnemyWidgetController;
+
+    UPROPERTY(EditAnywhere, Category = "AI")
+    TObjectPtr<UBehaviorTree> BehaviorTree;
+
+    UPROPERTY()
+    TObjectPtr<AAuraAIController> AuraAIController;
 };
