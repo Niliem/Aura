@@ -31,6 +31,12 @@ AAuraEnemy::AAuraEnemy()
     HealthWidget->SetupAttachment(GetRootComponent());
     HealthWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
     HealthWidget->SetWidgetSpace(EWidgetSpace::Screen);
+
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationRoll = false;
+    bUseControllerRotationYaw = false;
+
+    GetCharacterMovement()->bUseControllerDesiredRotation = true;
 }
 
 void AAuraEnemy::PossessedBy(AController* NewController)

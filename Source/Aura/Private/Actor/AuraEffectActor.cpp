@@ -19,23 +19,32 @@ void AAuraEffectActor::BeginPlay()
 
 void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 {
+    if (!IsAllowedClass(TargetActor))
+        return;
+
     if (OverlapedActors.Contains(TargetActor))
         return;
 
     OverlapedActors.AddUnique(TargetActor);
-    for (auto& EffectToApply : EffectsToApply)
+    for (const auto& EffectToApply : EffectsToApply)
     {
         if (EffectToApply.EffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
         {
             ApplyEffectToTarget(TargetActor, EffectToApply);
         }
     }
+
+    if (ActorDestructionPolicy == EActorDestructionPolicy::DestroyOnOverlap)
+        Destroy();
 }
 
 void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 {
+    if (!IsAllowedClass(TargetActor))
+        return;
+
     OverlapedActors.Remove(TargetActor);
-    for (auto& EffectToApply : EffectsToApply)
+    for (const auto& EffectToApply : EffectsToApply)
     {
         if (EffectToApply.EffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
         {
@@ -46,6 +55,9 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
             RemoveEffectFromTarget(TargetActor, EffectToApply);
         }
     }
+
+    if (ActorDestructionPolicy == EActorDestructionPolicy::DestroyOnEndOverlap)
+        Destroy();
 }
 
 void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, const FAppliedEffect& Effect)
@@ -54,18 +66,18 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, const FAppliedEf
     if (TargetAbilitySystemComponent == nullptr)
         return;
 
-    check(Effect.GameplayEffectClass);
+    check(Effect.EffectClass);
 
-    FGameplayEffectContextHandle GameplayEffectContextHandle = TargetAbilitySystemComponent->MakeEffectContext();
-    GameplayEffectContextHandle.AddSourceObject(this);
+    FGameplayEffectContextHandle EffectContextHandle = TargetAbilitySystemComponent->MakeEffectContext();
+    EffectContextHandle.AddSourceObject(this);
 
-    const FGameplayEffectSpecHandle GameplayEffectSpecHandle = TargetAbilitySystemComponent->MakeOutgoingSpec(Effect.GameplayEffectClass, Effect.EffectLevel, GameplayEffectContextHandle);
+    const FGameplayEffectSpecHandle EffectSpecHandle = TargetAbilitySystemComponent->MakeOutgoingSpec(Effect.EffectClass, Effect.EffectLevel, EffectContextHandle);
+    const FActiveGameplayEffectHandle ActiveEffectHandle = TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 
-    const FActiveGameplayEffectHandle ActiveGameplayEffectHandle = TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*GameplayEffectSpecHandle.Data.Get());
-
-    if (Effect.EffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
+    const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def.Get()->DurationPolicy == EGameplayEffectDurationType::Infinite;
+    if (bIsInfinite && Effect.EffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap)
     {
-        ActiveEffectHandles.Add(ActiveGameplayEffectHandle, TargetAbilitySystemComponent);
+        ActiveEffectHandles.Add(ActiveEffectHandle, TargetAbilitySystemComponent);
     }
 }
 
@@ -76,12 +88,12 @@ void AAuraEffectActor::RemoveEffectFromTarget(AActor* TargetActor, const FApplie
         return;
 
     TArray<FActiveGameplayEffectHandle> HandlesToRemove;
-    for (auto& HandlePair : ActiveEffectHandles)
+    for (const auto& HandlePair : ActiveEffectHandles)
     {
         if (TargetAbilitySystemComponent == HandlePair.Value)
         {
             auto ActiveEffectFromHandle = UAbilitySystemBlueprintLibrary::GetGameplayEffectFromActiveEffectHandle(HandlePair.Key);
-            if (ActiveEffectFromHandle && ActiveEffectFromHandle->IsA(Effect.GameplayEffectClass))
+            if (ActiveEffectFromHandle && ActiveEffectFromHandle->IsA(Effect.EffectClass))
             {
 
                 TargetAbilitySystemComponent->RemoveActiveGameplayEffect(HandlePair.Key, Effect.StackRemovalCount);
@@ -93,4 +105,16 @@ void AAuraEffectActor::RemoveEffectFromTarget(AActor* TargetActor, const FApplie
     {
         ActiveEffectHandles.FindAndRemoveChecked(Handle);
     }
+}
+
+bool AAuraEffectActor::IsAllowedClass(AActor* TargetActor)
+{
+    for (auto AllowedClass : AllowedClasses)
+    {
+        if (TargetActor->IsA(AllowedClass))
+        {
+            return true;
+        }
+    }
+    return false;
 }

@@ -25,13 +25,21 @@ enum class EEffectRemovalPolicy : uint8
     DoNotRemove
 };
 
+UENUM(BlueprintType)
+enum class EActorDestructionPolicy : uint8
+{
+    DestroyOnOverlap,
+    DestroyOnEndOverlap,
+    DoNotDestroy
+};
+
 USTRUCT(BlueprintType)
 struct FAppliedEffect
 {
     GENERATED_BODY()
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
-    TSubclassOf<UGameplayEffect> GameplayEffectClass;
+    TSubclassOf<UGameplayEffect> EffectClass;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Effect")
     float EffectLevel = 1.0f;
@@ -67,7 +75,10 @@ protected:
     TArray<FAppliedEffect> EffectsToApply;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
-    bool bDestroyOnEffectRemoval = false;
+    EActorDestructionPolicy ActorDestructionPolicy = EActorDestructionPolicy::DoNotDestroy;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+    TArray<TSubclassOf<AActor>> AllowedClasses;
 
 private:
     void ApplyEffectToTarget(AActor* TargetActor, const FAppliedEffect& Effect);
@@ -76,4 +87,6 @@ private:
     TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
 
     TArray<AActor*> OverlapedActors;
+
+    bool IsAllowedClass(AActor* TargetActor);
 };
