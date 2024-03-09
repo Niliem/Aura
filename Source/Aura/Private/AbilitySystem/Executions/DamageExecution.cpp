@@ -5,8 +5,8 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "AbilitySystem/AuraGameplayEffectContext.h"
+#include "Game/AuraGameModeBase.h"
 #include "Interaction/CombatInterface.h"
 
 struct FDamageStatics
@@ -94,7 +94,7 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
         TargetLevel = TargetCombatInterface->GetCharacterLevel();
     }
 
-    const UCharacterClassInfo* ClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
+    const auto AuraGameMode = UAuraAbilitySystemLibrary::GetAuraGameMode(SourceAvatar);
 
     const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
     FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
@@ -148,10 +148,10 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorPenetrationDef, EvaluateParameters, SourceArmorPenetration);
     SourceArmorPenetration = FMath::Max(SourceArmorPenetration, 0.0f);
 
-    const FRealCurve* ArmorPenetrationCurve = ClassInfo->GetDamageCalculationCoefficients()->FindCurve(FName("ArmorPenetration"), FString());
+    const FRealCurve* ArmorPenetrationCurve = AuraGameMode->DamageCalculationCoefficients->FindCurve(FName("ArmorPenetration"), FString());
     const float ArmorPenetrationCoefficient = ArmorPenetrationCurve->Eval(SourceLevel);
 
-    const FRealCurve* EffectiveArmorCurve = ClassInfo->GetDamageCalculationCoefficients()->FindCurve(FName("EffectiveArmor"), FString());
+    const FRealCurve* EffectiveArmorCurve = AuraGameMode->DamageCalculationCoefficients->FindCurve(FName("EffectiveArmor"), FString());
     const float EffectiveArmorCoefficient = EffectiveArmorCurve->Eval(TargetLevel);
 
     const float EffectiveArmor = TargetArmor * (100.0f - SourceArmorPenetration * ArmorPenetrationCoefficient) / 100.0f;
@@ -170,7 +170,7 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalHitResistanceDef, EvaluateParameters, TargetCriticalHitResistance);
     TargetCriticalHitResistance = FMath::Max(TargetCriticalHitResistance, 0.0f);
 
-    const FRealCurve* CriticalHitResistanceCurve = ClassInfo->GetDamageCalculationCoefficients()->FindCurve(FName("CriticalHitResistance"), FString());
+    const FRealCurve* CriticalHitResistanceCurve = AuraGameMode->DamageCalculationCoefficients->FindCurve(FName("CriticalHitResistance"), FString());
     const float CriticalHitResistanceCoefficient = CriticalHitResistanceCurve->Eval(TargetLevel);
 
     const float EffectiveCriticalHitChance = SourceCriticalHitChance - TargetCriticalHitResistance * CriticalHitResistanceCoefficient;

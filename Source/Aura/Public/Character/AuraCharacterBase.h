@@ -6,14 +6,13 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interaction/CombatInterface.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
-
 #include "AuraCharacterBase.generated.h"
 
 class UAbilitySystemComponent;
 class UGameplayAbility;
 class UAttributeSet;
 class UGameplayEffect;
+class UCharacterGameplayInfo;
 
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -41,10 +40,9 @@ protected:
 
     virtual void InitAbilityActorInfo();
     virtual void InitializeDefaultAttributes();
+    virtual void InitializeDefaultAbilities();
 
     void ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> EffectClassToApply, const float Level = 1.0f) const;
-
-    void AddStartupAbilities();
 
     UPROPERTY(EditAnywhere, Category = "Combat")
     TObjectPtr<USkeletalMeshComponent> Weapon;
@@ -53,7 +51,7 @@ protected:
     FName WeaponTipSocketName;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
-    ECharacterClass CharacterClass = ECharacterClass::Warrior;
+    TObjectPtr<UCharacterGameplayInfo> CharacterGameplayInfo = nullptr;
 
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -76,8 +74,8 @@ protected:
     TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 
 private:
-    UPROPERTY(EditAnywhere, Category = "Abilities")
-    TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+    // UPROPERTY(EditAnywhere, Category = "Abilities")
+    // TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
     UPROPERTY(EditDefaultsOnly, Category = "Abilities")
     TObjectPtr<UAnimMontage> HitReactMontage;

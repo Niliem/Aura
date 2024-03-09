@@ -4,6 +4,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "AbilitySystem/Data/CharacterGameplayInfo.h"
 #include "UI/WidgetController/EnemyWidgetController.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -51,7 +52,8 @@ void AAuraEnemy::PossessedBy(AController* NewController)
     AuraAIController->RunBehaviorTree(BehaviorTree);
 
     AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("bIsHitReacting"), false);
-    AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("bIsRangedAttacker"), CharacterClass != ECharacterClass::Warrior);
+    if (CharacterGameplayInfo)
+        AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("bIsRangedAttacker"), CharacterGameplayInfo->CharacterClass != ECharacterClass::Warrior);
 }
 
 void AAuraEnemy::BeginPlay()
@@ -60,7 +62,7 @@ void AAuraEnemy::BeginPlay()
 
     InitAbilityActorInfo();
     InitializeDefaultAttributes();
-    AddStartupAbilities();
+    InitializeDefaultAbilities();
 
     GetAbilitySystemComponent()->RegisterGameplayTagEvent(AuraGameplayTags::Effect_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraEnemy::HitReactTagChanged);
 }
@@ -114,5 +116,6 @@ void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
     bHitReacting = NewCount > 0;
     GetCharacterMovement()->StopActiveMovement();
 
-    AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("bIsHitReacting"), bHitReacting);
+    if (AuraAIController)
+        AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("bIsHitReacting"), bHitReacting);
 }

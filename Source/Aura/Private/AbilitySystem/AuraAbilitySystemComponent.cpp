@@ -8,19 +8,6 @@ void UAuraAbilitySystemComponent::AbilityActorInfoSet()
     OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ServerEffectApplied);
 }
 
-void UAuraAbilitySystemComponent::AddAbilities(const TArray<TSubclassOf<UGameplayAbility>>& Abilities)
-{
-    for (auto& AbilityClass : Abilities)
-    {
-        FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
-        if (const UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(GameplayAbilitySpec.Ability))
-        {
-            GameplayAbilitySpec.DynamicAbilityTags.AddTag(AuraAbility->InputTag);
-            GiveAbility(GameplayAbilitySpec);
-        }
-    }
-}
-
 void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
 {
     if (!InputTag.IsValid())

@@ -19,8 +19,8 @@ class AURA_API AAuraGameModeBase : public AGameModeBase
     GENERATED_BODY()
 
 public:
-    UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
-    TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
+    UPROPERTY(EditDefaultsOnly, Category = "Damage")
+    TObjectPtr<UCurveTable> DamageCalculationCoefficients;
 
     UPROPERTY(EditDefaultsOnly, Category = "Damage Types")
     TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;

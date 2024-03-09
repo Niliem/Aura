@@ -20,16 +20,14 @@ class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
 public:
     void AbilityActorInfoSet();
 
-    FEffectAssetTagsDelegate EffectAssetTags;
-
-    void AddAbilities(const TArray<TSubclassOf<UGameplayAbility>>& Abilities);
-
     void AbilityInputTagPressed(const FGameplayTag& InputTag);
     void AbilityInputTagReleased(const FGameplayTag& InputTag);
     void AbilityInputTagHeld(const FGameplayTag& InputTag);
 
     UFUNCTION(BlueprintCallable, Category = "GameplayEffects")
     void ExecuteActivePeriodicEffectByTag(const FGameplayTag& Tag);
+
+    FEffectAssetTagsDelegate EffectAssetTags;
 
 protected:
     UFUNCTION(Server, Reliable)

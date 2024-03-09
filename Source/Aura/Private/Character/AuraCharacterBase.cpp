@@ -5,6 +5,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "AbilitySystem/Data/CharacterGameplayInfo.h"
 #include "Aura/Aura.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -36,7 +37,18 @@ void AAuraCharacterBase::InitializeDefaultAttributes()
 {
     if (!HasAuthority())
         return;
-    UAuraAbilitySystemLibrary::InitializeAttributesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
+
+    if (CharacterGameplayInfo)
+        CharacterGameplayInfo->GiveEffects(GetAbilitySystemComponent());
+}
+
+void AAuraCharacterBase::InitializeDefaultAbilities()
+{
+    if (!HasAuthority())
+        return;
+
+    if (CharacterGameplayInfo)
+        CharacterGameplayInfo->GiveAbilities(GetAbilitySystemComponent());
 }
 
 void AAuraCharacterBase::ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> EffectClassToApply, const float Level) const
@@ -50,17 +62,6 @@ void AAuraCharacterBase::ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> 
     GameplayEffectContextHandle.AddSourceObject(this);
     const FGameplayEffectSpecHandle GameplayEffectSpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(EffectClassToApply, Level, GameplayEffectContextHandle);
     GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*GameplayEffectSpecHandle.Data.Get());
-}
-
-void AAuraCharacterBase::AddStartupAbilities()
-{
-    if (!HasAuthority())
-        return;
-
-    UAuraAbilitySystemComponent* AuraAbilitySystemComponent = CastChecked<UAuraAbilitySystemComponent>(GetAbilitySystemComponent());
-    AuraAbilitySystemComponent->AddAbilities(StartupAbilities);
-
-    UAuraAbilitySystemLibrary::GiveAbilitiesForClass(this, CharacterClass, GetCharacterLevel(), GetAbilitySystemComponent());
 }
 
 void AAuraCharacterBase::Dissolve()
