@@ -39,7 +39,7 @@ void AAuraCharacterBase::InitializeDefaultAttributes()
         return;
 
     if (CharacterGameplayInfo)
-        CharacterGameplayInfo->GiveEffects(GetAbilitySystemComponent());
+        CharacterGameplayInfo->GiveEffects(GetAbilitySystemComponent(), GetCharacterLevel());
 }
 
 void AAuraCharacterBase::InitializeDefaultAbilities()

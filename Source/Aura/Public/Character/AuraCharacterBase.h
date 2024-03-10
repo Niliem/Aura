@@ -74,9 +74,6 @@ protected:
     TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 
 private:
-    // UPROPERTY(EditAnywhere, Category = "Abilities")
-    // TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
-
     UPROPERTY(EditDefaultsOnly, Category = "Abilities")
     TObjectPtr<UAnimMontage> HitReactMontage;
 };

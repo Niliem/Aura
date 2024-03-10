@@ -49,7 +49,7 @@ class AURA_API UCharacterGameplayInfo : public UPrimaryDataAsset
 
 public:
     void GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent) const;
-    void GiveEffects(UAbilitySystemComponent* AbilitySystemComponent) const;
+    void GiveEffects(UAbilitySystemComponent* AbilitySystemComponent, float Level = 1.0f) const;
 
     UPROPERTY(EditDefaultsOnly)
     ECharacterClass CharacterClass;

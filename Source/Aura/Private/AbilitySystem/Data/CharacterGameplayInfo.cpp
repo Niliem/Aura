@@ -11,8 +11,6 @@ void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySyste
     if (!AbilitySystemComponent->IsOwnerActorAuthoritative())
         return;
 
-    const AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
-
     for (const auto& AbilitySet : GrantedAbilitySets)
     {
         FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilitySet.Ability, AbilitySet.AbilityLevel);
@@ -28,7 +26,7 @@ void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySyste
     }
 }
 
-void UCharacterGameplayInfo::GiveEffects(UAbilitySystemComponent* AbilitySystemComponent) const
+void UCharacterGameplayInfo::GiveEffects(UAbilitySystemComponent* AbilitySystemComponent, float Level) const
 {
     if (!IsValid(AbilitySystemComponent))
         return;
@@ -42,7 +40,7 @@ void UCharacterGameplayInfo::GiveEffects(UAbilitySystemComponent* AbilitySystemC
     {
         auto ContextHandle = AbilitySystemComponent->MakeEffectContext();
         ContextHandle.AddSourceObject(AvatarActor);
-        const auto EffectSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(Effect, 1.0f, ContextHandle);
+        const auto EffectSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(Effect, Level, ContextHandle);
         AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
     }
 }
