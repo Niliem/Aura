@@ -11,7 +11,9 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
 {
     check(ProjectileActorClass);
 
-    const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo());
+    const FVector SocketLocation = FVector::ZeroVector;
+    if (GetAvatarActorFromActorInfo()->Implements<UCombatInterface>())
+        ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo());
     FRotator Rotation = (TargetLocation - SocketLocation).Rotation();
 
     FTransform SpawnTransform;

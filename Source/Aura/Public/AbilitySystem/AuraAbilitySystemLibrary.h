@@ -25,14 +25,17 @@ public:
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|WidgetController")
     static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
 
-    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
-    static void ExecuteActivePeriodicEffectByTag(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTag EffectTag);
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
+    static AAuraGameModeBase* GetAuraGameMode(const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
+    static TArray<AActor*> GetLiveActorsWithinRadius(const UObject* WorldContextObject, TSubclassOf<AActor> RequiredActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin);
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageTypes")
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);
 
-    UFUNCTION(BlueprintCallable)
-    static AAuraGameModeBase* GetAuraGameMode(const UObject* WorldContextObject);
+    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+    static void ExecuteActivePeriodicEffectByTag(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTag EffectTag);
 
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);

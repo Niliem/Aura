@@ -6,6 +6,7 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "Player/AuraPlayerState.h"
 #include "Game/AuraGameModeBase.h"
+#include "Interaction/CombatInterface.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraGameplayEffectContext.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
@@ -52,12 +53,38 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
     return nullptr;
 }
 
-void UAuraAbilitySystemLibrary::ExecuteActivePeriodicEffectByTag(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTag EffectTag)
+AAuraGameModeBase* UAuraAbilitySystemLibrary::GetAuraGameMode(const UObject* WorldContextObject)
 {
-    if (const auto AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+    const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+    if (!IsValid(AuraGameMode))
+        return nullptr;
+    return AuraGameMode;
+}
+
+TArray<AActor*> UAuraAbilitySystemLibrary::GetLiveActorsWithinRadius(const UObject* WorldContextObject, TSubclassOf<AActor> RequiredActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin)
+{
+    TArray<AActor*> OutActors;
+
+    FCollisionQueryParams SphereParams;
+    SphereParams.AddIgnoredActors(ActorsToIgnore);
+
+    if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
     {
-        AuraAbilitySystemComponent->ExecuteActivePeriodicEffectByTag(EffectTag);
+        TArray<FOverlapResult> Overlaps;
+        World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
+        for (FOverlapResult& Overlap : Overlaps)
+        {
+            if (Overlap.GetActor()->IsA(RequiredActors))
+            {
+                if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsDead(Overlap.GetActor()))
+                {
+                    OutActors.AddUnique(Overlap.GetActor());
+                }
+            }
+        }
     }
+
+    return OutActors;
 }
 
 TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResistances(const UObject* WorldContextObject)
@@ -69,12 +96,12 @@ TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResi
     return AuraGameMode->DamageTypesToResistances;
 }
 
-AAuraGameModeBase* UAuraAbilitySystemLibrary::GetAuraGameMode(const UObject* WorldContextObject)
+void UAuraAbilitySystemLibrary::ExecuteActivePeriodicEffectByTag(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTag EffectTag)
 {
-    const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if (!IsValid(AuraGameMode))
-        return nullptr;
-    return AuraGameMode;
+    if (const auto AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        AuraAbilitySystemComponent->ExecuteActivePeriodicEffectByTag(EffectTag);
+    }
 }
 
 bool UAuraAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)

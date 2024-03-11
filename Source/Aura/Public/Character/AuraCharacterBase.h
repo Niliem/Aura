@@ -30,6 +30,8 @@ public:
     // Inherited via ICombatInterface
     virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
     virtual FVector GetCombatSocketLocation_Implementation() const override;
+    virtual bool IsDead_Implementation() const override;
+    virtual AActor* GetAvatar_Implementation() override;
     virtual void Die() override;
 
     UFUNCTION(NetMulticast, Reliable)
@@ -58,6 +60,8 @@ protected:
 
     UPROPERTY(Transient)
     TObjectPtr<UAttributeSet> AttributeSet;
+
+    bool bIsDead = false;
 
     void Dissolve();
 

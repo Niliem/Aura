@@ -35,5 +35,11 @@ public:
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
     void SetFacingTarget(const FVector& TargetLocation);
 
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    bool IsDead() const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    AActor* GetAvatar();
+
     virtual void Die() = 0;
 };
