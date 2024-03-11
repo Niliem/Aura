@@ -27,7 +27,7 @@ namespace AuraGameplayTags
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Health, "Attribute.Vital.Health", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Mana, "Attribute.Vital.Mana", "");
-    
+
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Melee, "Ability.Active.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_FireBolt, "Ability.Active.FireBolt", "");
 
@@ -58,4 +58,8 @@ namespace AuraGameplayTags
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Melee, "GameplayEvent.Montage.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_FireBolt, "GameplayEvent.Montage.FireBolt", "");
+
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Montage_Attack_Weapon, "Montage.Attack.Weapon", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Montage_Attack_Weapon, "Montage.Attack.LeftHand", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Montage_Attack_Weapon, "Montage.Attack.RightHand", "");
 }  // namespace AuraGameplayTags
