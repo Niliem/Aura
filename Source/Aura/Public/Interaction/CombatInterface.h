@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "GameplayTagContainer.h"
 #include "CombatInterface.generated.h"
 
 class UAnimMontage;
@@ -27,7 +28,7 @@ public:
     virtual int32 GetCharacterLevel() const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
-    FVector GetCombatSocketLocation() const;
+    FVector GetCombatSocketLocation(const FGameplayTag& SocketTag) const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     UAnimMontage* GetHitReactMontage() const;

@@ -59,7 +59,7 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Melee, "GameplayEvent.Montage.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_FireBolt, "GameplayEvent.Montage.FireBolt", "");
 
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Montage_Attack_Weapon, "Montage.Attack.Weapon", "");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Montage_Attack_Weapon, "Montage.Attack.LeftHand", "");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Montage_Attack_Weapon, "Montage.Attack.RightHand", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_Weapon, "Socket.Weapon", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_LeftHand, "Socket.LeftHand", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_RightHand, "Socket.RightHand", "");
 }  // namespace AuraGameplayTags

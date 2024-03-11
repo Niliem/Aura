@@ -6,6 +6,18 @@
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 #include "AuraDamageAbility.generated.h"
 
+USTRUCT(BlueprintType)
+struct FTaggedMontage
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    UAnimMontage* Montage = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FGameplayTag Tag;
+};
+
 /**
  *
  */
@@ -18,9 +30,15 @@ protected:
     UFUNCTION(BlueprintPure, Category = "Damage")
     FGameplayEffectSpecHandle MakeDamageEffectSpecHandle(UPARAM(ref) FGameplayEffectContextHandle& ContextHandle) const;
 
+    UFUNCTION(BlueprintCallable, Category = "Damage")
+    FTaggedMontage GetDamageMontage() const;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
     TSubclassOf<UGameplayEffect> DamageEffectClass;
 
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     TMap<FGameplayTag, FScalableFloat> DamageTypes;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage")
+    TArray<FTaggedMontage> DamageMontages;
 };

@@ -7,13 +7,13 @@
 #include "Interaction/CombatInterface.h"
 #include "AuraGameplayTags.h"
 
-void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation)
+void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation, FGameplayTag Socket)
 {
     check(ProjectileActorClass);
 
-    const FVector SocketLocation = FVector::ZeroVector;
+    FVector SocketLocation = FVector::ZeroVector;
     if (GetAvatarActorFromActorInfo()->Implements<UCombatInterface>())
-        ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo());
+        SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), Socket);
     FRotator Rotation = (TargetLocation - SocketLocation).Rotation();
 
     FTransform SpawnTransform;

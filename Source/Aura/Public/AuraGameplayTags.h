@@ -61,7 +61,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Melee);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_FireBolt);
 
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_Weapon);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_LeftHand);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Montage_Attack_RightHand);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_Weapon);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_LeftHand);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_RightHand);
 };  // namespace AuraGameplayTags
