@@ -41,4 +41,10 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     TArray<FTaggedMontage> DamageMontages;
+
+    UPROPERTY(BlueprintReadWrite, Category = "Damage")
+    TObjectPtr<UAnimMontage> MontageToPlay = nullptr;
+
+    UPROPERTY(BlueprintReadWrite, Category = "Damage")
+    FGameplayTag SocketTag;
 };

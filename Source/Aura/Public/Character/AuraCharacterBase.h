@@ -50,13 +50,13 @@ protected:
     TObjectPtr<USkeletalMeshComponent> Weapon;
 
     UPROPERTY(EditAnywhere, Category = "Combat")
-    FName WeaponTipSocketName;
+    FName WeaponTipSocketName = FName("TipSocket");
 
     UPROPERTY(EditAnywhere, Category = "Combat")
-    FName LeftHandSocketName;
+    FName LeftHandSocketName = FName("LeftHandSocket");
 
     UPROPERTY(EditAnywhere, Category = "Combat")
-    FName RightHandSocketName;
+    FName RightHandSocketName = FName("RightHandSocket");
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
     TObjectPtr<UCharacterGameplayInfo> CharacterGameplayInfo = nullptr;
