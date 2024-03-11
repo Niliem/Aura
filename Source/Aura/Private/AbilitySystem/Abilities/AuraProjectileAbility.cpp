@@ -9,6 +9,9 @@
 
 void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation, FGameplayTag Socket)
 {
+    if (!GetAvatarActorFromActorInfo()->HasAuthority())
+        return;
+
     check(ProjectileActorClass);
 
     FVector SocketLocation = FVector::ZeroVector;

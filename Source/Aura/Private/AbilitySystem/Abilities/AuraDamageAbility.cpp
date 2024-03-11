@@ -17,14 +17,14 @@ FGameplayEffectSpecHandle UAuraDamageAbility::MakeDamageEffectSpecHandle(FGamepl
     return DamageEffectSpecHandle;
 }
 
-FTaggedMontage UAuraDamageAbility::GetDamageMontage() const
+UAnimMontage* UAuraDamageAbility::GetDamageMontage() const
 {
     if (DamageMontages.Num() <= 0)
-        return FTaggedMontage();
+        return nullptr;
 
     int32 RandomIndex = FMath::RandRange(0, DamageMontages.Num() - 1);
     if (DamageMontages.IsValidIndex(RandomIndex))
         return DamageMontages[RandomIndex];
 
-    return FTaggedMontage();
+    return nullptr;
 }
