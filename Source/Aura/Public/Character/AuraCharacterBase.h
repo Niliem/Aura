@@ -29,7 +29,7 @@ public:
 
     // Inherited via ICombatInterface
     virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
-    virtual FVector GetCombatSocketLocation() const override;
+    virtual FVector GetCombatSocketLocation_Implementation() const override;
     virtual void Die() override;
 
     UFUNCTION(NetMulticast, Reliable)

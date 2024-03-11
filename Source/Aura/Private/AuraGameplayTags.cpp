@@ -27,9 +27,10 @@ namespace AuraGameplayTags
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Health, "Attribute.Vital.Health", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Mana, "Attribute.Vital.Mana", "");
-
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_FireBolt, "Ability.Active.FireBolt", "");
+    
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Melee, "Ability.Active.Melee", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_FireBolt, "Ability.Active.FireBolt", "");
+
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_HitReact, "Ability.HitReact", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Passive_Negative_Physical_Bleed, "Ability.Passive.Negative.Physical.Bleed", "");
 
@@ -55,5 +56,6 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_3, "InputTag.3", "Input Tag for 3 key");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_4, "InputTag.4", "Input Tag for 4 key");
 
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Melee, "GameplayEvent.Montage.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_FireBolt, "GameplayEvent.Montage.FireBolt", "");
 }  // namespace AuraGameplayTags
