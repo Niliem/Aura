@@ -15,6 +15,9 @@ class AURA_API UAuraDamageAbility : public UAuraGameplayAbility
     GENERATED_BODY()
 
 protected:
+    UFUNCTION(BlueprintPure, Category = "Damage")
+    FGameplayEffectSpecHandle MakeDamageEffectSpecHandle(UPARAM(ref) FGameplayEffectContextHandle& ContextHandle) const;
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
     TSubclassOf<UGameplayEffect> DamageEffectClass;
 
