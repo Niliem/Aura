@@ -3,7 +3,7 @@
 #include "AbilitySystem/Data/CharacterGameplayInfo.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
-void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent) const
+void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent, float Level) const
 {
     if (!IsValid(AbilitySystemComponent))
         return;
@@ -13,9 +13,10 @@ void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySyste
 
     for (const auto& AbilitySet : GrantedAbilitySets)
     {
-        FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilitySet.Ability, AbilitySet.AbilityLevel);
+        const float AbilityLevel = (AbilitySet.bIsScalable) ? Level : AbilitySet.AbilityLevel;
+        FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilitySet.Ability, AbilityLevel);
         GameplayAbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
-        if (AbilitySet.ActivateOnGranted)
+        if (AbilitySet.bActivateOnGranted)
         {
             AbilitySystemComponent->GiveAbilityAndActivateOnce(GameplayAbilitySpec);
         }

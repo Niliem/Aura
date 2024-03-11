@@ -48,7 +48,7 @@ void AAuraCharacterBase::InitializeDefaultAbilities()
         return;
 
     if (CharacterGameplayInfo)
-        CharacterGameplayInfo->GiveAbilities(GetAbilitySystemComponent());
+        CharacterGameplayInfo->GiveAbilities(GetAbilitySystemComponent(), GetCharacterLevel());
 }
 
 void AAuraCharacterBase::ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> EffectClassToApply, const float Level) const

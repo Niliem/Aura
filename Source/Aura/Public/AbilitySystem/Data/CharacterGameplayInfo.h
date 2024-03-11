@@ -33,7 +33,10 @@ struct FAbilitySet
     int32 AbilityLevel = 1;
 
     UPROPERTY(EditDefaultsOnly)
-    bool ActivateOnGranted = false;
+    bool bIsScalable = false;
+
+    UPROPERTY(EditDefaultsOnly)
+    bool bActivateOnGranted = false;
 
     UPROPERTY(EditDefaultsOnly, Meta = (Categories = "InputTag"))
     FGameplayTag InputTag;
@@ -48,7 +51,7 @@ class AURA_API UCharacterGameplayInfo : public UPrimaryDataAsset
     GENERATED_BODY()
 
 public:
-    void GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent) const;
+    void GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent, float Level = 1.0f) const;
     void GiveEffects(UAbilitySystemComponent* AbilitySystemComponent, float Level = 1.0f) const;
 
     UPROPERTY(EditDefaultsOnly)
