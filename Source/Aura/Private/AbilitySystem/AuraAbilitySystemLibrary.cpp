@@ -74,7 +74,7 @@ TArray<AActor*> UAuraAbilitySystemLibrary::GetLiveActorsWithinRadius(const UObje
         World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
         for (FOverlapResult& Overlap : Overlaps)
         {
-            if (Overlap.GetActor()->IsA(RequiredActors))
+            if (Overlap.GetActor() && Overlap.GetActor()->IsA(RequiredActors))
             {
                 if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsDead(Overlap.GetActor()))
                 {
