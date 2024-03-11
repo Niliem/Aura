@@ -30,6 +30,8 @@ public:
     // Inherited via IEnemyInterface
     virtual void HighlightActor() override;
     virtual void UnHighlightActor() override;
+    virtual void SetCombatTarget_Implementation(AActor* TargetActor) override;
+    virtual AActor* GetCombatTarget_Implementation() const override;
 
     // Inherited via ICombatInterface
     virtual int32 GetCharacterLevel() const override;
@@ -37,14 +39,17 @@ public:
 
     void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
-    UPROPERTY(BlueprintReadOnly, Category = "Combat")
-    bool bHitReacting = false;
-
 protected:
     virtual void BeginPlay() override;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
     int32 Level = 1;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Combat")
+    bool bHitReacting = false;
+
+    UPROPERTY(BlueprintReadWrite, Category = "Combat")
+    TObjectPtr<AActor> CombatTarget = nullptr;
 
 private:
     virtual void InitAbilityActorInfo() override;
