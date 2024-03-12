@@ -49,14 +49,20 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<USkeletalMeshComponent> Weapon;
 
-    UPROPERTY(EditAnywhere, Category = "Combat")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+    FName WeaponHandSocketName = FName("WeaponHandSocket");
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     FName WeaponTipSocketName = FName("TipSocket");
 
-    UPROPERTY(EditAnywhere, Category = "Combat")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     FName LeftHandSocketName = FName("LeftHandSocket");
 
-    UPROPERTY(EditAnywhere, Category = "Combat")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     FName RightHandSocketName = FName("RightHandSocket");
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+    float BaseWalkSpeed = 600.f;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
     TObjectPtr<UCharacterGameplayInfo> CharacterGameplayInfo = nullptr;

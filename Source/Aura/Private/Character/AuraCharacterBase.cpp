@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Data/CharacterGameplayInfo.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "AuraGameplayTags.h"
 #include "Aura/Aura.h"
 
@@ -21,8 +22,10 @@ AAuraCharacterBase::AAuraCharacterBase()
     GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
 
     Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
-    Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
+    Weapon->SetupAttachment(GetMesh(), WeaponHandSocketName);
     Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+    GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 }
 
 void AAuraCharacterBase::BeginPlay()
