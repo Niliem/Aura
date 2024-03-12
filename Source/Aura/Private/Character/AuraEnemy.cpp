@@ -119,7 +119,7 @@ void AAuraEnemy::Die_Implementation()
     SetLifeSpan(5.0f);
     HealthWidget->SetVisibility(false);
     AuraAIController->GetBrainComponent()->StopLogic("Dead");
-    Super::Die();
+    Super::Die_Implementation();
 }
 
 void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
