@@ -19,7 +19,7 @@ protected:
     FGameplayEffectSpecHandle MakeDamageEffectSpecHandle(UPARAM(ref) FGameplayEffectContextHandle& ContextHandle) const;
 
     UFUNCTION(BlueprintCallable, Category = "Damage")
-    UAnimMontage* GetDamageMontage() const;
+    UAnimMontage* GetAbilityMontage() const;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
     TSubclassOf<UGameplayEffect> DamageEffectClass;
@@ -28,5 +28,5 @@ protected:
     TMap<FGameplayTag, FScalableFloat> DamageTypes;
 
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
-    TArray<TObjectPtr<UAnimMontage>> DamageMontages;
+    TArray<TObjectPtr<UAnimMontage>> AbilityMontages;
 };
