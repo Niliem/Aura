@@ -59,7 +59,8 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_4);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Melee);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_FireBolt);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_Slinghot);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_FireBolt);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_Weapon);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_LeftHand);
