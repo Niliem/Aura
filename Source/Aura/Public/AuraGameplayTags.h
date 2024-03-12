@@ -43,6 +43,9 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_Status_Negative_Physical_Bleed);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_Status_Negative_Elemental_Burn);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Healthy);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Dead);
+
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Physical);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Elemental_Fire);

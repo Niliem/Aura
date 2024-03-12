@@ -32,7 +32,7 @@ public:
     virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
     virtual bool IsDead_Implementation() const override;
     virtual AActor* GetAvatar_Implementation() override;
-    virtual void Die() override;
+    virtual void Die_Implementation() override;
 
     UFUNCTION(NetMulticast, Reliable)
     virtual void MulticastHandleDeath();

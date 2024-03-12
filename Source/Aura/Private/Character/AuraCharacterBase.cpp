@@ -108,7 +108,7 @@ AActor* AAuraCharacterBase::GetAvatar_Implementation()
     return this;
 }
 
-void AAuraCharacterBase::Die()
+void AAuraCharacterBase::Die_Implementation()
 {
     Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
     MulticastHandleDeath();

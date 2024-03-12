@@ -104,11 +104,11 @@ TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResi
     return AuraGameMode->DamageTypesToResistances;
 }
 
-void UAuraAbilitySystemLibrary::ExecuteActivePeriodicEffectByTag(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTag EffectTag)
+void UAuraAbilitySystemLibrary::ExecuteActivePeriodicEffectsWithTags(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTagContainer Tags)
 {
     if (const auto AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
     {
-        AuraAbilitySystemComponent->ExecuteActivePeriodicEffectByTag(EffectTag);
+        AuraAbilitySystemComponent->ExecuteActivePeriodicEffectsWithTags(Tags);
     }
 }
 

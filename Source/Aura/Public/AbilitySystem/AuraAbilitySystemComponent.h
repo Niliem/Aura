@@ -25,7 +25,7 @@ public:
     void AbilityInputTagHeld(const FGameplayTag& InputTag);
 
     UFUNCTION(BlueprintCallable, Category = "GameplayEffects")
-    void ExecuteActivePeriodicEffectByTag(const FGameplayTag& Tag);
+    void ExecuteActivePeriodicEffectsWithTags(const FGameplayTagContainer& Tags);
 
     FEffectAssetTagsDelegate EffectAssetTags;
 

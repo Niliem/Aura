@@ -59,6 +59,34 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
     }
 }
 
+void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
+{
+    Super::PostAttributeChange(Attribute, OldValue, NewValue);
+
+    if (Attribute == GetHealthAttribute())
+    {
+        // Healthy Status
+        if (GetHealth() >= GetMaxHealth() && (GetOwningAbilitySystemComponent()->GetTagCount(AuraGameplayTags::Character_Status_Healthy) == 0))
+        {
+            GetOwningAbilitySystemComponent()->AddLooseGameplayTag(AuraGameplayTags::Character_Status_Healthy);
+        }
+        if (GetHealth() < GetMaxHealth())
+        {
+            GetOwningAbilitySystemComponent()->RemoveLooseGameplayTag(AuraGameplayTags::Character_Status_Healthy);
+        }
+
+        // Dead Status
+        if (GetHealth() <= 0.0f && (GetOwningAbilitySystemComponent()->GetTagCount(AuraGameplayTags::Character_Status_Dead) == 0))
+        {
+            GetOwningAbilitySystemComponent()->AddLooseGameplayTag(AuraGameplayTags::Character_Status_Dead);
+        }
+        if (GetHealth() > 0.0f)
+        {
+            GetOwningAbilitySystemComponent()->RemoveLooseGameplayTag(AuraGameplayTags::Character_Status_Dead);
+        }
+    }
+}
+
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
     Super::PostGameplayEffectExecute(Data);
@@ -69,8 +97,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
     if (Data.EvaluatedData.Attribute == GetHealthAttribute())
     {
         SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
-
-        UE_LOG(LogTemp, Warning, TEXT("Health changed on %s, Health: %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
     }
     if (Data.EvaluatedData.Attribute == GetManaAttribute())
     {
@@ -85,16 +111,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
             const float NewHealth = GetHealth() - LocalIncomingDamage;
             SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
 
-            const bool bFatal = NewHealth <= 0.0f;
-            if (bFatal)
-            {
-                TScriptInterface<ICombatInterface> CombatInterface = Props.TargetAvatarActor;
-                if (CombatInterface)
-                {
-                    CombatInterface->Die();
-                }
-            }
-            else
+            if (NewHealth > 0.0f)
             {
                 if (Props.SourceCharacter != Props.TargetCharacter)
                 {

@@ -59,10 +59,8 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputT
     }
 }
 
-void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffectByTag(const FGameplayTag& Tag)
+void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffectsWithTags(const FGameplayTagContainer& Tags)
 {
-    FGameplayTagContainer Tags;
-    Tags.AddTag(Tag);
     const auto ActiveEffectHandles = GetActiveEffectsWithAllTags(Tags);
     for (const auto& ActiveEffectHandle : ActiveEffectHandles)
     {

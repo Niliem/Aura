@@ -38,7 +38,7 @@ public:
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
-    static void ExecuteActivePeriodicEffectByTag(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTag EffectTag);
+    static void ExecuteActivePeriodicEffectsWithTags(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTagContainer Tags);
 
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);

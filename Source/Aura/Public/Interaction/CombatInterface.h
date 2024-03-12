@@ -42,5 +42,6 @@ public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     AActor* GetAvatar();
 
-    virtual void Die() = 0;
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    void Die();
 };

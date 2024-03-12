@@ -41,6 +41,9 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_Status_Negative_Physical_Bleed, "Effect.Status.Negative.Physical.Bleed", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_Status_Negative_Elemental_Burn, "Effect.Status.Negative.Elemental.Burn", "");
 
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Character_Status_Healthy, "Character.Status.Healthy", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Character_Status_Dead, "Character.Status.Dead", "");
+
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType, "DamageType", "Parent tag for all damage types");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Physical, "DamageType.Physical", "Physical damage type");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Elemental_Fire, "DamageType.Elemental.Fire", "Fire damage type");
