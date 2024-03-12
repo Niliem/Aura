@@ -31,7 +31,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Mana);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Melee);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_FireBolt);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ranged_Fire_FireBolt);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_HitReact);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Passive_Negative_Physical_Bleed);
