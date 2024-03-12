@@ -46,7 +46,7 @@ protected:
 
     void ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> EffectClassToApply, const float Level = 1.0f) const;
 
-    UPROPERTY(EditAnywhere, Category = "Combat")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<USkeletalMeshComponent> Weapon;
 
     UPROPERTY(EditAnywhere, Category = "Combat")
