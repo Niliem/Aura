@@ -128,7 +128,8 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
     GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
     GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
-    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
+    GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
     Dissolve();
 
@@ -143,6 +144,35 @@ UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 UAttributeSet* AAuraCharacterBase::GetAttributeSet() const
 {
     return AttributeSet;
+}
+
+void AAuraCharacterBase::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+    if (!GetAbilitySystemComponent())
+        return;
+
+    GetAbilitySystemComponent()->GetOwnedGameplayTags(TagContainer);
+}
+
+bool AAuraCharacterBase::HasMatchingGameplayTag(FGameplayTag TagToCheck) const
+{
+    if (!GetAbilitySystemComponent())
+        return false;
+    return GetAbilitySystemComponent()->HasMatchingGameplayTag(TagToCheck);
+}
+
+bool AAuraCharacterBase::HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
+{
+    if (!GetAbilitySystemComponent())
+        return false;
+    return GetAbilitySystemComponent()->HasAllMatchingGameplayTags(TagContainer);
+}
+
+bool AAuraCharacterBase::HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
+{
+    if (!GetAbilitySystemComponent())
+        return false;
+    return GetAbilitySystemComponent()->HasAnyMatchingGameplayTags(TagContainer);
 }
 
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation() const

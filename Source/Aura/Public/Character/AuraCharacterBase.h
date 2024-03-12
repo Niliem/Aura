@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "GameplayTagAssetInterface.h"
 #include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
@@ -13,9 +14,11 @@ class UGameplayAbility;
 class UAttributeSet;
 class UGameplayEffect;
 class UCharacterGameplayInfo;
+struct FGameplayTag;
+struct FGameplayTagContainer;
 
 UCLASS(Abstract)
-class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public IGameplayTagAssetInterface, public ICombatInterface
 {
     GENERATED_BODY()
 
@@ -26,6 +29,12 @@ public:
     virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
     UAttributeSet* GetAttributeSet() const;
+
+    // Inherited via IGameplayTagAssetInterface
+    virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
+    virtual bool HasMatchingGameplayTag(FGameplayTag TagToCheck) const override;
+    virtual bool HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
+    virtual bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
 
     // Inherited via ICombatInterface
     virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
