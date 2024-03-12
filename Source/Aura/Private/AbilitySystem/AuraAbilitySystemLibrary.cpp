@@ -87,6 +87,14 @@ TArray<AActor*> UAuraAbilitySystemLibrary::GetLiveActorsWithinRadius(const UObje
     return OutActors;
 }
 
+bool UAuraAbilitySystemLibrary::IsOnSameTeam(const AActor* FirstActor, const AActor* SecondActor)
+{
+    const bool bBothArePlayers = FirstActor->ActorHasTag(FName("Player")) && SecondActor->ActorHasTag(FName("Player"));
+    const bool bBothAreEnemies = FirstActor->ActorHasTag(FName("Enemy")) && SecondActor->ActorHasTag(FName("Enemy"));
+    const bool bSameTeam = bBothArePlayers || bBothAreEnemies;
+    return bSameTeam;
+}
+
 TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResistances(const UObject* WorldContextObject)
 {
     const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));

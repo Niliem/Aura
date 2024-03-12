@@ -30,6 +30,9 @@ public:
 
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
     static TArray<AActor*> GetLiveActorsWithinRadius(const UObject* WorldContextObject, TSubclassOf<AActor> RequiredActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin);
+    
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
+    static bool IsOnSameTeam(const AActor* FirstActor, const AActor* SecondActor);
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageTypes")
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);

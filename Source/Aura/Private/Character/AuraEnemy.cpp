@@ -118,6 +118,7 @@ void AAuraEnemy::Die()
 {
     SetLifeSpan(5.0f);
     HealthWidget->SetVisibility(false);
+    AuraAIController->GetBrainComponent()->StopLogic("Dead");
     Super::Die();
 }
 
