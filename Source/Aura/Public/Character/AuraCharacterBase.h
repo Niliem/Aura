@@ -14,6 +14,7 @@ class UGameplayAbility;
 class UAttributeSet;
 class UGameplayEffect;
 class UCharacterGameplayInfo;
+class UNiagaraSystem;
 struct FGameplayTag;
 struct FGameplayTagContainer;
 
@@ -42,6 +43,7 @@ public:
     virtual bool IsDead_Implementation() const override;
     virtual AActor* GetAvatar_Implementation() override;
     virtual void Die_Implementation() override;
+    virtual UNiagaraSystem* GetBloodEffect_Implementation();
 
     UFUNCTION(NetMulticast, Reliable)
     virtual void MulticastHandleDeath();
@@ -97,6 +99,9 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    UNiagaraSystem* BloodEffect;
 
 private:
     UPROPERTY(EditDefaultsOnly, Category = "Abilities")
