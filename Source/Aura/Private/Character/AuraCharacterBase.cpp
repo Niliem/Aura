@@ -139,6 +139,9 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
     Dissolve();
 
     bIsDead = true;
+
+    GetCharacterMovement()->StopMovementImmediately();
+    GetCharacterMovement()->DisableMovement();
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
