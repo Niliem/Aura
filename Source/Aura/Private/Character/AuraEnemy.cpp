@@ -116,7 +116,7 @@ int32 AAuraEnemy::GetCharacterLevel() const
 
 void AAuraEnemy::Die_Implementation()
 {
-    SetLifeSpan(5.0f);
+    SetLifeSpan(2.0f);
     HealthWidget->SetVisibility(false);
     AuraAIController->GetBrainComponent()->StopLogic("Dead");
     Super::Die_Implementation();

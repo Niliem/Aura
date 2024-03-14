@@ -8,6 +8,7 @@
 #include "AbilitySystem/Data/CharacterGameplayInfo.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AuraGameplayTags.h"
+#include "Kismet/GameplayStatics.h"
 #include "Aura/Aura.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -124,6 +125,8 @@ UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation()
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 {
+    UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
+
     Weapon->SetSimulatePhysics(true);
     Weapon->SetEnableGravity(true);
     Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);

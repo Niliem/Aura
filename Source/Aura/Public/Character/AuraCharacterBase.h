@@ -75,6 +75,9 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     float BaseWalkSpeed = 600.f;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+    TObjectPtr<USoundBase> DeathSound;
+
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
     TObjectPtr<UCharacterGameplayInfo> CharacterGameplayInfo = nullptr;
 
