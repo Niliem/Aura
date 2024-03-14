@@ -45,6 +45,7 @@ namespace AuraGameplayTags
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Healthy);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Dead);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Immortal);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Physical);
@@ -64,6 +65,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Melee);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_Slinghot);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_FireBolt);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_Weapon);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_LeftHand);

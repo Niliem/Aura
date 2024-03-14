@@ -6,7 +6,6 @@
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
-#include "Interaction/CombatInterface.h"
 #include "AuraGameplayTags.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
@@ -68,21 +67,21 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
         // Healthy Status
         if (GetHealth() >= GetMaxHealth() && (GetOwningAbilitySystemComponent()->GetTagCount(AuraGameplayTags::Character_Status_Healthy) == 0))
         {
-            GetOwningAbilitySystemComponent()->AddLooseGameplayTag(AuraGameplayTags::Character_Status_Healthy);
+            GetOwningAbilitySystemComponent()->SetLooseGameplayTagCount(AuraGameplayTags::Character_Status_Healthy, 1);
         }
         if (GetHealth() < GetMaxHealth())
         {
-            GetOwningAbilitySystemComponent()->RemoveLooseGameplayTag(AuraGameplayTags::Character_Status_Healthy);
+            GetOwningAbilitySystemComponent()->SetLooseGameplayTagCount(AuraGameplayTags::Character_Status_Healthy, 0);
         }
 
         // Dead Status
         if (GetHealth() <= 0.0f && (GetOwningAbilitySystemComponent()->GetTagCount(AuraGameplayTags::Character_Status_Dead) == 0))
         {
-            GetOwningAbilitySystemComponent()->AddLooseGameplayTag(AuraGameplayTags::Character_Status_Dead);
+            GetOwningAbilitySystemComponent()->SetLooseGameplayTagCount(AuraGameplayTags::Character_Status_Dead, 1);
         }
         if (GetHealth() > 0.0f)
         {
-            GetOwningAbilitySystemComponent()->RemoveLooseGameplayTag(AuraGameplayTags::Character_Status_Dead);
+            GetOwningAbilitySystemComponent()->SetLooseGameplayTagCount(AuraGameplayTags::Character_Status_Dead, 0);
         }
     }
 }
@@ -119,6 +118,16 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
                     TagContaier.AddTag(AuraGameplayTags::Ability_HitReact);
                     Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContaier);
                 }
+            }
+            else
+            {
+                FGameplayEventData DeathPayload;
+                DeathPayload.EventTag = AuraGameplayTags::GameplayEvent_Death;
+                DeathPayload.Target = Props.TargetCharacter;
+                DeathPayload.Instigator = Props.SourceCharacter;
+
+                FScopedPredictionWindow NewScopedWindow(Props.TargetAbilitySystemComponent, true);
+                Props.TargetAbilitySystemComponent->HandleGameplayEvent(DeathPayload.EventTag, &DeathPayload);
             }
 
             const bool bIsBlockedHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);

@@ -43,6 +43,7 @@ namespace AuraGameplayTags
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Character_Status_Healthy, "Character.Status.Healthy", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Character_Status_Dead, "Character.Status.Dead", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Character_Status_Immortal, "Character.Status.Immortal", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType, "DamageType", "Parent tag for all damage types");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Physical, "DamageType.Physical", "Physical damage type");
@@ -62,6 +63,7 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Melee, "GameplayEvent.Montage.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_Slinghot, "GameplayEvent.Montage.Ranged.Slinghot", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_FireBolt, "GameplayEvent.Montage.Ranged.FireBolt", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Death, "GameplayEvent.Death", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_Weapon, "Socket.Weapon", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_LeftHand, "Socket.LeftHand", "");
