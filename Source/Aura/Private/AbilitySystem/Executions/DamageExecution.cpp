@@ -124,6 +124,11 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
 
         Damage *= (100.0f - Resistance)/100.0f;
 
+        if (Damage > 0.0f)
+        {
+        //TODO: Received damage type +DamageTypeTag
+        }
+
         TotalDamage += Damage;
     }
 

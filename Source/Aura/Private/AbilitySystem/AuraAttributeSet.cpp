@@ -114,6 +114,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
             {
                 if (Props.SourceCharacter != Props.TargetCharacter)
                 {
+                    //TODO: Change it to GameplayEvent
                     FGameplayTagContainer TagContaier;
                     TagContaier.AddTag(AuraGameplayTags::Ability_HitReact);
                     Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContaier);
