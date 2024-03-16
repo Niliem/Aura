@@ -7,7 +7,7 @@
 #include "Interaction/CombatInterface.h"
 #include "AuraGameplayTags.h"
 
-void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation, FGameplayTag Socket)
+void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation, FGameplayTag Socket, bool bOverridePitch, float PitchOverride)
 {
     if (!GetAvatarActorFromActorInfo()->HasAuthority())
         return;
@@ -18,6 +18,10 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation, FGam
     if (GetAvatarActorFromActorInfo()->Implements<UCombatInterface>())
         SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), Socket);
     FRotator Rotation = (TargetLocation - SocketLocation).Rotation();
+    if (bOverridePitch)
+    {
+        Rotation.Pitch = PitchOverride;
+    }
 
     FTransform SpawnTransform;
     SpawnTransform.SetLocation(SocketLocation);
