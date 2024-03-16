@@ -48,4 +48,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     int32 GetMinionCount() const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    void UpdateMinionCount(int32 Amount);
 };

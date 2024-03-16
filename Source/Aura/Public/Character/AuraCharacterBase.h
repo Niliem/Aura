@@ -44,6 +44,7 @@ public:
     virtual void Die_Implementation() override;
     virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
     virtual int32 GetMinionCount_Implementation() const override;
+    virtual void UpdateMinionCount_Implementation(int32 Amount) override;
 
     UFUNCTION(NetMulticast, Reliable)
     virtual void MulticastHandleDeath();
