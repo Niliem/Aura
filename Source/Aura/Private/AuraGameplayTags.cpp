@@ -68,4 +68,5 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_Weapon, "Socket.Weapon", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_LeftHand, "Socket.LeftHand", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_RightHand, "Socket.RightHand", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_Tail, "Socket.Tail", "");
 }  // namespace AuraGameplayTags

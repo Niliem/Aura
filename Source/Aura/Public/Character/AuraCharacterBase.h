@@ -73,6 +73,9 @@ protected:
     FName RightHandSocketName = FName("RightHandSocket");
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+    FName TailSocketName = FName("TailSocket");
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     float BaseWalkSpeed = 600.f;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")

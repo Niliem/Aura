@@ -70,4 +70,5 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_Weapon);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_LeftHand);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_RightHand);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_Tail);
 };  // namespace AuraGameplayTags
