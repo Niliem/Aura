@@ -107,14 +107,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
         SetIncomingDamage(0.0f);
         if (LocalIncomingDamage > 0.0f)
         {
-            const float NewHealth = GetHealth() - LocalIncomingDamage;
+            const float NewHealth = (GetHealth() - LocalIncomingDamage);
             SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
-
             if (NewHealth > 0.0f)
             {
                 if (Props.SourceCharacter != Props.TargetCharacter)
                 {
-                    //TODO: Change it to GameplayEvent
+                    // TODO: Change it to GameplayEvent
                     FGameplayTagContainer TagContaier;
                     TagContaier.AddTag(AuraGameplayTags::Ability_HitReact);
                     Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContaier);

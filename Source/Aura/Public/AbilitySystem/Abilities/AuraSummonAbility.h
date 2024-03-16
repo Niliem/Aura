@@ -18,6 +18,9 @@ public:
     UFUNCTION(BlueprintPure, Category = "Summoning")
     TArray<FVector> GetSpawnLocations();
 
+    UFUNCTION(BlueprintPure, Category = "Summoning")
+    TSubclassOf<APawn> GetSpawnClass();
+
     UPROPERTY(EditDefaultsOnly, Category = "Summoning")
     int32 NumOfMinions = 1;
 

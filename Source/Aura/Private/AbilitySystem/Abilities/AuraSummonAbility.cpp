@@ -30,3 +30,15 @@ TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 
     return SpawnLocations;
 }
+
+TSubclassOf<APawn> UAuraSummonAbility::GetSpawnClass()
+{
+    if (MinionClasses.Num() <= 0)
+        return nullptr;
+
+    int32 RandomIndex = FMath::RandRange(0, MinionClasses.Num() - 1);
+    if (MinionClasses.IsValidIndex(RandomIndex))
+        return MinionClasses[RandomIndex];
+
+    return nullptr;
+}

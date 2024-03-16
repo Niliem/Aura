@@ -46,6 +46,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Healthy);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Dead);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Immortal);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Invulnerable);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Physical);
