@@ -41,11 +41,11 @@ public:
     bool IsDead() const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
-    AActor* GetAvatar();
-
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     void Die();
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
-    UNiagaraSystem* GetBloodEffect();
+    UNiagaraSystem* GetBloodEffect() const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    int32 GetMinionCount() const;
 };

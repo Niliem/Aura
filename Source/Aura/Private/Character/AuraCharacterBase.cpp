@@ -108,23 +108,24 @@ FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGamepl
 
 bool AAuraCharacterBase::IsDead_Implementation() const
 {
-    return bIsDead;
-}
-
-AActor* AAuraCharacterBase::GetAvatar_Implementation()
-{
-    return this;
+    return GetAbilitySystemComponent()->HasMatchingGameplayTag(AuraGameplayTags::Character_Status_Dead);
 }
 
 void AAuraCharacterBase::Die_Implementation()
 {
     Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+    GetAbilitySystemComponent()->SetLooseGameplayTagCount(AuraGameplayTags::Character_Status_Dead, 1);
     MulticastHandleDeath();
 }
 
-UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation()
+UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation() const
 {
     return BloodEffect;
+}
+
+int32 AAuraCharacterBase::GetMinionCount_Implementation() const
+{
+    return MinionCount;
 }
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
@@ -144,8 +145,6 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
     Dissolve();
-
-    bIsDead = true;
 
     GetCharacterMovement()->StopMovementImmediately();
     GetCharacterMovement()->DisableMovement();

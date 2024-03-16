@@ -41,9 +41,9 @@ public:
     virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
     virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
     virtual bool IsDead_Implementation() const override;
-    virtual AActor* GetAvatar_Implementation() override;
     virtual void Die_Implementation() override;
-    virtual UNiagaraSystem* GetBloodEffect_Implementation();
+    virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
+    virtual int32 GetMinionCount_Implementation() const override;
 
     UFUNCTION(NetMulticast, Reliable)
     virtual void MulticastHandleDeath();
@@ -81,16 +81,17 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<USoundBase> DeathSound;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Defaults")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<UCharacterGameplayInfo> CharacterGameplayInfo = nullptr;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+    int32 MinionCount = 0;
 
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
     UPROPERTY(Transient)
     TObjectPtr<UAttributeSet> AttributeSet;
-
-    bool bIsDead = false;
 
     void Dissolve();
 
@@ -100,13 +101,13 @@ protected:
     UFUNCTION(BlueprintImplementableEvent)
     void AnimateWeaponDissolveMaterial(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<UMaterialInstance> MeshDissolveMaterialInstance;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     UNiagaraSystem* BloodEffect;
 
 private:

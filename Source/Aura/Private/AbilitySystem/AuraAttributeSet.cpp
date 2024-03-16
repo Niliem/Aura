@@ -75,10 +75,6 @@ void UAuraAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute,
         }
 
         // Dead Status
-        if (GetHealth() <= 0.0f && (GetOwningAbilitySystemComponent()->GetTagCount(AuraGameplayTags::Character_Status_Dead) == 0))
-        {
-            GetOwningAbilitySystemComponent()->SetLooseGameplayTagCount(AuraGameplayTags::Character_Status_Dead, 1);
-        }
         if (GetHealth() > 0.0f)
         {
             GetOwningAbilitySystemComponent()->SetLooseGameplayTagCount(AuraGameplayTags::Character_Status_Dead, 0);
