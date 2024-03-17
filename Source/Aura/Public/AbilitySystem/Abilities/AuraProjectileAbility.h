@@ -19,9 +19,15 @@ class AURA_API UAuraProjectileAbility : public UAuraDamageAbility
     GENERATED_BODY()
 
 protected:
-    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Projectile")
     TSubclassOf<AAuraProjectileActor> ProjectileActorClass;
 
-    UFUNCTION(BlueprintCallable)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Projectile")
+    bool bUseOverridePitch = false;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (EditCondition = "bUseOverridePitch", EditConditionHides), Category = "Projectile")
+    float OverridePitch = 0.0f;
+
+    UFUNCTION(BlueprintCallable, Category = "Projectile")
     void SpawnProjectile(const FVector& TargetLocation, FGameplayTag Socket, bool bOverridePitch = false, float PitchOverride = 0.0f);
 };
