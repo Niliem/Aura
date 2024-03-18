@@ -9,6 +9,7 @@
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsDelegate, const FGameplayTagContainer&);
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGivenDelegate);
+DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 
 /**
  *
@@ -32,6 +33,11 @@ public:
     FAbilitiesGivenDelegate OnAbilitiesGiven;
 
     bool bStartupAbilitiesGiven = false;
+
+    void ForEachAbility(const FForEachAbility& Delegate);
+
+    FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const;
+    FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const;
 
 protected:
     UFUNCTION(Server, Reliable)

@@ -28,6 +28,8 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Health, "Attribute.Vital.Health", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Vital_Mana, "Attribute.Vital.Mana", "");
 
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability, "Ability", "");
+
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Melee, "Ability.Active.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Ranged_Fire_FireBolt, "Ability.Active.Ranged.Fire.FireBolt", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Summon, "Ability.Active.Summon", "");
@@ -55,6 +57,7 @@ namespace AuraGameplayTags
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Damage, "SetByCaller.Damage", "SetByCaller tag used by damage gameplay effects.");
 
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag, "InputTag", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_LMB, "InputTag.LMB", "Input Tag for Left Mouse Button");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_RMB, "InputTag.RMB", "Input Tag for Right Mouse Button");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_1, "InputTag.1", "Input Tag for 1 key");

@@ -3,17 +3,17 @@
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "Aura/AuraLogChannels.h"
 
-FAuraAblityInfo UAbilityInfo::FindAblityInfoForTag(const FGameplayTag& Tag) const
+FAuraAbilityInfo UAbilityInfo::FindAblityInfoForTag(const FGameplayTag& Tag) const
 {
-    for (auto& AblityInfo : AblityInformation)
+    for (auto& AbilityInfo : AbilityInformation)
     {
-        if (AblityInfo.AbilityTag.MatchesTagExact(Tag))
+        if (AbilityInfo.AbilityTag.MatchesTagExact(Tag))
         {
-            return AblityInfo;
+            return AbilityInfo;
         }
     }
 
-    UE_LOG(LogAura, Error, TEXT("Can't find Info for AblityTag [%s] on AblityInfo [%s]."), *Tag.ToString(), *GetNameSafe(this));
+    UE_LOG(LogAura, Error, TEXT("Can't find Info for AblityTag [%s] on AbilityInfo [%s]."), *Tag.ToString(), *GetNameSafe(this));
 
-    return FAuraAblityInfo();
+    return FAuraAbilityInfo();
 }

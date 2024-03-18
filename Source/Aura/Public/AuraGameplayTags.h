@@ -30,6 +30,8 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Health);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Mana);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability);
+
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Melee);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ranged_Fire_FireBolt);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Summon);
@@ -57,6 +59,7 @@ namespace AuraGameplayTags
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LMB);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_RMB);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_1);

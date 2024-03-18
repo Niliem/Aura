@@ -10,6 +10,7 @@
 class UAuraUserWidget;
 class UAbilityInfo;
 struct FOnAttributeChangeData;
+struct FAuraAblityInfo;
 
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
@@ -30,6 +31,7 @@ struct FUIWidgetRow : public FTableRowBase
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowDelegate, FUIWidgetRow, Row);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoDelegate, const FAuraAbilityInfo&, Info);
 
 /**
  *
@@ -57,6 +59,9 @@ public:
 
     UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
     FMessageWidgetRowDelegate MessageWidgetRowDelegate;
+
+    UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+    FAbilityInfoDelegate AbilityInfoDelegate;
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")

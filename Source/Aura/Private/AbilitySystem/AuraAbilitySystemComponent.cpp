@@ -2,6 +2,8 @@
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
+#include "AuraGameplayTags.h"
+#include "Aura/AuraLogChannels.h"
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -66,6 +68,45 @@ void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffectsWithTags(const FGa
     {
         ExecuteActivePeriodicEffect(ActiveEffectHandle);
     }
+}
+
+void UAuraAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate)
+{
+    FScopedAbilityListLock ActiveScopeLock(*this);
+    for (const auto& AbilitySpec : GetActivatableAbilities())
+    {
+        if (!Delegate.ExecuteIfBound(AbilitySpec))
+        {
+            UE_LOG(LogAura, Error, TEXT("Failed to execute delegate in %hs"), __FUNCTION__);
+        }
+    }
+}
+
+FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const
+{
+    if (AbilitySpec.Ability)
+    {
+        for (auto Tag : AbilitySpec.Ability.Get()->AbilityTags)
+        {
+            if (Tag.MatchesTag(AuraGameplayTags::Ability))
+            {
+                return Tag;
+            }
+        }
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const
+{
+    for (auto Tag : AbilitySpec.DynamicAbilityTags)
+    {
+        if (Tag.MatchesTag(AuraGameplayTags::InputTag))
+        {
+            return Tag;
+        }
+    }
+    return FGameplayTag();
 }
 
 void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffect(const FActiveGameplayEffectHandle Handle)
