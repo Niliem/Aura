@@ -25,6 +25,12 @@ void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySyste
             AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
         }
     }
+
+    if (UAuraAbilitySystemComponent* AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        AuraAbilitySystemComponent->bStartupAbilitiesGiven = true;
+        AuraAbilitySystemComponent->OnAbilitiesGiven.Broadcast();
+    }
 }
 
 void UCharacterGameplayInfo::GiveEffects(UAbilitySystemComponent* AbilitySystemComponent, float Level) const

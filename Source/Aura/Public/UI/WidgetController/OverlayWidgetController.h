@@ -65,6 +65,8 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
     TObjectPtr<UAbilityInfo> AbilityInfo;
 
+    void OnInitializedStartupAbilities();
+
     template <typename T>
     T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag) const;
 };

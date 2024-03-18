@@ -8,6 +8,7 @@
 #include "AuraAbilitySystemComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsDelegate, const FGameplayTagContainer&);
+DECLARE_MULTICAST_DELEGATE(FAbilitiesGivenDelegate);
 
 /**
  *
@@ -28,6 +29,9 @@ public:
     void ExecuteActivePeriodicEffectsWithTags(const FGameplayTagContainer& Tags);
 
     FEffectAssetTagsDelegate EffectAssetTags;
+    FAbilitiesGivenDelegate OnAbilitiesGiven;
+
+    bool bStartupAbilitiesGiven = false;
 
 protected:
     UFUNCTION(Server, Reliable)
