@@ -46,6 +46,8 @@ protected:
     UFUNCTION(NetMulticast, Unreliable)
     void MulticastEffectApplied(FGameplayTagContainer EffectTags);
 
+    virtual void OnRep_ActivateAbilities() override;
+
 private:
     void ExecuteActivePeriodicEffect(const FActiveGameplayEffectHandle Handle);
 };
