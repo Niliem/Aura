@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "AbilitySystem/Data/AttributeInfo.h"
+#include "Aura/AuraLogChannels.h"
 
 #if WITH_EDITOR
 #include "Misc/DataValidation.h"
@@ -48,7 +49,7 @@ FAuraAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplayTag& T
         }
     }
 
-    UE_LOG(LogTemp, Error, TEXT("Can't find Info for AttributeTag [%s] on AttributeInfo [%s]."), *Tag.ToString(), *GetNameSafe(this));
+    UE_LOG(LogAura, Error, TEXT("Can't find Info for AttributeTag [%s] on AttributeInfo [%s]."), *Tag.ToString(), *GetNameSafe(this));
 
     return FAuraAttributeInfo();
 }

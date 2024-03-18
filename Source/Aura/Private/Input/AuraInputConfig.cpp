@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Input/AuraInputConfig.h"
+#include "Aura/AuraLogChannels.h"
 
 #if WITH_EDITOR
 #include "Misc/DataValidation.h"
@@ -47,7 +48,7 @@ const UInputAction* UAuraInputConfig::FindAbilityInputActionForTag(const FGamepl
         }
     }
 
-    UE_LOG(LogTemp, Error, TEXT("Can't find InputAction for InputTag [%s] on AttributeInfo [%s]."), *InputTag.ToString(), *GetNameSafe(this));
+    UE_LOG(LogAura, Error, TEXT("Can't find InputAction for InputTag [%s] on AttributeInfo [%s]."), *InputTag.ToString(), *GetNameSafe(this));
 
     return nullptr;
 }
