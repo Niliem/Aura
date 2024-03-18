@@ -86,6 +86,13 @@ void UOverlayWidgetController::OnInitializedStartupAbilities()
             {
                 FAuraAbilityInfo Info = AbilityInfo->FindAblityInfoForTag(AuraAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
                 Info.InputTag = AuraAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+                if (const FGameplayTagContainer* Tags = AbilitySpec.Ability.Get()->GetCooldownTags())
+                {
+                    for (const auto& CooldownTag : Tags->GetGameplayTagArray())
+                    {
+                        Info.CooldownTag = CooldownTag;
+                    }
+                }
                 AbilityInfoDelegate.Broadcast(Info);
             });
         AuraAbilitySystemComponent->ForEachAbility(BroadcastDelegate);

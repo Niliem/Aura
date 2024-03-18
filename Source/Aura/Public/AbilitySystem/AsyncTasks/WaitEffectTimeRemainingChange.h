@@ -15,7 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTimeRemainingChangeDelegate, floa
 /**
  *
  */
-UCLASS()
+UCLASS(BlueprintType, meta = (ExposedAsyncProxy = "AsyncTask"))
 class AURA_API UWaitEffectTimeRemainingChange : public UBlueprintAsyncActionBase, public FTickableGameObject
 {
     GENERATED_BODY()
