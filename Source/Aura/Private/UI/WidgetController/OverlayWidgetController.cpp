@@ -14,6 +14,8 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
         OnManaChanged.Broadcast(AuraAttributeSet->GetMana());
         OnMaxManaChanged.Broadcast(AuraAttributeSet->GetMaxMana());
+
+        OnInitializedStartupAbilities();
     }
 }
 
@@ -78,9 +80,6 @@ void UOverlayWidgetController::OnInitializedStartupAbilities()
 {
     if (UAuraAbilitySystemComponent* AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
     {
-        if (!AuraAbilitySystemComponent->bStartupAbilitiesGiven)
-            return;
-
         FForEachAbility BroadcastDelegate;
         BroadcastDelegate.BindLambda(
             [this, AuraAbilitySystemComponent](const FGameplayAbilitySpec& AbilitySpec)
