@@ -10,6 +10,8 @@
 class UAbilitySystemComponent;
 class UAttributeSet;
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangedDelegate, int32);
+
 /**
  *
  */
@@ -28,7 +30,16 @@ public:
 
     UAttributeSet* GetAttributeSet() const;
 
-    FORCEINLINE int32 GetCharacterLevel() const { return Level; }
+    FOnPlayerStatChangedDelegate OnXPChanged;
+    FOnPlayerStatChangedDelegate OnLevelChanged;
+
+    int32 GetCharacterLevel() const;
+    void SetLevel(int32 NewLevel);
+    void AddToLevel(int32 ToLevel);
+
+    int32 GetXP() const;
+    void SetXP(int32 NewXP);
+    void AddToXP(int32 ToXP);
 
 protected:
     UPROPERTY(VisibleAnywhere)
@@ -41,6 +52,12 @@ private:
     UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_Level)
     int32 Level = 1;
 
+    UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_XP)
+    int32 XP = 0;
+
     UFUNCTION()
     void OnRep_Level(int32 OldLevel);
+
+    UFUNCTION()
+    void OnRep_XP(int32 OldXP);
 };
