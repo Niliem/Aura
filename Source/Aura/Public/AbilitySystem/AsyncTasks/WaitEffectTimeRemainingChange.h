@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
-#include "Tickable.h"
 #include "GameplayTagContainer.h"
 #include "WaitEffectTimeRemainingChange.generated.h"
 
@@ -16,7 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTimeRemainingChangeDelegate, floa
  *
  */
 UCLASS(BlueprintType, meta = (ExposedAsyncProxy = "AsyncTask"))
-class AURA_API UWaitEffectTimeRemainingChange : public UBlueprintAsyncActionBase, public FTickableGameObject
+class AURA_API UWaitEffectTimeRemainingChange : public UBlueprintAsyncActionBase
 {
     GENERATED_BODY()
 
@@ -36,19 +35,19 @@ public:
     UFUNCTION(BlueprintCallable)
     void EndTask();
 
-    // FTickableGameObject
-    virtual void Tick(float DeltaTime) override;
-    virtual bool IsTickable() const override;
-    virtual TStatId GetStatId() const override;
-
 protected:
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
     FGameplayTag InEffectTag;
 
-    bool bShouldTick = false;
+    FTimerHandle UpdateTimeRemainingTimer;
 
+    UFUNCTION()
     void EffectTagChanged(const FGameplayTag EffectTag, int32 NewCount);
+
+    UFUNCTION()
+    void UpdateTimeRemaining();
+
     float GetEffectTimeRemaining(const FGameplayTag& EffectTag) const;
 };

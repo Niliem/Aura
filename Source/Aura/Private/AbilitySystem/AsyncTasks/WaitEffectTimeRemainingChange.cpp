@@ -25,38 +25,35 @@ void UWaitEffectTimeRemainingChange::EndTask()
     if (IsValid(AbilitySystemComponent))
     {
         AbilitySystemComponent->RegisterGameplayTagEvent(InEffectTag, EGameplayTagEventType::NewOrRemoved).RemoveAll(this);
+        AbilitySystemComponent->GetWorld()->GetTimerManager().ClearTimer(UpdateTimeRemainingTimer);
     }
 
     SetReadyToDestroy();
     MarkAsGarbage();
 }
 
-void UWaitEffectTimeRemainingChange::Tick(float DeltaTime)
+void UWaitEffectTimeRemainingChange::UpdateTimeRemaining()
 {
     Update.Broadcast(FMath::Max(GetEffectTimeRemaining(InEffectTag), 0.0f));
-}
-
-bool UWaitEffectTimeRemainingChange::IsTickable() const
-{
-    return bShouldTick;
-}
-
-TStatId UWaitEffectTimeRemainingChange::GetStatId() const
-{
-    return TStatId();
 }
 
 void UWaitEffectTimeRemainingChange::EffectTagChanged(const FGameplayTag EffectTag, int32 NewCount)
 {
     if (NewCount > 0)
     {
-        Start.Broadcast(FMath::Max(GetEffectTimeRemaining(EffectTag), 0.0f));
-        bShouldTick = true;
+        if (IsValid(AbilitySystemComponent))
+        {
+            Start.Broadcast(FMath::Max(GetEffectTimeRemaining(EffectTag), 0.0f));
+            AbilitySystemComponent->GetWorld()->GetTimerManager().SetTimer(UpdateTimeRemainingTimer, this, &UWaitEffectTimeRemainingChange::UpdateTimeRemaining, 0.1, true);
+        }
     }
     if (NewCount == 0)
     {
-        End.Broadcast(0.0f);
-        bShouldTick = false;
+        if (IsValid(AbilitySystemComponent))
+        {
+            AbilitySystemComponent->GetWorld()->GetTimerManager().ClearTimer(UpdateTimeRemainingTimer);
+            End.Broadcast(0.0f);            
+        }
     }
 }
 
