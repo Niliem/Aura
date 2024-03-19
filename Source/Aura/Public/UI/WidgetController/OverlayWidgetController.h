@@ -63,6 +63,9 @@ public:
     UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
     FAbilityInfoDelegate AbilityInfoDelegate;
 
+    UPROPERTY(BlueprintAssignable, Category = "Character")
+    FOnAttributeChangedDelegate OnXPPercentChanged;
+
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
     TObjectPtr<UDataTable> MessageWidgetDataTable;

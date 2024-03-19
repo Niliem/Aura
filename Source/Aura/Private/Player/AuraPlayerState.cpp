@@ -42,13 +42,13 @@ int32 AAuraPlayerState::GetCharacterLevel() const
 void AAuraPlayerState::SetLevel(int32 NewLevel)
 {
     Level = NewLevel;
-    OnLevelChanged.Broadcast(Level);
+    OnLevelChangedDelegate.Broadcast(Level);
 }
 
 void AAuraPlayerState::AddToLevel(int32 ToLevel)
 {
     Level += ToLevel;
-    OnLevelChanged.Broadcast(Level);
+    OnLevelChangedDelegate.Broadcast(Level);
 }
 
 int32 AAuraPlayerState::GetXP() const
@@ -59,21 +59,21 @@ int32 AAuraPlayerState::GetXP() const
 void AAuraPlayerState::SetXP(int32 NewXP)
 {
     XP = NewXP;
-    OnXPChanged.Broadcast(XP);
+    OnXPChangedDelegate.Broadcast(XP);
 }
 
 void AAuraPlayerState::AddToXP(int32 ToXP)
 {
     XP += ToXP;
-    OnXPChanged.Broadcast(XP);
+    OnXPChangedDelegate.Broadcast(XP);
 }
 
 void AAuraPlayerState::OnRep_Level(int32 OldLevel)
 {
-    OnLevelChanged.Broadcast(Level);
+    OnLevelChangedDelegate.Broadcast(Level);
 }
 
 void AAuraPlayerState::OnRep_XP(int32 OldXP)
 {
-    OnXPChanged.Broadcast(XP);
+    OnXPChangedDelegate.Broadcast(XP);
 }
