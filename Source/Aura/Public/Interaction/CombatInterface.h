@@ -44,6 +44,9 @@ public:
     void Die();
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    int32 GetXPReward() const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     UNiagaraSystem* GetBloodEffect() const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")

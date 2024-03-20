@@ -42,6 +42,7 @@ public:
     virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
     virtual bool IsDead_Implementation() const override;
     virtual void Die_Implementation() override;
+    virtual int32 GetXPReward_Implementation() const override;
     virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
     virtual int32 GetMinionCount_Implementation() const override;
     virtual void UpdateMinionCount_Implementation(int32 Amount) override;

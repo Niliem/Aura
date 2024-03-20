@@ -51,3 +51,10 @@ void UCharacterGameplayInfo::GiveEffects(UAbilitySystemComponent* AbilitySystemC
         AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
     }
 }
+
+int32 UCharacterGameplayInfo::GetXPReward(int32 Level) const
+{
+    if (!XPReward.Curve.IsNull())
+        return static_cast<int32>(XPReward.GetValueAtLevel(Level));
+    return 0;
+}

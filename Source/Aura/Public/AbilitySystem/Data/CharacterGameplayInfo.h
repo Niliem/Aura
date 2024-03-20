@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
+#include "ScalableFloat.h"
 #include "CharacterGameplayInfo.generated.h"
 
 class UGameplayAbility;
@@ -53,9 +54,13 @@ class AURA_API UCharacterGameplayInfo : public UPrimaryDataAsset
 public:
     void GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent, float Level = 1.0f) const;
     void GiveEffects(UAbilitySystemComponent* AbilitySystemComponent, float Level = 1.0f) const;
+    int32 GetXPReward(int32 Level = 1) const;
 
     UPROPERTY(EditDefaultsOnly)
     ECharacterClass CharacterClass;
+
+    UPROPERTY(EditDefaultsOnly)
+    FScalableFloat XPReward;
 
     UPROPERTY(EditDefaultsOnly)
     TArray<FAbilitySet> GrantedAbilitySets;

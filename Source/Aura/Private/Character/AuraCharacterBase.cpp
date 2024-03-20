@@ -118,6 +118,13 @@ void AAuraCharacterBase::Die_Implementation()
     MulticastHandleDeath();
 }
 
+int32 AAuraCharacterBase::GetXPReward_Implementation() const
+{
+    if (CharacterGameplayInfo)
+        return CharacterGameplayInfo->GetXPReward(GetCharacterLevel());
+    return 0;
+}
+
 UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation() const
 {
     return BloodEffect;
