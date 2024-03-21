@@ -46,9 +46,9 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
                 }
             });
         AuraPlayerState->OnLevelChangedDelegate.AddLambda(
-            [](int32 Level)
+            [this](int32 Level)
             {
-                UE_LOG(LogAura, Warning, TEXT("New Level: %i"), Level);
+                OnLevelChanged.Broadcast(Level);
             });
     }
 

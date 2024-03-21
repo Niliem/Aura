@@ -77,6 +77,7 @@ void AAuraPlayerState::TryLevelUp()
     {
         for (int i = Level + 1; i <= NewLevel; ++i)
         {
+            //TODO: change to add points 
             LevelUpInfo->GetAttributePointRewardForLevel(i);
             LevelUpInfo->GetSpellPointRewardForLevel(i);
         }

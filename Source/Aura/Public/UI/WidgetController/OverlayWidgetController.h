@@ -32,6 +32,7 @@ struct FUIWidgetRow : public FTableRowBase
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowDelegate, FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoDelegate, const FAuraAbilityInfo&, Info);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLevelChangedDelegate, int32, NewLevel);
 
 /**
  *
@@ -65,6 +66,9 @@ public:
 
     UPROPERTY(BlueprintAssignable, Category = "Character")
     FOnAttributeChangedDelegate OnXPPercentChanged;
+
+    UPROPERTY(BlueprintAssignable, Category = "Character")
+    FOnLevelChangedDelegate OnLevelChanged;
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
