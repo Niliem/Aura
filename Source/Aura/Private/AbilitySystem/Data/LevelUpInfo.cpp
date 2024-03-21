@@ -9,11 +9,23 @@ int ULevelUpInfo::FindLevelForXP(int32 XP) const
     if (LevelUpInformation.Last().LevelUpRequirement <= XP)
         return LevelUpInformation.Num();
 
-    for (int32 i = 0; i < LevelUpInformation.Num(); ++i)
+    int32 Left = 0;
+    int32 Right = LevelUpInformation.Num() - 1;
+    int32 Mid = 0;
+    while (Left <= Right)
     {
-        if (LevelUpInformation[i].LevelUpRequirement > XP)
+        Mid = Left + (Right - Left) / 2;
+        if (LevelUpInformation[Mid - 1].LevelUpRequirement <= XP && LevelUpInformation[Mid].LevelUpRequirement > XP)
         {
-            return i;
+            return Mid;
+        }
+        else if (LevelUpInformation[Mid].LevelUpRequirement > XP)
+        {
+            Right = Mid - 1;
+        }
+        else
+        {
+            Left = Mid + 1;
         }
     }
 
