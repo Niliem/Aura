@@ -10,6 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Interaction/CombatInterface.h"
 #include "Aura/AuraLogChannels.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
@@ -122,6 +123,11 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
                 DeathPayload.EventTag = AuraGameplayTags::GameplayEvent_Death;
                 DeathPayload.Target = Props.TargetCharacter;
                 DeathPayload.Instigator = Props.SourceCharacter;
+
+                if (DeathPayload.Target->Implements<UCombatInterface>())
+                {
+                    DeathPayload.EventMagnitude = ICombatInterface::Execute_GetXPReward(DeathPayload.Target);
+                }
 
                 FScopedPredictionWindow NewScopedWindow(Props.TargetAbilitySystemComponent, true);
                 Props.TargetAbilitySystemComponent->HandleGameplayEvent(DeathPayload.EventTag, &DeathPayload);
