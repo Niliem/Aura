@@ -32,9 +32,9 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
                 const ULevelUpInfo* LevelUpInfo = AuraPlayerState->LevelUpInfo;
                 checkf(LevelUpInfo, TEXT("Unabled to find LevelUpInfo. Please fill out AuraPlayerState Blueprint"));
 
-                const int32 Level = LevelUpInfo->FindLevelForXP(XP);
-                const int32 PrevLevelXP = LevelUpInfo->FindXPForLevel(Level - 1);
-                const int32 NextLevelXP = LevelUpInfo->FindXPForLevel(Level);
+                const int32 Level = LevelUpInfo->GetLevelForXP(XP);
+                const int32 PrevLevelXP = LevelUpInfo->GetXPForLevel(Level - 1);
+                const int32 NextLevelXP = LevelUpInfo->GetXPForLevel(Level);
 
                 if (PrevLevelXP == NextLevelXP)
                 {
@@ -44,6 +44,11 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
                 {
                     OnXPPercentChanged.Broadcast(static_cast<float>(XP - PrevLevelXP) / static_cast<float>(NextLevelXP - PrevLevelXP));
                 }
+            });
+        AuraPlayerState->OnLevelChangedDelegate.AddLambda(
+            [](int32 Level)
+            {
+                UE_LOG(LogAura, Warning, TEXT("New Level: %i"), Level);
             });
     }
 

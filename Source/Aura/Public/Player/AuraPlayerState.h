@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerState.h"
 #include "AbilitySystemInterface.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
+#include "GameplayTagContainer.h"
 #include "AuraPlayerState.generated.h"
 
 class UAbilitySystemComponent;
@@ -45,12 +46,17 @@ public:
     UPROPERTY(EditDefaultsOnly)
     TObjectPtr<ULevelUpInfo> LevelUpInfo;
 
+    UPROPERTY(EditDefaultsOnly)
+    FGameplayTag OnLevelUpEvent;
+
 protected:
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
     UPROPERTY(Transient)
     TObjectPtr<UAttributeSet> AttributeSet;
+
+    void TryLevelUp();
 
 private:
     UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_Level)

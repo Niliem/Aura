@@ -59,13 +59,30 @@ int32 AAuraPlayerState::GetXP() const
 void AAuraPlayerState::SetXP(int32 NewXP)
 {
     XP = NewXP;
+    TryLevelUp();
     OnXPChangedDelegate.Broadcast(XP);
 }
 
 void AAuraPlayerState::AddToXP(int32 ToXP)
 {
     XP += ToXP;
+    TryLevelUp();
     OnXPChangedDelegate.Broadcast(XP);
+}
+
+void AAuraPlayerState::TryLevelUp()
+{
+    int32 NewLevel = LevelUpInfo->GetLevelForXP(XP);
+    if (NewLevel > Level)
+    {
+        for (int i = Level + 1; i <= NewLevel; ++i)
+        {
+            LevelUpInfo->GetAttributePointRewardForLevel(i);
+            LevelUpInfo->GetSpellPointRewardForLevel(i);
+        }
+        SetLevel(NewLevel);
+        // send level up event
+    }
 }
 
 void AAuraPlayerState::OnRep_Level(int32 OldLevel)

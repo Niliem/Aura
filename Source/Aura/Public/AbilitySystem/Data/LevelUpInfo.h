@@ -30,8 +30,10 @@ class AURA_API ULevelUpInfo : public UDataAsset
     GENERATED_BODY()
 
 public:
-    int32 FindLevelForXP(int32 XP) const;
-    int32 FindXPForLevel(int32 Level) const;
+    int32 GetLevelForXP(int32 XP) const;
+    int32 GetXPForLevel(int32 Level) const;
+    int32 GetAttributePointRewardForLevel(int32 Level) const;
+    int32 GetSpellPointRewardForLevel(int32 Level) const;
 
 protected:
     UPROPERTY(EditDefaultsOnly)

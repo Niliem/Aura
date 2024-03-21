@@ -139,12 +139,15 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
             ShowFloatingDamageText(Props, LocalIncomingDamage, bIsBlockedHit, bIsCriticalHit);
         }
     }
-    if(Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+    if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
     {
         const float LocalIncomingXP = GetIncomingXP();
         SetIncomingXP(0.0f);
 
-        IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
+        if (Props.SourceCharacter->Implements<UPlayerInterface>())
+        {
+            IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
+        }
     }
 }
 
