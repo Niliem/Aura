@@ -35,7 +35,7 @@ public:
     FOnPlayerStatChangedDelegate OnXPChangedDelegate;
     FOnPlayerStatChangedDelegate OnLevelChangedDelegate;
 
-    int32 GetCharacterLevel() const;
+    int32 GetLevel() const;
     void SetLevel(int32 NewLevel);
     void AddToLevel(int32 ToLevel);
 

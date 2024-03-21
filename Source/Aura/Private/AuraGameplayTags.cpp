@@ -73,6 +73,7 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_FireBolt, "GameplayEvent.Montage.Ranged.FireBolt", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Death, "GameplayEvent.Death", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_IncomingXP, "GameplayEvent.IncomingXP", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_LevelUp, "GameplayEvent.LevelUp", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_Weapon, "Socket.Weapon", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_LeftHand, "Socket.LeftHand", "");

@@ -34,7 +34,7 @@ UAttributeSet* AAuraPlayerState::GetAttributeSet() const
     return AttributeSet;
 }
 
-int32 AAuraPlayerState::GetCharacterLevel() const
+int32 AAuraPlayerState::GetLevel() const
 {
     return Level;
 }
@@ -81,7 +81,18 @@ void AAuraPlayerState::TryLevelUp()
             LevelUpInfo->GetSpellPointRewardForLevel(i);
         }
         SetLevel(NewLevel);
-        // send level up event
+
+        FGameplayEventData LevelUpPayload;
+        LevelUpPayload.EventTag = OnLevelUpEvent;
+        if (GetOwningController())
+        {
+            LevelUpPayload.Target = GetOwningController()->GetPawn();
+            LevelUpPayload.Instigator = GetOwningController()->GetPawn();
+        }
+        LevelUpPayload.EventMagnitude = NewLevel;
+
+        FScopedPredictionWindow NewScopedWindow(GetAbilitySystemComponent(), true);
+        GetAbilitySystemComponent()->HandleGameplayEvent(LevelUpPayload.EventTag, &LevelUpPayload);
     }
 }
 
