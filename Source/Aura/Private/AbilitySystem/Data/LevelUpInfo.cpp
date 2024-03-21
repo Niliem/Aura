@@ -5,6 +5,10 @@
 int ULevelUpInfo::FindLevelForXP(int32 XP) const
 {
     XP = FMath::Min(0, XP);
+
+    if (LevelUpInformation.Last().LevelUpRequirement <= XP)
+        return LevelUpInformation.Num();
+
     for (int32 i = 0; i < LevelUpInformation.Num(); ++i)
     {
         if (LevelUpInformation[i].LevelUpRequirement > XP)
@@ -12,7 +16,8 @@ int ULevelUpInfo::FindLevelForXP(int32 XP) const
             return i;
         }
     }
-    return LevelUpInformation.Num();
+
+    return 1;
 }
 
 int32 ULevelUpInfo::FindXPForLevel(int32 Level) const
