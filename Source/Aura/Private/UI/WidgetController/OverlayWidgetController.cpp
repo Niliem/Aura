@@ -5,6 +5,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "Player/AuraPlayerState.h"
+#include "Aura/AuraLogChannels.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {

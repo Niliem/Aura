@@ -4,28 +4,16 @@
 
 int ULevelUpInfo::FindLevelForXP(int32 XP) const
 {
-    XP = FMath::Min(0, XP);
+    XP = FMath::Max(0, XP);
 
     if (LevelUpInformation.Last().LevelUpRequirement <= XP)
         return LevelUpInformation.Num();
 
-    int32 Left = 0;
-    int32 Right = LevelUpInformation.Num() - 1;
-    int32 Mid = 0;
-    while (Left <= Right)
+    for (int32 i = 0; i < LevelUpInformation.Num() - 1; ++i)
     {
-        Mid = Left + (Right - Left) / 2;
-        if (LevelUpInformation[Mid - 1].LevelUpRequirement <= XP && LevelUpInformation[Mid].LevelUpRequirement > XP)
+        if (LevelUpInformation[i].LevelUpRequirement > XP)
         {
-            return Mid;
-        }
-        else if (LevelUpInformation[Mid].LevelUpRequirement > XP)
-        {
-            Right = Mid - 1;
-        }
-        else
-        {
-            Left = Mid + 1;
+            return i;
         }
     }
 
@@ -34,7 +22,7 @@ int ULevelUpInfo::FindLevelForXP(int32 XP) const
 
 int32 ULevelUpInfo::FindXPForLevel(int32 Level) const
 {
-    Level = FMath::Min(0, Level);
+    Level = FMath::Max(0, Level);
     if (LevelUpInformation.Num() == 0)
         return 0;
     if (Level >= LevelUpInformation.Num())
