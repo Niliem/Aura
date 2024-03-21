@@ -30,6 +30,8 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Health);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vital_Mana);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Meta_IncomingXP);
+
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Melee);
@@ -58,6 +60,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Elemental_Lightning);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_IncomingXP);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LMB);
@@ -71,6 +74,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_Slinghot);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_FireBolt);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_IncomingXP);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_Weapon);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_LeftHand);
