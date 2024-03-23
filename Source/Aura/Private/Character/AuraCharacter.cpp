@@ -51,6 +51,13 @@ void AAuraCharacter::AddToXP_Implementation(int32 InXP)
     AuraPlayerState->AddToXP(InXP);
 }
 
+void AAuraCharacter::AddToAttributePoints_Implementation(int InAttributePoints)
+{
+    auto AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+    check(AuraPlayerState);
+    AuraPlayerState->AddToAttributePoints(InAttributePoints);
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
     auto AuraPlayerState = GetPlayerState<AAuraPlayerState>();

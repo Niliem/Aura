@@ -59,6 +59,11 @@ namespace AuraGameplayTags
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Damage, "SetByCaller.Damage", "SetByCaller tag used by damage gameplay effects.");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_IncomingXP, "SetByCaller.IncomingXP", "SetByCaller tag used by IncomingXP gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_AttributePoints, "SetByCaller.AttributePoints", "SetByCaller tag used by AttributePoints gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Strength, "SetByCaller.Strength", "SetByCaller tag used by Strength gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Intelligence, "SetByCaller.Intelligence", "SetByCaller tag used by Intelligence gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Resilience, "SetByCaller.Resilience", "SetByCaller tag used by Resilience gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Vigor, "SetByCaller.Vigor", "SetByCaller tag used by Vigor gameplay effects.");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag, "InputTag", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_LMB, "InputTag.LMB", "Input Tag for Left Mouse Button");
@@ -72,8 +77,14 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_Slinghot, "GameplayEvent.Montage.Ranged.Slinghot", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_FireBolt, "GameplayEvent.Montage.Ranged.FireBolt", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Death, "GameplayEvent.Death", "");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_IncomingXP, "GameplayEvent.IncomingXP", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_LevelUp, "GameplayEvent.LevelUp", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_IncomingXP, "GameplayEvent.IncomingXP", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_AttributePoints, "GameplayEvent.AttributePoints", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Strength, "GameplayEvent.Strength", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Intelligence, "GameplayEvent.Intelligence", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Resilience, "GameplayEvent.Resilience", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Vigor, "GameplayEvent.Vigor", "");
+
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_Weapon, "Socket.Weapon", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_LeftHand, "Socket.LeftHand", "");

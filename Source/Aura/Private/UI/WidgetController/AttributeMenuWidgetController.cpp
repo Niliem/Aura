@@ -42,6 +42,21 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
     }
 }
 
+void UAttributeMenuWidgetController::UpgradeAttribute(const FGameplayTag& AttributeEventTag)
+{
+    FGameplayEventData AttributePayload;
+    AttributePayload.EventTag = AttributeEventTag;
+    AttributePayload.EventMagnitude = 1.0f;
+    FScopedPredictionWindow AttributeWindow(AbilitySystemComponent, true);
+    AbilitySystemComponent->HandleGameplayEvent(AttributePayload.EventTag, &AttributePayload);
+
+    FGameplayEventData AttributePointsPayload;
+    AttributePointsPayload.EventTag = AuraGameplayTags::GameplayEvent_AttributePoints;
+    AttributePointsPayload.EventMagnitude = -1.0f;
+    FScopedPredictionWindow AttributePointsWindow(AbilitySystemComponent, true);
+    AbilitySystemComponent->HandleGameplayEvent(AttributePointsPayload.EventTag, &AttributePointsPayload);
+}
+
 void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& Tag) const
 {
     FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Tag);

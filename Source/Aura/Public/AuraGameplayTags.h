@@ -61,6 +61,11 @@ namespace AuraGameplayTags
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_IncomingXP);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_AttributePoints);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Strength);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Intelligence);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Resilience);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Vigor);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LMB);
@@ -74,8 +79,13 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_Slinghot);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_FireBolt);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_IncomingXP);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_LevelUp);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_IncomingXP);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_AttributePoints);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Strength);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Intelligence);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Resilience);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Vigor);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_Weapon);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Socket_LeftHand);

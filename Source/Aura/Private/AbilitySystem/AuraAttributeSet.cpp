@@ -149,6 +149,16 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
             IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
         }
     }
+    if (Data.EvaluatedData.Attribute == GetAttributePointsAttribute())
+    {
+        const float LocalAttributePoints = GetAttributePoints();
+        SetAttributePoints(0.0f);
+
+        if (Props.SourceCharacter->Implements<UPlayerInterface>())
+        {
+            IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, LocalAttributePoints);
+        }
+    }
 }
 
 void UAuraAttributeSet::ShowFloatingDamageText(const FEffectProperties& Props, float Damage, bool bIsBlockedHit, bool bIsCriticalHit) const

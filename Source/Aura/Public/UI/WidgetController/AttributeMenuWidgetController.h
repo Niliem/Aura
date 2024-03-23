@@ -7,6 +7,8 @@
 #include "AbilitySystem/Data/AttributeInfo.h"
 #include "AttributeMenuWidgetController.generated.h"
 
+struct FGameplayTag;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttributeInfoDelegate, const FAuraAttributeInfo&, Info);
 
 /**
@@ -26,6 +28,9 @@ public:
     
     UPROPERTY(BlueprintAssignable, Category = "Character")
     FOnStatChangedDelegate OnAttributePointsChanged;
+
+    UFUNCTION(BlueprintCallable)
+    void UpgradeAttribute(const FGameplayTag& AttributeEventTag);
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilitySystem|Attributes")
