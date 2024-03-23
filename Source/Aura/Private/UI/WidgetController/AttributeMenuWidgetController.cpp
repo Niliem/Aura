@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Player/AuraPlayerState.h"
 #include "AuraGameplayTags.h"
@@ -44,17 +45,10 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 
 void UAttributeMenuWidgetController::UpgradeAttribute(const FGameplayTag& AttributeEventTag)
 {
-    FGameplayEventData AttributePayload;
-    AttributePayload.EventTag = AttributeEventTag;
-    AttributePayload.EventMagnitude = 1.0f;
-    FScopedPredictionWindow AttributeWindow(AbilitySystemComponent, true);
-    AbilitySystemComponent->HandleGameplayEvent(AttributePayload.EventTag, &AttributePayload);
-
-    FGameplayEventData AttributePointsPayload;
-    AttributePointsPayload.EventTag = AuraGameplayTags::GameplayEvent_AttributePoints;
-    AttributePointsPayload.EventMagnitude = -1.0f;
-    FScopedPredictionWindow AttributePointsWindow(AbilitySystemComponent, true);
-    AbilitySystemComponent->HandleGameplayEvent(AttributePointsPayload.EventTag, &AttributePointsPayload);
+    if (auto AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        AuraASC->UpgradeAttribute(AttributeEventTag);
+    }
 }
 
 void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& Tag) const

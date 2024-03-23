@@ -39,9 +39,14 @@ public:
     FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const;
     FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const;
 
+    void UpgradeAttribute(const FGameplayTag& AttributeEventTag);
+
 protected:
     UFUNCTION(Server, Reliable)
     void ServerEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle);
+
+    UFUNCTION(Server, Reliable)
+    void ServerUpgradeAttribute(const FGameplayTag& AttributeEventTag);
 
     UFUNCTION(NetMulticast, Unreliable)
     void MulticastEffectApplied(FGameplayTagContainer EffectTags);

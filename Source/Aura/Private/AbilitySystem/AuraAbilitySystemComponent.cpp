@@ -7,7 +7,7 @@
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
-    //OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ServerEffectApplied);
+    // OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ServerEffectApplied);
 }
 
 void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
@@ -109,6 +109,11 @@ FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbi
     return FGameplayTag();
 }
 
+void UAuraAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeEventTag)
+{
+    ServerUpgradeAttribute(AttributeEventTag);
+}
+
 void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
 {
     Super::OnRep_ActivateAbilities();
@@ -137,6 +142,21 @@ void UAuraAbilitySystemComponent::ServerEffectApplied_Implementation(UAbilitySys
     EffectSpec.GetAllAssetTags(TagContainer);
 
     MulticastEffectApplied(TagContainer);
+}
+
+void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& AttributeEventTag)
+{
+    FGameplayEventData AttributePayload;
+    AttributePayload.EventTag = AttributeEventTag;
+    AttributePayload.EventMagnitude = 1.0f;
+    FScopedPredictionWindow AttributeWindow(this, true);
+    HandleGameplayEvent(AttributePayload.EventTag, &AttributePayload);
+
+    FGameplayEventData AttributePointsPayload;
+    AttributePointsPayload.EventTag = AuraGameplayTags::GameplayEvent_AttributePoints;
+    AttributePointsPayload.EventMagnitude = -1.0f;
+    FScopedPredictionWindow AttributePointsWindow(this, true);
+    HandleGameplayEvent(AttributePointsPayload.EventTag, &AttributePointsPayload);
 }
 
 void UAuraAbilitySystemComponent::MulticastEffectApplied_Implementation(FGameplayTagContainer EffectTags)
