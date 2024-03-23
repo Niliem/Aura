@@ -8,10 +8,14 @@
 void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
     check(AttributeInfo);
-
     for (auto& Info : AttributeInfo.Get()->AttributeInformation)
     {
         BroadcastAttributeInfo(Info.Tag);
+    }
+
+    if (auto AuraPlayerState = Cast<AAuraPlayerState>(PlayerState))
+    {
+        OnAttributePointsChanged.Broadcast(AuraPlayerState->GetAttributePoints());
     }
 }
 
@@ -27,7 +31,6 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
     }
 
     check(AttributeInfo);
-
     for (auto& Info : AttributeInfo.Get()->AttributeInformation)
     {
         AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Info.Attribute)
