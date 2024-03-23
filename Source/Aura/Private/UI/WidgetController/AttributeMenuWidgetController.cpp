@@ -2,6 +2,7 @@
 
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "Player/AuraPlayerState.h"
 #include "AuraGameplayTags.h"
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
@@ -16,6 +17,15 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
+    if (auto AuraPlayerState = Cast<AAuraPlayerState>(PlayerState))
+    {
+        AuraPlayerState->OnAttributePointsChangedDelegate.AddLambda(
+            [this](int32 NewValue)
+            {
+                OnAttributePointsChanged.Broadcast(NewValue);
+            });
+    }
+
     check(AttributeInfo);
 
     for (auto& Info : AttributeInfo.Get()->AttributeInformation)

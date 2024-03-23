@@ -23,6 +23,9 @@ public:
 
     UPROPERTY(BlueprintAssignable, Category = "AbilitySystem|Attributes")
     FAttributeInfoDelegate AttributeInfoDelegate;
+    
+    UPROPERTY(BlueprintAssignable, Category = "Character")
+    FOnStatChangedDelegate OnAttributePointsChanged;
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilitySystem|Attributes")
