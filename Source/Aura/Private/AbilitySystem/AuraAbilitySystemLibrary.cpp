@@ -98,6 +98,11 @@ bool UAuraAbilitySystemLibrary::IsOnSameTeam(const AActor* FirstActor, const AAc
     return bSameTeam;
 }
 
+int32 UAuraAbilitySystemLibrary::GetStencilValueFromEnum(const EStencilValue StencilValue)
+{
+    return static_cast<int32>(StencilValue);
+}
+
 TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResistances(const UObject* WorldContextObject)
 {
     const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));

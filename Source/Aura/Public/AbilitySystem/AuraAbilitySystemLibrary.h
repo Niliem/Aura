@@ -34,6 +34,9 @@ public:
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
     static bool IsOnSameTeam(const AActor* FirstActor, const AActor* SecondActor);
 
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
+    static int32 GetStencilValueFromEnum(const EStencilValue StencilValue);
+
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageTypes")
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);
 

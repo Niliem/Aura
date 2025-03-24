@@ -4,5 +4,19 @@
 
 #include "CoreMinimal.h"
 
-constexpr auto CUSTOM_DEPTH_RED = 250;
 constexpr auto ECC_Projectile = ECollisionChannel::ECC_GameTraceChannel1;
+
+// Stencil values
+     
+constexpr auto  STENCIL_RED = 250;
+constexpr auto  STENCIL_BLUE = 251;
+constexpr auto  STENCIL_TAN = 252;
+     
+UENUM(BlueprintType)
+enum class EStencilValue : uint8
+{
+    Default,
+    Red = STENCIL_RED,
+    Blue = STENCIL_BLUE,
+    Tan = STENCIL_TAN
+};

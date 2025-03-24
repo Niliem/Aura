@@ -18,9 +18,9 @@
 AAuraEnemy::AAuraEnemy()
 {
     GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
-    GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+    GetMesh()->SetCustomDepthStencilValue(UAuraAbilitySystemLibrary::GetStencilValueFromEnum(EStencilValue::Red));
 
-    Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+    Weapon->SetCustomDepthStencilValue(UAuraAbilitySystemLibrary::GetStencilValueFromEnum(EStencilValue::Red));
 
     AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
     AbilitySystemComponent->SetIsReplicated(true);

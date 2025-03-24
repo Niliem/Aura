@@ -15,7 +15,7 @@ void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySyste
     {
         const float AbilityLevel = (AbilitySet.bIsScalable) ? Level : AbilitySet.AbilityLevel;
         FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilitySet.Ability, AbilityLevel);
-        GameplayAbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
+        GameplayAbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilitySet.InputTag);
         if (AbilitySet.bActivateOnGranted)
         {
             AbilitySystemComponent->GiveAbilityAndActivateOnce(GameplayAbilitySpec);

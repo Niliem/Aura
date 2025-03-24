@@ -13,7 +13,7 @@ AAuraPlayerState::AAuraPlayerState()
 
     AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 
-    NetUpdateFrequency = 100.0f;
+    SetNetUpdateFrequency(100.0f);
 }
 
 void AAuraPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
