@@ -10,6 +10,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraGameplayEffectContext.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Engine/OverlapResult.h"
 
 UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
