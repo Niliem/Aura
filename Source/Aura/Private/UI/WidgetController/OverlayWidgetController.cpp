@@ -118,7 +118,7 @@ void UOverlayWidgetController::OnInitializedStartupAbilities()
         BroadcastDelegate.BindLambda(
             [this, AuraAbilitySystemComponent](const FGameplayAbilitySpec& AbilitySpec)
             {
-                FAuraAbilityInfo Info = AbilityInfo->FindAblityInfoForTag(AuraAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
+                FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AuraAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
                 Info.InputTag = AuraAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
                 if (const FGameplayTagContainer* Tags = AbilitySpec.Ability.Get()->GetCooldownTags())
                 {
