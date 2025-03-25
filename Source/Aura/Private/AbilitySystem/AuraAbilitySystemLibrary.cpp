@@ -12,22 +12,33 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Engine/OverlapResult.h"
 
-UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
+bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD)
 {
     if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
     {
-        if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(PlayerController->GetHUD()))
+        OutAuraHUD = Cast<AAuraHUD>(PlayerController->GetHUD());
+        if (OutAuraHUD)
         {
             if (AAuraPlayerState* PlayerState = PlayerController->GetPlayerState<AAuraPlayerState>())
             {
-                UAbilitySystemComponent* AbilitySystemComponent = PlayerState->GetAbilitySystemComponent();
-                UAttributeSet* AttributeSet = PlayerState->GetAttributeSet();
-
-                const FWidgetControllerParams WidgetControllerParams(PlayerController, PlayerState, AbilitySystemComponent, AttributeSet);
-
-                return AuraHUD->GetOverlayWidgetController(WidgetControllerParams);
+                OutWCParams.PlayerController = PlayerController;
+                OutWCParams.PlayerState = PlayerState;
+                OutWCParams.AbilitySystemComponent = PlayerState->GetAbilitySystemComponent();
+                OutWCParams.AttributeSet = PlayerState->GetAttributeSet();
+                return true;
             }
         }
+    }
+    return false;
+}
+
+UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
+{
+    FWidgetControllerParams WidgetControllerParams;
+    AAuraHUD* AuraHUD;
+    if (MakeWidgetControllerParams(WorldContextObject, WidgetControllerParams, AuraHUD))
+    {
+        return AuraHUD->GetOverlayWidgetController(WidgetControllerParams);
     }
 
     return nullptr;
@@ -35,20 +46,23 @@ UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(
 
 UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidgetController(const UObject* WorldContextObject)
 {
-    if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+    FWidgetControllerParams WidgetControllerParams;
+    AAuraHUD* AuraHUD;
+    if (MakeWidgetControllerParams(WorldContextObject, WidgetControllerParams, AuraHUD))
     {
-        if (AAuraHUD* AuraHUD = Cast<AAuraHUD>(PlayerController->GetHUD()))
-        {
-            if (AAuraPlayerState* PlayerState = PlayerController->GetPlayerState<AAuraPlayerState>())
-            {
-                UAbilitySystemComponent* AbilitySystemComponent = PlayerState->GetAbilitySystemComponent();
-                UAttributeSet* AttributeSet = PlayerState->GetAttributeSet();
+        return AuraHUD->GetAttributeMenuWidgetController(WidgetControllerParams);
+    }
 
-                const FWidgetControllerParams WidgetControllerParams(PlayerController, PlayerState, AbilitySystemComponent, AttributeSet);
+    return nullptr;
+}
 
-                return AuraHUD->GetAttributeMenuWidgetController(WidgetControllerParams);
-            }
-        }
+USpellMenuWidgetController* UAuraAbilitySystemLibrary::GetSpellMenuWidgetController(const UObject* WorldContextObject)
+{
+    FWidgetControllerParams WidgetControllerParams;
+    AAuraHUD* AuraHUD = nullptr;
+    if (MakeWidgetControllerParams(WorldContextObject, WidgetControllerParams, AuraHUD))
+    {
+        return AuraHUD->GetSpellMenuWidgetController(WidgetControllerParams);
     }
 
     return nullptr;
@@ -56,10 +70,9 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 
 AAuraGameModeBase* UAuraAbilitySystemLibrary::GetAuraGameMode(const UObject* WorldContextObject)
 {
-    const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if (!IsValid(AuraGameMode))
-        return nullptr;
-    return AuraGameMode;
+    if (const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
+        return AuraGameMode;
+    return nullptr;
 }
 
 TArray<AActor*> UAuraAbilitySystemLibrary::GetLiveActorsWithinRadius(const UObject* WorldContextObject, TSubclassOf<AActor> RequiredActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin)
@@ -106,11 +119,9 @@ int32 UAuraAbilitySystemLibrary::GetStencilValueFromEnum(const EStencilValue Ste
 
 TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResistances(const UObject* WorldContextObject)
 {
-    const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if (!IsValid(AuraGameMode))
-        return TMap<FGameplayTag, FGameplayTag>();
-
-    return AuraGameMode->DamageTypesToResistances;
+    if (const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
+        return AuraGameMode->DamageTypesToResistances;
+    return TMap<FGameplayTag, FGameplayTag>();
 }
 
 void UAuraAbilitySystemLibrary::ExecuteActivePeriodicEffectsWithTags(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTagContainer Tags)
