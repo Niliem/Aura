@@ -46,6 +46,9 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Physical_Melee, "Ability.Physical.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Physical_Shoot, "Ability.Physical.Shoot", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Fire_FireBolt, "Ability.Fire.FireBolt", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Fire_FireBlast, "Ability.Fire.FireBlast", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Lightning_Electrocute, "Ability.Lightning.Electrocute", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Arcane_ArcaneShards, "Ability.Arcane.ArcaneShards", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Arcane_Summon, "Ability.Arcane.Summon", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_HitReact, "Ability.HitReact", "");

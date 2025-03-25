@@ -10,6 +10,7 @@ class UOverlayWidgetController;
 class UAttributeMenuWidgetController;
 class USpellMenuWidgetController;
 class UAbilitySystemComponent;
+class UAbilityInfo;
 
 struct FWidgetControllerParams;
 
@@ -48,6 +49,9 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageTypes")
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|AbilityInfo")
+    static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static void ExecuteActivePeriodicEffectsWithTags(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTagContainer Tags);

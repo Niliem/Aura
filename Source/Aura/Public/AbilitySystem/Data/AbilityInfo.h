@@ -7,13 +7,21 @@
 #include "GameplayTagContainer.h"
 #include "AbilityInfo.generated.h"
 
+class UGameplayAbility;
+
 USTRUCT(BlueprintType)
 struct FAuraAbilityInfo
 {
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TSubclassOf<UGameplayAbility> Ability = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     FGameplayTag AbilityTag = FGameplayTag();
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    int32 RequirementLevel = 1;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<const UTexture2D> Icon = nullptr;

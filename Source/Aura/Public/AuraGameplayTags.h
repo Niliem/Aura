@@ -48,6 +48,9 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Physical_Melee);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Physical_Shoot);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Fire_FireBolt);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Fire_FireBlast);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Lightning_Electrocute);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Arcane_ArcaneShards);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Arcane_Summon);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_HitReact);
