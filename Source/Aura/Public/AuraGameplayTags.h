@@ -34,6 +34,17 @@ namespace AuraGameplayTags
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Status);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Status_Locked);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Status_Eligible);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Status_Unlocked);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Status_Equipped);
+
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Type);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Type_None);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Type_Active);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Type_Passive);
+
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Melee);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Ranged_Fire_FireBolt);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Active_Summon);

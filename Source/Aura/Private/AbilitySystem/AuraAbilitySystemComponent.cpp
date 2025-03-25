@@ -40,7 +40,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& In
     {
         if (AbilitySpec.Ability && AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
         {
-            AbilitySpecInputReleased(AbilitySpec);            
+            AbilitySpecInputReleased(AbilitySpec);
             if (AbilitySpec.IsActive())
             {
                 for (const UGameplayAbility* AbilityInstance : AbilitySpec.GetAbilityInstances())
@@ -91,13 +91,31 @@ void UAuraAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate
     }
 }
 
-FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const
+FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
     if (AbilitySpec.Ability)
     {
         for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
         {
-            if (Tag.MatchesTag(AuraGameplayTags::Ability))
+            if (!Tag.MatchesTag(AuraGameplayTags::Ability_Status) && !Tag.MatchesTag(AuraGameplayTags::Ability_Type))
+            {
+                if (Tag.MatchesTag(AuraGameplayTags::Ability))
+                {
+                    return Tag;
+                }
+            }
+        }
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemComponent::GetAbilityStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    if (AbilitySpec.Ability)
+    {
+        for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
+        {
+            if (Tag.MatchesTag(AuraGameplayTags::Ability_Status))
             {
                 return Tag;
             }
@@ -106,7 +124,22 @@ FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayA
     return FGameplayTag();
 }
 
-FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const
+FGameplayTag UAuraAbilitySystemComponent::GetAbilityTypeFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    if (AbilitySpec.Ability)
+    {
+        for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
+        {
+            if (Tag.MatchesTag(AuraGameplayTags::Ability_Type))
+            {
+                return Tag;
+            }
+        }
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
     for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
     {

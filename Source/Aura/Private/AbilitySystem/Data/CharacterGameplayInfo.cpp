@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "AbilitySystem/Data/CharacterGameplayInfo.h"
+
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
 void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent, float Level) const
@@ -16,6 +18,11 @@ void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySyste
         const float AbilityLevel = (AbilitySet.bIsScalable) ? Level : AbilitySet.AbilityLevel;
         FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilitySet.Ability, AbilityLevel);
         GameplayAbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilitySet.InputTag);
+        if (AbilitySet.InputTag.IsValid())
+        {
+            GameplayAbilitySpec.GetDynamicSpecSourceTags().AddTag(AuraGameplayTags::Ability_Status_Equipped);
+        }
+
         if (AbilitySet.bActivateOnGranted)
         {
             AbilitySystemComponent->GiveAbilityAndActivateOnce(GameplayAbilitySpec);

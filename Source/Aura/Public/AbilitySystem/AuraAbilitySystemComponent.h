@@ -36,8 +36,10 @@ public:
 
     void ForEachAbility(const FForEachAbility& Delegate);
 
-    FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const;
-    FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec) const;
+    static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+    static FGameplayTag GetAbilityStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+    static FGameplayTag GetAbilityTypeFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+    static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 
     void UpgradeAttribute(const FGameplayTag& AttributeEventTag);
 

@@ -32,6 +32,17 @@ namespace AuraGameplayTags
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability, "Ability", "");
 
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Status, "Ability.Status", "Base for ability statuses");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Status_Locked, "Ability.Status.Locked", "Locked status for ability");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Status_Eligible, "Ability.Status.Eligible", "Eligible status for ability");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Status_Unlocked, "Ability.Status.Unlocked", "Unlocked status for ability");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Status_Equipped, "Ability.Status.Equipped", "Equipped status for ability");
+
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Type, "Ability.Type", "Base for ability types");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Type_None, "Ability.Type.None", "None type for ability");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Type_Active, "Ability.Type.Active", "Active type for ability");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Type_Passive, "Ability.Type.Passive", "Passive type for ability");
+
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Melee, "Ability.Active.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Ranged_Fire_FireBolt, "Ability.Active.Ranged.Fire.FireBolt", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Summon, "Ability.Active.Summon", "");
