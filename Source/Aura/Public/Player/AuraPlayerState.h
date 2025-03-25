@@ -69,6 +69,8 @@ protected:
     void TryLevelUp();
 
 private:
+    void UpdateAbilityStatuses() const;
+
     UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_Level)
     int32 Level = 1;
 

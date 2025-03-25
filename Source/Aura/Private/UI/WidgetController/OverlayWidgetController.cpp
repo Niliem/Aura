@@ -51,8 +51,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
         GetAuraAbilitySystemComponent()->OnAbilitiesGiven.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);
     }
 
-    GetAuraAbilitySystemComponent()->EffectAssetTags.AddLambda(
-        [this](const FGameplayTagContainer& AssetTags)
+    GetAuraAbilitySystemComponent()->EffectAssetTags.AddLambda([this](const FGameplayTagContainer& AssetTags)
         {
             for (auto& Tag : AssetTags)
             {

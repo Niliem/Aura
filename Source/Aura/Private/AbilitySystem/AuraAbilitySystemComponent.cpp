@@ -9,7 +9,7 @@
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
-    // OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ServerEffectApplied);
+    OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ServerEffectApplied);
 }
 
 void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
@@ -216,9 +216,16 @@ void UAuraAbilitySystemComponent::UpdateAbilityStatuses(const int32 Level)
                 AbilitySpec.GetDynamicSpecSourceTags().AddTag(AuraGameplayTags::Ability_Status_Eligible);
                 GiveAbility(AbilitySpec);
                 MarkAbilitySpecDirty(AbilitySpec);
+
+                ClientUpdateAbilityStatus(Info.AbilityTag, AuraGameplayTags::Ability_Status_Eligible);
             }
         }
     }
+}
+
+void UAuraAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+{
+    OnAbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
 }
 
 void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
@@ -248,7 +255,7 @@ void UAuraAbilitySystemComponent::ServerEffectApplied_Implementation(UAbilitySys
     FGameplayTagContainer TagContainer;
     EffectSpec.GetAllAssetTags(TagContainer);
 
-    MulticastEffectApplied(TagContainer);
+    ClientEffectApplied(TagContainer);
 }
 
 void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& AttributeEventTag)
@@ -266,7 +273,7 @@ void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FG
     HandleGameplayEvent(AttributePointsPayload.EventTag, &AttributePointsPayload);
 }
 
-void UAuraAbilitySystemComponent::MulticastEffectApplied_Implementation(FGameplayTagContainer EffectTags)
+void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(FGameplayTagContainer EffectTags)
 {
     EffectAssetTags.Broadcast(EffectTags);
 }

@@ -10,6 +10,7 @@
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsDelegate, const FGameplayTagContainer&);
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGivenDelegate);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag&);
 
 /**
  *
@@ -31,6 +32,7 @@ public:
 
     FEffectAssetTagsDelegate EffectAssetTags;
     FAbilitiesGivenDelegate OnAbilitiesGiven;
+    FAbilityStatusChanged OnAbilityStatusChanged;
 
     bool bStartupAbilitiesGiven = false;
 
@@ -53,8 +55,11 @@ protected:
     UFUNCTION(Server, Reliable)
     void ServerUpgradeAttribute(const FGameplayTag& AttributeEventTag);
 
-    UFUNCTION(NetMulticast, Unreliable)
-    void MulticastEffectApplied(FGameplayTagContainer EffectTags);
+    UFUNCTION(Client, Reliable)
+    void ClientEffectApplied(FGameplayTagContainer EffectTags);
+
+    UFUNCTION(Client, Reliable)
+    void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag);
 
     virtual void OnRep_ActivateAbilities() override;
 

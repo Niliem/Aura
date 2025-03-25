@@ -41,15 +41,25 @@ int32 AAuraPlayerState::GetLevel() const
     return Level;
 }
 
+void AAuraPlayerState::UpdateAbilityStatuses() const
+{
+    if (auto AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent()))
+    {
+        AuraAbilitySystemComponent->UpdateAbilityStatuses(Level);
+    }
+}
+
 void AAuraPlayerState::SetLevel(int32 NewLevel)
 {
     Level = NewLevel;
+    UpdateAbilityStatuses();
     OnLevelChangedDelegate.Broadcast(Level);
 }
 
 void AAuraPlayerState::AddToLevel(int32 ToLevel)
 {
     Level += ToLevel;
+    UpdateAbilityStatuses();
     OnLevelChangedDelegate.Broadcast(Level);
 }
 
@@ -134,6 +144,7 @@ void AAuraPlayerState::TryLevelUp()
 
 void AAuraPlayerState::OnRep_Level(int32 OldLevel)
 {
+    UpdateAbilityStatuses();
     OnLevelChangedDelegate.Broadcast(Level);
 }
 
