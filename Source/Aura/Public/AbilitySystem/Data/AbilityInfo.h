@@ -22,6 +22,12 @@ struct FAuraAbilityInfo
     TObjectPtr<const UMaterialInterface> BackgroundMaterial = nullptr;
 
     UPROPERTY(BlueprintReadOnly)
+    FGameplayTag StatusTag = FGameplayTag();
+
+    UPROPERTY(BlueprintReadOnly)
+    FGameplayTag TypeTag = FGameplayTag();
+
+    UPROPERTY(BlueprintReadOnly)
     FGameplayTag InputTag = FGameplayTag();
 
     UPROPERTY(BlueprintReadOnly)

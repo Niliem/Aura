@@ -43,9 +43,10 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Type_Active, "Ability.Type.Active", "Active type for ability");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Type_Passive, "Ability.Type.Passive", "Passive type for ability");
 
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Melee, "Ability.Active.Melee", "");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Ranged_Fire_FireBolt, "Ability.Active.Ranged.Fire.FireBolt", "");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Active_Summon, "Ability.Active.Summon", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Physical_Melee, "Ability.Physical.Melee", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Physical_Shoot, "Ability.Physical.Shoot", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Fire_FireBolt, "Ability.Fire.FireBolt", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Arcane_Summon, "Ability.Arcane.Summon", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_HitReact, "Ability.HitReact", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Passive_Negative_Physical_Bleed, "Ability.Passive.Negative.Physical.Bleed", "");

@@ -37,6 +37,8 @@ void UAuraWidgetController::BroadcastAbilityInfo()
                 return;
 
             FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+            Info.StatusTag = GetAuraAbilitySystemComponent()->GetAbilityStatusFromSpec(AbilitySpec);
+            Info.TypeTag = GetAuraAbilitySystemComponent()->GetAbilityTypeFromSpec(AbilitySpec);
             Info.InputTag = GetAuraAbilitySystemComponent()->GetInputTagFromSpec(AbilitySpec);
             if (const FGameplayTagContainer* Tags = AbilitySpec.Ability.Get()->GetCooldownTags())
             {

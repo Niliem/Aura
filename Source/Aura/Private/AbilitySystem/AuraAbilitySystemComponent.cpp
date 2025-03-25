@@ -111,6 +111,13 @@ FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayA
 
 FGameplayTag UAuraAbilitySystemComponent::GetAbilityStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
+    for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
+    {
+        if (Tag.MatchesTag(AuraGameplayTags::Ability_Status))
+        {
+            return Tag;
+        }
+    }
     if (AbilitySpec.Ability)
     {
         for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
@@ -126,6 +133,13 @@ FGameplayTag UAuraAbilitySystemComponent::GetAbilityStatusFromSpec(const FGamepl
 
 FGameplayTag UAuraAbilitySystemComponent::GetAbilityTypeFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
+    for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
+    {
+        if (Tag.MatchesTag(AuraGameplayTags::Ability_Type))
+        {
+            return Tag;
+        }
+    }
     if (AbilitySpec.Ability)
     {
         for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
@@ -146,6 +160,16 @@ FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbi
         if (Tag.MatchesTag(AuraGameplayTags::InputTag))
         {
             return Tag;
+        }
+    }
+    if (AbilitySpec.Ability)
+    {
+        for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
+        {
+            if (Tag.MatchesTag(AuraGameplayTags::InputTag))
+            {
+                return Tag;
+            }
         }
     }
     return FGameplayTag();
