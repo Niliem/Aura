@@ -5,6 +5,10 @@ UpgradeLog.htm
 
 # Rider user specific files
 .idea/
+*.DotSettings.user
+
+# Ignore RiderLink Plugin since it's automatically reinstalled by JetBrains Rider.
+Plugins/Developer/RiderLink/
 
 # Compiled Object files
 *.slo

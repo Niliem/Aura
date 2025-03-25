@@ -6,28 +6,22 @@
 
 void UEnemyWidgetController::BroadcastInitialValues()
 {
-    if (auto AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet))
-    {
-        OnHealthChanged.Broadcast(AuraAttributeSet->GetHealth());
-        OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
-    }
+    OnHealthChanged.Broadcast(GetAuraAttributeSet()->GetHealth());
+    OnMaxHealthChanged.Broadcast(GetAuraAttributeSet()->GetMaxHealth());
 }
 
 void UEnemyWidgetController::BindCallbacksToDependencies()
 {
-    if (auto AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet))
-    {
-        AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetHealthAttribute())
+    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAttributeSet()->GetHealthAttribute())
             .AddLambda(
                 [this](const FOnAttributeChangeData& Data)
                 {
                     OnHealthChanged.Broadcast(Data.NewValue);
                 });
-        AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributeSet->GetMaxHealthAttribute())
-            .AddLambda(
-                [this](const FOnAttributeChangeData& Data)
-                {
-                    OnMaxHealthChanged.Broadcast(Data.NewValue);
-                });
-    }
+    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAttributeSet()->GetMaxHealthAttribute())
+        .AddLambda(
+            [this](const FOnAttributeChangeData& Data)
+            {
+                OnMaxHealthChanged.Broadcast(Data.NewValue);
+            });
 }
