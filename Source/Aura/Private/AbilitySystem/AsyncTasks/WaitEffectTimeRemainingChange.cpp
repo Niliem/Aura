@@ -52,7 +52,7 @@ void UWaitEffectTimeRemainingChange::EffectTagChanged(const FGameplayTag EffectT
         if (IsValid(AbilitySystemComponent))
         {
             AbilitySystemComponent->GetWorld()->GetTimerManager().ClearTimer(UpdateTimeRemainingTimer);
-            End.Broadcast(0.0f);            
+            End.Broadcast(0.0f);
         }
     }
 }
@@ -67,12 +67,12 @@ float UWaitEffectTimeRemainingChange::GetEffectTimeRemaining(const FGameplayTag&
     {
         TimesRemaining = AbilitySystemComponent->GetActiveEffectsTimeRemaining(FGameplayEffectQuery::MakeQuery_MatchAnyOwningTags(InEffectTag.GetSingleTagContainer()));
     }
-    float MaxTimeRemaning = 0.0f;
-    for (const auto TimeRemaning : TimesRemaining)
+    float MaxTimeRemaining = 0.0f;
+    for (const auto TimeRemaining : TimesRemaining)
     {
-        if (TimeRemaning > MaxTimeRemaning)
-            MaxTimeRemaning = TimeRemaning;
+        if (TimeRemaining > MaxTimeRemaining)
+            MaxTimeRemaining = TimeRemaining;
     }
 
-    return MaxTimeRemaning;
+    return MaxTimeRemaining;
 }

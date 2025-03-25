@@ -74,9 +74,11 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_2);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_3);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_4);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Passive_1);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Passive_2);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Melee);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_Slinghot);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_Slingshot);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_FireBolt);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_LevelUp);

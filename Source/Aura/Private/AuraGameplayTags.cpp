@@ -72,9 +72,11 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_2, "InputTag.2", "Input Tag for 2 key");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_3, "InputTag.3", "Input Tag for 3 key");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_4, "InputTag.4", "Input Tag for 4 key");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Passive_1, "InputTag.Passive.1", "Input Tag for Passive 1");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Passive_2, "InputTag.Passive.2", "Input Tag for Passive 2");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Melee, "GameplayEvent.Montage.Melee", "");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_Slinghot, "GameplayEvent.Montage.Ranged.Slinghot", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_Slingshot, "GameplayEvent.Montage.Ranged.Slingshot", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_FireBolt, "GameplayEvent.Montage.Ranged.FireBolt", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Death, "GameplayEvent.Death", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_LevelUp, "GameplayEvent.LevelUp", "");
@@ -84,7 +86,6 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Intelligence, "GameplayEvent.Intelligence", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Resilience, "GameplayEvent.Resilience", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Vigor, "GameplayEvent.Vigor", "");
-
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_Weapon, "Socket.Weapon", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Socket_LeftHand, "Socket.LeftHand", "");
