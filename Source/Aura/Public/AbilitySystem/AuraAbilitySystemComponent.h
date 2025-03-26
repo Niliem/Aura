@@ -50,13 +50,10 @@ public:
     void UpdateAbilityStatuses(const int32 Level = 1);
 protected:
     UFUNCTION(Server, Reliable)
-    void ServerEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle);
-
-    UFUNCTION(Server, Reliable)
     void ServerUpgradeAttribute(const FGameplayTag& AttributeEventTag);
 
     UFUNCTION(Client, Reliable)
-    void ClientEffectApplied(FGameplayTagContainer EffectTags);
+    void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle);
 
     UFUNCTION(Client, Reliable)
     void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag);

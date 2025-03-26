@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "SpellMenuWidgetController.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSelectAbility, bool, bCanSpenPoint, bool, bCanEquip);
 
 /**
  *
@@ -18,7 +21,19 @@ public:
     virtual void BroadcastInitialValues() override;
     virtual void BindCallbacksToDependencies() override;
 
+    UFUNCTION(BlueprintCallable, Category= "Spell Menu")
+    void SelectAbility(const FGameplayTag& AbilityTag);
+
     UPROPERTY(BlueprintAssignable, Category = "Character")
     FOnStatChangedDelegate OnSpellPointsChanged;
 
+    UPROPERTY(BlueprintAssignable, Category = "Character")
+    FOnSelectAbility OnSelectAbility;
+
+private:
+    FGameplayTag SelectedAbilityTag;
+
+    void ProcessAbilitySelection(const FGameplayTag& StatusTag, const int32 SpellPoints) const;
+
+    FGameplayTag GetSelectedAbilityStatusTag();
 };

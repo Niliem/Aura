@@ -9,7 +9,7 @@
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
-    OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ServerEffectApplied);
+    OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UAuraAbilitySystemComponent::ClientEffectApplied);
 }
 
 void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
@@ -250,14 +250,6 @@ void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffect(const FActiveGamep
     }
 }
 
-void UAuraAbilitySystemComponent::ServerEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle)
-{
-    FGameplayTagContainer TagContainer;
-    EffectSpec.GetAllAssetTags(TagContainer);
-
-    ClientEffectApplied(TagContainer);
-}
-
 void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& AttributeEventTag)
 {
     FGameplayEventData AttributePayload;
@@ -273,7 +265,9 @@ void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FG
     HandleGameplayEvent(AttributePointsPayload.EventTag, &AttributePointsPayload);
 }
 
-void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(FGameplayTagContainer EffectTags)
+void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle)
 {
-    EffectAssetTags.Broadcast(EffectTags);
+    FGameplayTagContainer TagContainer;
+    EffectSpec.GetAllAssetTags(TagContainer);
+    EffectAssetTags.Broadcast(TagContainer);
 }
