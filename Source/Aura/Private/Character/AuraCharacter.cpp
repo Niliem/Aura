@@ -58,6 +58,13 @@ void AAuraCharacter::AddToAttributePoints_Implementation(int InAttributePoints)
     AuraPlayerState->AddToAttributePoints(InAttributePoints);
 }
 
+void AAuraCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
+{
+    auto AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+    check(AuraPlayerState);
+    AuraPlayerState->AddToSpellPoints(InSpellPoints);
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
     auto AuraPlayerState = GetPlayerState<AAuraPlayerState>();

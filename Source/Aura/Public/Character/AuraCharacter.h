@@ -27,6 +27,7 @@ public:
     // Inherited via IPlayerInterface
     virtual void AddToXP_Implementation(int32 InXP) override;
     virtual void AddToAttributePoints_Implementation(int InAttributePoints) override;
+    virtual void AddToSpellPoints_Implementation(int32 InSpellPoints) override;
 
 private:
     virtual void InitAbilityActorInfo() override;

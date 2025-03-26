@@ -75,6 +75,7 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Damage, "SetByCaller.Damage", "SetByCaller tag used by damage gameplay effects.");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_IncomingXP, "SetByCaller.IncomingXP", "SetByCaller tag used by IncomingXP gameplay effects.");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_AttributePoints, "SetByCaller.AttributePoints", "SetByCaller tag used by AttributePoints gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_SpellPoints, "SetByCaller.SpellPoints", "SetByCaller tag used by SpellPoints gameplay effects.");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Strength, "SetByCaller.Strength", "SetByCaller tag used by Strength gameplay effects.");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Intelligence, "SetByCaller.Intelligence", "SetByCaller tag used by Intelligence gameplay effects.");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Resilience, "SetByCaller.Resilience", "SetByCaller tag used by Resilience gameplay effects.");
@@ -97,6 +98,7 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_LevelUp, "GameplayEvent.LevelUp", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_IncomingXP, "GameplayEvent.IncomingXP", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_AttributePoints, "GameplayEvent.AttributePoints", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_SpellPoints, "GameplayEvent.SpellPoints", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Strength, "GameplayEvent.Strength", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Intelligence, "GameplayEvent.Intelligence", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Resilience, "GameplayEvent.Resilience", "");

@@ -27,4 +27,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent)
     void AddToAttributePoints(int32 InAttributePoints);
+
+    UFUNCTION(BlueprintNativeEvent)
+    void AddToSpellPoints(int32 InSpellPoints);
 };

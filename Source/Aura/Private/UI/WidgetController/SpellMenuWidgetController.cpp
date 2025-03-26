@@ -26,7 +26,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
         });
 
     GetAuraAbilitySystemComponent()->OnAbilityStatusChanged.AddLambda(
-        [this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+        [this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 Level)
         {
             if (AbilityInfo)
             {
@@ -49,7 +49,12 @@ void USpellMenuWidgetController::SelectAbility(const FGameplayTag& AbilityTag)
     ProcessAbilitySelection(GetSelectedAbilityStatusTag(), GetAuraPlayerState()->GetSpellPoints());
 }
 
-void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& StatusTag, const int32 SpellPoints) const
+void USpellMenuWidgetController::SpendSpellPoint()
+{
+    GetAuraAbilitySystemComponent()->SpendSpellPoint(SelectedAbilityTag);
+}
+
+void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints) const
 {
     bool bCanEquipAbility = false;
     bool bCanSpendPoints = false;
@@ -61,9 +66,12 @@ void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& Sta
             bCanEquipAbility = true;
         }
 
+        // TODO::
+        bool bUpgradable = (StatusTag.MatchesTagExact(AuraGameplayTags::Ability_Status_Equipped) || StatusTag.MatchesTagExact(AuraGameplayTags::Ability_Status_Unlocked));
+
         if (SpellPoints > 0)
         {
-            if (StatusTag.MatchesTagExact(AuraGameplayTags::Ability_Status_Eligible))
+            if (StatusTag.MatchesTagExact(AuraGameplayTags::Ability_Status_Eligible) || bUpgradable)
             {
                 bCanSpendPoints = true;
             }

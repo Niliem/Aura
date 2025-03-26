@@ -24,16 +24,19 @@ public:
     UFUNCTION(BlueprintCallable, Category= "Spell Menu")
     void SelectAbility(const FGameplayTag& AbilityTag);
 
-    UPROPERTY(BlueprintAssignable, Category = "Character")
+    UFUNCTION(BlueprintCallable, Category= "Spell Menu")
+    void SpendSpellPoint();
+
+    UPROPERTY(BlueprintAssignable, Category = "Spell Menu")
     FOnStatChangedDelegate OnSpellPointsChanged;
 
-    UPROPERTY(BlueprintAssignable, Category = "Character")
+    UPROPERTY(BlueprintAssignable, Category = "Spell Menu")
     FOnSelectAbility OnSelectAbility;
 
 private:
     FGameplayTag SelectedAbilityTag;
 
-    void ProcessAbilitySelection(const FGameplayTag& StatusTag, const int32 SpellPoints) const;
+    void ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints) const;
 
     FGameplayTag GetSelectedAbilityStatusTag();
 };

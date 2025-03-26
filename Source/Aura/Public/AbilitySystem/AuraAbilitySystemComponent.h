@@ -10,7 +10,7 @@
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsDelegate, const FGameplayTagContainer&);
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGivenDelegate);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag&);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag&, int32);
 
 /**
  *
@@ -47,19 +47,25 @@ public:
 
     void UpgradeAttribute(const FGameplayTag& AttributeEventTag);
 
+    void SpendSpellPoint(const FGameplayTag& AbilityTag);
+
     void UpdateAbilityStatuses(const int32 Level = 1);
 protected:
     UFUNCTION(Server, Reliable)
     void ServerUpgradeAttribute(const FGameplayTag& AttributeEventTag);
 
+    UFUNCTION(Server, Reliable)
+    void ServerSpendSpellPoint(const FGameplayTag& AbilityTag);
+
     UFUNCTION(Client, Reliable)
     void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle);
 
     UFUNCTION(Client, Reliable)
-    void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag);
+    void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 Level);
 
     virtual void OnRep_ActivateAbilities() override;
 
 private:
     void ExecuteActivePeriodicEffect(const FActiveGameplayEffectHandle Handle);
 };
+

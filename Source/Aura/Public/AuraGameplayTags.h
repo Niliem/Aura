@@ -77,6 +77,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_IncomingXP);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_AttributePoints);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_SpellPoints);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Strength);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Intelligence);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Resilience);
@@ -99,6 +100,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_LevelUp);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_IncomingXP);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_AttributePoints);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_SpellPoints);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Strength);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Intelligence);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Resilience);

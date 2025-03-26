@@ -199,6 +199,14 @@ void UAuraAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& Attribute
     ServerUpgradeAttribute(AttributeEventTag);
 }
 
+void UAuraAbilitySystemComponent::SpendSpellPoint(const FGameplayTag& AbilityTag)
+{
+    if (AbilityTag.IsValid())
+    {
+        ServerSpendSpellPoint(AbilityTag);
+    }
+}
+
 void UAuraAbilitySystemComponent::UpdateAbilityStatuses(const int32 Level)
 {
     if (const auto AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor()))
@@ -217,15 +225,10 @@ void UAuraAbilitySystemComponent::UpdateAbilityStatuses(const int32 Level)
                 GiveAbility(AbilitySpec);
                 MarkAbilitySpecDirty(AbilitySpec);
 
-                ClientUpdateAbilityStatus(Info.AbilityTag, AuraGameplayTags::Ability_Status_Eligible);
+                ClientUpdateAbilityStatus(Info.AbilityTag, AuraGameplayTags::Ability_Status_Eligible, 1);
             }
         }
     }
-}
-
-void UAuraAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
-{
-    OnAbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
 }
 
 void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
@@ -263,6 +266,40 @@ void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FG
     AttributePointsPayload.EventMagnitude = -1.0f;
     FScopedPredictionWindow AttributePointsWindow(this, true);
     HandleGameplayEvent(AttributePointsPayload.EventTag, &AttributePointsPayload);
+}
+
+void UAuraAbilitySystemComponent::ServerSpendSpellPoint_Implementation(const FGameplayTag& AbilityTag)
+{
+    if (FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+    {
+        FGameplayEventData SpellPointsPayload;
+        SpellPointsPayload.EventTag = AuraGameplayTags::GameplayEvent_SpellPoints;
+        SpellPointsPayload.EventMagnitude = -1.0f;
+        FScopedPredictionWindow SpellPointsWindow(this, true);
+        HandleGameplayEvent(SpellPointsPayload.EventTag, &SpellPointsPayload);
+
+        FGameplayTag Status = GetAbilityStatusFromSpec(*AbilitySpec);
+        if (Status.MatchesTagExact(AuraGameplayTags::Ability_Status_Eligible))
+        {
+            AbilitySpec->GetDynamicSpecSourceTags().RemoveTag(AuraGameplayTags::Ability_Status_Eligible);
+            AbilitySpec->GetDynamicSpecSourceTags().AddTag(AuraGameplayTags::Ability_Status_Unlocked);
+
+            Status = AuraGameplayTags::Ability_Status_Unlocked;
+        }
+        else if (Status.MatchesTagExact(AuraGameplayTags::Ability_Status_Equipped) || Status.MatchesTagExact(AuraGameplayTags::Ability_Status_Unlocked))
+        {
+            AbilitySpec->Level++;
+        }
+
+        ClientUpdateAbilityStatus(AbilityTag, Status, 1);
+
+        MarkAbilitySpecDirty(*AbilitySpec);
+    }
+}
+
+void UAuraAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 Level)
+{
+    OnAbilityStatusChanged.Broadcast(AbilityTag, StatusTag, Level);
 }
 
 void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle)

@@ -167,6 +167,10 @@ public:
     FGameplayAttributeData AttributePoints;
     ATTRIBUTE_ACCESSORS(UAuraAttributeSet, AttributePoints);
 
+    UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+    FGameplayAttributeData SpellPoints;
+    ATTRIBUTE_ACCESSORS(UAuraAttributeSet, SpellPoints);
+
 protected:
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
