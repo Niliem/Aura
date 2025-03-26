@@ -19,20 +19,19 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
     GetAuraPlayerState()->OnAttributePointsChangedDelegate.AddLambda(
-            [this](int32 NewValue)
-            {
-                OnAttributePointsChanged.Broadcast(NewValue);
-            });
+        [this](int32 NewValue)
+        {
+            OnAttributePointsChanged.Broadcast(NewValue);
+        });
 
     check(AttributeInfo);
     for (auto& Info : AttributeInfo.Get()->AttributeInformation)
     {
-        AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Info.Attribute)
-            .AddLambda(
-                [this, Info](const FOnAttributeChangeData& Data)
-                {
-                    BroadcastAttributeInfo(Info.Tag);
-                });
+        AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Info.Attribute).AddLambda(
+            [this, Info](const FOnAttributeChangeData& Data)
+            {
+                BroadcastAttributeInfo(Info.Tag);
+            });
     }
 }
 

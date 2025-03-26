@@ -12,16 +12,14 @@ void UEnemyWidgetController::BroadcastInitialValues()
 
 void UEnemyWidgetController::BindCallbacksToDependencies()
 {
-    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAttributeSet()->GetHealthAttribute())
-            .AddLambda(
-                [this](const FOnAttributeChangeData& Data)
-                {
-                    OnHealthChanged.Broadcast(Data.NewValue);
-                });
-    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAttributeSet()->GetMaxHealthAttribute())
-        .AddLambda(
-            [this](const FOnAttributeChangeData& Data)
-            {
-                OnMaxHealthChanged.Broadcast(Data.NewValue);
-            });
+    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAttributeSet()->GetHealthAttribute()).AddLambda(
+        [this](const FOnAttributeChangeData& Data)
+        {
+            OnHealthChanged.Broadcast(Data.NewValue);
+        });
+    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAttributeSet()->GetMaxHealthAttribute()).AddLambda(
+        [this](const FOnAttributeChangeData& Data)
+        {
+            OnMaxHealthChanged.Broadcast(Data.NewValue);
+        });
 }
