@@ -45,6 +45,10 @@ public:
 
     FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
 
+    void AssignAbilityToInputTag(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag);
+    void AssignAbilityToInputTag(FGameplayAbilitySpec& AbilitySpec, const FGameplayTag& InputTag);
+    void ClearInputTag(FGameplayAbilitySpec* AbilitySpec);
+
     void UpgradeAttribute(const FGameplayTag& AttributeEventTag);
 
     void SpendSpellPoint(const FGameplayTag& AbilityTag);

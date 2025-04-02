@@ -194,6 +194,29 @@ FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const F
     return nullptr;
 }
 
+void UAuraAbilitySystemComponent::AssignAbilityToInputTag(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag)
+{
+    if (auto AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+    {
+        AssignAbilityToInputTag(*AbilitySpec, InputTag);
+    }
+}
+
+void UAuraAbilitySystemComponent::AssignAbilityToInputTag(FGameplayAbilitySpec& AbilitySpec, const FGameplayTag& InputTag)
+{
+    ClearInputTag(&AbilitySpec);
+    AbilitySpec.GetDynamicSpecSourceTags().AddTag(InputTag);
+    AbilitySpec.GetDynamicSpecSourceTags().AddTag(AuraGameplayTags::Ability_Status_Equipped);
+    MarkAbilitySpecDirty(AbilitySpec);
+}
+
+void UAuraAbilitySystemComponent::ClearInputTag(FGameplayAbilitySpec* AbilitySpec)
+{
+    const FGameplayTag Input = GetInputTagFromSpec(*AbilitySpec);
+    AbilitySpec->GetDynamicSpecSourceTags().RemoveTag(Input);
+    MarkAbilitySpecDirty(*AbilitySpec);
+}
+
 void UAuraAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeEventTag)
 {
     ServerUpgradeAttribute(AttributeEventTag);

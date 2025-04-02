@@ -30,7 +30,7 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation, FGam
     AAuraProjectileActor* Projectile =
         GetWorld()->SpawnActorDeferred<AAuraProjectileActor>(ProjectileActorClass, SpawnTransform, GetOwningActorFromActorInfo(), Cast<APawn>(GetOwningActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-    const UAbilitySystemComponent* SourceAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+    const UAbilitySystemComponent* SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
     FGameplayEffectContextHandle ContextHandle = SourceAbilitySystemComponent->MakeEffectContext();
     ContextHandle.SetAbility(this);
     ContextHandle.AddSourceObject(Projectile);

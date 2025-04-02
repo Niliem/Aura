@@ -61,8 +61,7 @@ void AAuraEnemy::BeginPlay()
     Super::BeginPlay();
 
     InitAbilityActorInfo();
-    InitializeDefaultAttributes();
-    InitializeDefaultAbilities();
+    InitializeGameplayInfo();
 
     GetAbilitySystemComponent()->RegisterGameplayTagEvent(AuraGameplayTags::Effect_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraEnemy::HitReactTagChanged);
 }

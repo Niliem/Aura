@@ -1,11 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "AbilitySystem/Data/CharacterGameplayInfo.h"
-
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
-void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent, float Level) const
+void UAbilitySet::GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComponent) const
 {
     if (!IsValid(AbilitySystemComponent))
         return;
@@ -13,34 +12,14 @@ void UCharacterGameplayInfo::GiveAbilities(UAbilitySystemComponent* AbilitySyste
     if (!AbilitySystemComponent->IsOwnerActorAuthoritative())
         return;
 
-    for (const auto& AbilitySet : GrantedAbilitySets)
+    for (const auto& GameplayAbilitySet : GameplayAbilitySets)
     {
-        const float AbilityLevel = (AbilitySet.bIsScalable) ? Level : AbilitySet.AbilityLevel;
-        FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(AbilitySet.Ability, AbilityLevel);
-        GameplayAbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilitySet.InputTag);
-        if (AbilitySet.InputTag.IsValid())
-        {
-            GameplayAbilitySpec.GetDynamicSpecSourceTags().AddTag(AuraGameplayTags::Ability_Status_Equipped);
-        }
-
-        if (AbilitySet.bActivateOnGranted)
-        {
-            AbilitySystemComponent->GiveAbilityAndActivateOnce(GameplayAbilitySpec);
-        }
-        else
-        {
-            AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
-        }
-    }
-
-    if (UAuraAbilitySystemComponent* AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
-    {
-        AuraAbilitySystemComponent->bStartupAbilitiesGiven = true;
-        AuraAbilitySystemComponent->OnAbilitiesGiven.Broadcast();
+        FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(GameplayAbilitySet.GameplayAbility, GameplayAbilitySet.AbilityLevel);
+        AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
     }
 }
 
-void UCharacterGameplayInfo::GiveEffects(UAbilitySystemComponent* AbilitySystemComponent, float Level) const
+void UEffectSet::GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComponent) const
 {
     if (!IsValid(AbilitySystemComponent))
         return;
@@ -50,12 +29,62 @@ void UCharacterGameplayInfo::GiveEffects(UAbilitySystemComponent* AbilitySystemC
 
     const AActor* AvatarActor = AbilitySystemComponent->GetAvatarActor();
 
-    for (const auto& Effect : GrantedEffects)
+    for (const auto& GameplayEffectSet : GameplayEffectSets)
     {
         auto ContextHandle = AbilitySystemComponent->MakeEffectContext();
         ContextHandle.AddSourceObject(AvatarActor);
-        const auto EffectSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(Effect, Level, ContextHandle);
+        const auto EffectSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(GameplayEffectSet.GameplayEffect, GameplayEffectSet.EffectLevel, ContextHandle);
         AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
+    }
+}
+
+void UAbilityInputBindings::BindAbilityInputs(UAbilitySystemComponent* AbilitySystemComponent) const
+{
+    if (!IsValid(AbilitySystemComponent))
+        return;
+
+    if (!AbilitySystemComponent->IsOwnerActorAuthoritative())
+        return;
+
+    if (const auto& AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        for (const auto& AbilityInputBinding : AbilityInputBindings)
+        {
+            if (AbilityInputBinding.InputTag.IsValid())
+            {
+                AuraAbilitySystemComponent->AssignAbilityToInputTag(AbilityInputBinding.AbilityTag, AbilityInputBinding.InputTag);
+            }
+        }
+    }
+}
+
+void UCharacterGameplayInfo::InitializeGameplayInfo(UAbilitySystemComponent* AbilitySystemComponent)
+{
+    if (!IsValid(AbilitySystemComponent))
+        return;
+
+    if (!AbilitySystemComponent->IsOwnerActorAuthoritative())
+        return;
+
+    for (const auto& GrantedAbilitySet : GrantedAbilitySets)
+    {
+        GrantedAbilitySet->GiveToAbilitySystem(AbilitySystemComponent);
+    }
+
+    for (const auto& GrantedEffectSet : GrantedEffectSets)
+    {
+        GrantedEffectSet->GiveToAbilitySystem(AbilitySystemComponent);
+    }
+
+    if (IsValid(AbilityInputBinding))
+    {
+        AbilityInputBinding->BindAbilityInputs(AbilitySystemComponent);
+    }
+
+    if (UAuraAbilitySystemComponent* AuraAbilitySystemComponent = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        AuraAbilitySystemComponent->bStartupAbilitiesGiven = true;
+        AuraAbilitySystemComponent->OnAbilitiesGiven.Broadcast();
     }
 }
 

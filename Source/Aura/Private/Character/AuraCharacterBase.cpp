@@ -2,9 +2,7 @@
 
 #include "Character/AuraCharacterBase.h"
 #include "AbilitySystemComponent.h"
-#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Data/CharacterGameplayInfo.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AuraGameplayTags.h"
@@ -38,22 +36,13 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }
 
-void AAuraCharacterBase::InitializeDefaultAttributes()
+void AAuraCharacterBase::InitializeGameplayInfo()
 {
     if (!HasAuthority())
         return;
 
     if (CharacterGameplayInfo)
-        CharacterGameplayInfo->GiveEffects(GetAbilitySystemComponent(), GetCharacterLevel());
-}
-
-void AAuraCharacterBase::InitializeDefaultAbilities()
-{
-    if (!HasAuthority())
-        return;
-
-    if (CharacterGameplayInfo)
-        CharacterGameplayInfo->GiveAbilities(GetAbilitySystemComponent(), GetCharacterLevel());
+        CharacterGameplayInfo->InitializeGameplayInfo(GetAbilitySystemComponent());
 }
 
 void AAuraCharacterBase::ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffect> EffectClassToApply, const float Level) const

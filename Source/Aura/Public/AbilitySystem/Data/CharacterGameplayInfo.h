@@ -22,38 +22,86 @@ enum class ECharacterClass : uint8
     Ranger
 };
 
-USTRUCT()
-struct FAbilitySet
+USTRUCT(BlueprintType)
+struct FGameplaySet_Ability
 {
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly)
-    TSubclassOf<UGameplayAbility> Ability = nullptr;
+    TSubclassOf<UGameplayAbility> GameplayAbility = nullptr;
 
     UPROPERTY(EditDefaultsOnly)
     int32 AbilityLevel = 1;
-
-    UPROPERTY(EditDefaultsOnly)
-    bool bIsScalable = false;
-
-    UPROPERTY(EditDefaultsOnly)
-    bool bActivateOnGranted = false;
-
-    UPROPERTY(EditDefaultsOnly, Meta = (Categories = "InputTag"))
-    FGameplayTag InputTag;
 };
 
-/**
- *
- */
+UCLASS(BlueprintType, Const)
+class UAbilitySet : public UPrimaryDataAsset
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditDefaultsOnly)
+    TArray<FGameplaySet_Ability> GameplayAbilitySets;
+
+public:
+    void GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComponent) const;
+};
+
+
+USTRUCT(BlueprintType)
+struct FGameplaySet_Effect
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<UGameplayEffect> GameplayEffect = nullptr;
+
+    UPROPERTY(EditDefaultsOnly)
+    float EffectLevel = 1.0f;
+};
+
+UCLASS(BlueprintType, Const)
+class UEffectSet : public UPrimaryDataAsset
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditDefaultsOnly)
+    TArray<FGameplaySet_Effect> GameplayEffectSets;
+
+public:
+    void GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComponent) const;
+};
+
+USTRUCT(BlueprintType)
+struct FAbilityInputBinding
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FGameplayTag AbilityTag = FGameplayTag();
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (Categories = "InputTag"))
+    FGameplayTag InputTag = FGameplayTag();
+};
+
+UCLASS(BlueprintType, Const)
+class UAbilityInputBindings : public UPrimaryDataAsset
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditDefaultsOnly)
+    TArray<FAbilityInputBinding> AbilityInputBindings;
+
+public:
+    void BindAbilityInputs(UAbilitySystemComponent* AbilitySystemComponent) const;
+};
+
 UCLASS(BlueprintType, Const)
 class AURA_API UCharacterGameplayInfo : public UPrimaryDataAsset
 {
     GENERATED_BODY()
 
 public:
-    void GiveAbilities(UAbilitySystemComponent* AbilitySystemComponent, float Level = 1.0f) const;
-    void GiveEffects(UAbilitySystemComponent* AbilitySystemComponent, float Level = 1.0f) const;
+    void InitializeGameplayInfo(UAbilitySystemComponent* AbilitySystemComponent);
     int32 GetXPReward(int32 Level = 1) const;
 
     UPROPERTY(EditDefaultsOnly)
@@ -63,8 +111,11 @@ public:
     FScalableFloat XPReward;
 
     UPROPERTY(EditDefaultsOnly)
-    TArray<FAbilitySet> GrantedAbilitySets;
+    TArray<TObjectPtr<UAbilitySet>> GrantedAbilitySets;
 
     UPROPERTY(EditDefaultsOnly)
-    TArray<TSubclassOf<UGameplayEffect>> GrantedEffects;
+    TArray<TObjectPtr<UEffectSet>> GrantedEffectSets;
+
+    UPROPERTY(EditDefaultsOnly)
+    TObjectPtr<UAbilityInputBindings> AbilityInputBinding;
 };

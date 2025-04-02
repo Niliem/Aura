@@ -17,4 +17,6 @@ class AURA_API UAuraGameplayAbility : public UGameplayAbility
 
 public:
     UAuraGameplayAbility();
+
+    virtual void OnAvatarSet(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
 };
