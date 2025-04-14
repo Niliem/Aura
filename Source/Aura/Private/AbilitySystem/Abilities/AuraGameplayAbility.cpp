@@ -4,6 +4,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 
 UAuraGameplayAbility::UAuraGameplayAbility()
 {
@@ -24,17 +25,30 @@ void UAuraGameplayAbility::OnAvatarSet(const FGameplayAbilityActorInfo* ActorInf
     }
 }
 
-FString UAuraGameplayAbility::GetDescription_Implementation(const int32 Level)
+float UAuraGameplayAbility::GetManaCostAtLevel(int32 Level) const
 {
-    return FString::Printf(TEXT("<Default>%s, </><Level>%i</>"), L"Default ability name", Level);
+    float ManaCost = 0.0f;
+    if (const auto CostEffect = GetCostGameplayEffect())
+    {
+        for (const auto Mod : CostEffect->Modifiers)
+        {
+            if (Mod.Attribute == UAuraAttributeSet::GetManaAttribute())
+            {
+                Mod.ModifierMagnitude.GetStaticMagnitudeIfPossible(Level, ManaCost);
+                return FMath::Abs(ManaCost);
+            }
+        }
+    }
+
+    return ManaCost;
 }
 
-FString UAuraGameplayAbility::GetNextLevelDescription_Implementation(const int32 Level)
+float UAuraGameplayAbility::GetCooldownAtLevel(int32 Level) const
 {
-    return FString::Printf(TEXT("<Default>Next level: %s, </><Level>%i</>"), L"Default ability name", Level);
-}
-
-FString UAuraGameplayAbility::GetLockedDescription(const int32 Level)
-{
-    return FString::Printf(TEXT("<Default>Spell locked until level: %i, </>"), Level);
+    float Cooldown = 0.0f;
+    if (const auto CooldownEffect = GetCooldownGameplayEffect())
+    {
+        CooldownEffect->DurationMagnitude.GetStaticMagnitudeIfPossible(Level, Cooldown);
+    }
+    return Cooldown;
 }

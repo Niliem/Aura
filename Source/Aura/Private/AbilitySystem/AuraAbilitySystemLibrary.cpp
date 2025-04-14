@@ -4,13 +4,19 @@
 #include "Kismet/GameplayStatics.h"
 #include "UI/HUD/AuraHUD.h"
 #include "UI/WidgetController/AuraWidgetController.h"
+#include "Game/AuraGameInstance.h"
 #include "Player/AuraPlayerState.h"
 #include "Game/AuraGameModeBase.h"
 #include "Interaction/CombatInterface.h"
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraGameplayEffectContext.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/Abilities/AuraDamageAbility.h"
+#include "AbilitySystem/Abilities/AuraGameplayAbility.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 #include "Engine/OverlapResult.h"
+
 
 bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD)
 {
@@ -124,11 +130,117 @@ TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResi
     return TMap<FGameplayTag, FGameplayTag>();
 }
 
-UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldContextObject)
+UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilitiesInfo(const UObject* WorldContextObject)
 {
-    if (const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
-        return AuraGameMode->AbilityInfo;
+    if (const auto AuraGameInstance = Cast<UAuraGameInstance>(UGameplayStatics::GetGameInstance(WorldContextObject)))
+        return AuraGameInstance->AbilityInfo;
     return nullptr;
+}
+
+FString UAuraAbilitySystemLibrary::GetAbilityDescription(const UObject* WorldContextObject, const FGameplayTag& AbilityTag, int32 Level, EAbilityDescriptionType DescriptionType)
+{
+    const auto Infos = GetAbilitiesInfo(WorldContextObject);
+    if (!IsValid(Infos))
+        return FString();
+
+    FAuraAbilityInfo Info = GetAbilitiesInfo(WorldContextObject)->FindAbilityInfoForTag(AbilityTag);
+    FText AbilityDescription = (DescriptionType == EAbilityDescriptionType::Upgrade) ? Info.UpgradeDescription : Info.Description;
+
+    FString LevelDescription = (DescriptionType == EAbilityDescriptionType::Upgrade)
+        ?
+        FString::Printf(TEXT(
+            "<Info>Level </><Gray>%i</><Info> > </><Level>%i</> \n"),
+            Level,
+            Level + 1
+            )
+        :
+        FString::Printf(TEXT(
+            "<Info>Level </><Level>%i</> \n"),
+            Level
+            );
+
+    FString ManaCostDescription = FString();
+    FString CooldownDescription = FString();
+
+    if (UGameplayAbility* Ability = Info.Ability.GetDefaultObject())
+    {
+        FormatAbilityDescription(Ability, Level, AbilityDescription);
+
+        if (const auto AuraAbility = Cast<UAuraGameplayAbility>(Ability))
+        {
+            float ManaCost = AuraAbility->GetManaCostAtLevel(Level);
+            float NextManaCost = AuraAbility->GetManaCostAtLevel(Level + 1);
+            if (DescriptionType == EAbilityDescriptionType::Upgrade && !FMath::IsNearlyEqual(ManaCost, NextManaCost))
+            {
+                ManaCostDescription = FString::Printf(TEXT(
+                    "<Info>Mana - </><Gray>%.1f</><Info> > </><Mana>%.1f</> \n"),
+                    ManaCost,
+                    NextManaCost
+                    );
+            }
+            else
+            {
+                ManaCostDescription = FString::Printf(TEXT(
+                    "<Info>Mana - </><Mana>%.1f</> \n"),
+                    ManaCost
+                    );
+            }
+
+            float Cooldown = AuraAbility->GetCooldownAtLevel(Level);
+            float NextCooldown = AuraAbility->GetCooldownAtLevel(Level + 1);
+            if (DescriptionType == EAbilityDescriptionType::Upgrade && !FMath::IsNearlyEqual(Cooldown, NextCooldown))
+            {
+                CooldownDescription = FString::Printf(TEXT(
+                    "<Info>Cooldown - </><Gray>%.1f</><Info> > </><Cooldown>%.1fs</> \n"),
+                    Cooldown,
+                    NextCooldown
+                    );
+            }
+            else
+            {
+                CooldownDescription = FString::Printf(TEXT(
+                    "<Info>Cooldown - </><Cooldown>%.1fs</> \n"),
+                    Cooldown
+                    );
+            }
+        }
+    }
+
+    FString OutDescription = FString::Printf(TEXT(
+        "<Title>%s</> \n"
+        "%s"
+        "%s"
+        "\n"
+        "%s\n"
+        "\n"),
+        *Info.Name.ToString(),
+        *LevelDescription,
+        *(ManaCostDescription+CooldownDescription),
+        *AbilityDescription.ToString()
+        );
+
+    if (DescriptionType == EAbilityDescriptionType::Require)
+    {
+        OutDescription += FString::Printf(TEXT(
+            "\n"
+            "<Small>Spell locked until level: %i</>"),
+            Info.RequirementLevel);
+    }
+
+    return OutDescription;
+}
+
+void UAuraAbilitySystemLibrary::FormatAbilityDescription(UGameplayAbility* Ability, int32 Level, FText& OutDescription)
+{
+    if (UAuraDamageAbility* DamageAbility = Cast<UAuraDamageAbility>(Ability))
+    {
+        OutDescription = FText::FormatNamed(OutDescription,
+            "Dmg_Fire",
+            DamageAbility->GetDamageAtLevel(AuraGameplayTags::DamageType_Elemental_Fire, Level),
+            "Dmg_Fire_Next",
+            DamageAbility->GetDamageAtLevel(AuraGameplayTags::DamageType_Elemental_Fire, Level + 1)
+            );
+    }
 }
 
 void UAuraAbilitySystemLibrary::ExecuteActivePeriodicEffectsWithTags(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTagContainer Tags)

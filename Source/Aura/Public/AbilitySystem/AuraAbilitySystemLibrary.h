@@ -10,9 +10,18 @@ class UOverlayWidgetController;
 class UAttributeMenuWidgetController;
 class USpellMenuWidgetController;
 class UAbilitySystemComponent;
+class UGameplayAbility;
 class UAbilityInfo;
 
 struct FWidgetControllerParams;
+
+UENUM(BlueprintType)
+enum class EAbilityDescriptionType : uint8
+{
+    Default,
+    Upgrade,
+    Require
+};
 
 /**
  *
@@ -50,8 +59,13 @@ public:
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageTypes")
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);
 
-    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|AbilityInfo")
-    static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
+    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|AbilityInfo", meta = (DefaultToSelf = "WorldContextObject"))
+    static UAbilityInfo* GetAbilitiesInfo(const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|AbilityInfo", meta = (DefaultToSelf = "WorldContextObject"))
+    static FString GetAbilityDescription(const UObject* WorldContextObject, const FGameplayTag& AbilityTag, int32 Level, EAbilityDescriptionType DescriptionType = EAbilityDescriptionType::Default);
+
+    static void FormatAbilityDescription(UGameplayAbility* Ability, int32 Level, FText& OutDescription);
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static void ExecuteActivePeriodicEffectsWithTags(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTagContainer Tags);

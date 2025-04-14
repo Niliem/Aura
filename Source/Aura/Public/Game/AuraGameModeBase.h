@@ -8,8 +8,6 @@
 #include "AuraGameModeBase.generated.h"
 
 
-class UAbilityInfo;
-
 /**
  *
  */
@@ -25,6 +23,4 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = "Damage Types")
     TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
-    UPROPERTY(EditDefaultsOnly, Category = "Abilities")
-    TObjectPtr<UAbilityInfo> AbilityInfo;
 };

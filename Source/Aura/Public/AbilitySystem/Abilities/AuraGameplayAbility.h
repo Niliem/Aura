@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
-
 #include "AuraGameplayAbility.generated.h"
 
 /**
@@ -20,11 +19,9 @@ public:
 
     virtual void OnAvatarSet(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
 
-    UFUNCTION(BlueprintNativeEvent)
-    FString GetDescription(const int32 Level);
+    UFUNCTION(BlueprintPure, Category = "Ability", meta = (HidePin="Target"))
+    float GetManaCostAtLevel(int32 Level) const;
 
-    UFUNCTION(BlueprintNativeEvent)
-    FString GetNextLevelDescription(const int32 Level);
-
-    static FString GetLockedDescription(const int32 Level);
+    UFUNCTION(BlueprintPure, Category = "Ability", meta = (HidePin="Target"))
+    float GetCooldownAtLevel(int32 Level) const;
 };

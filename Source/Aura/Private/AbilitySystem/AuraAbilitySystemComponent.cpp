@@ -198,16 +198,23 @@ bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag
 {
     if (const auto AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
     {
-        if (UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec->Ability))
+        const auto AbilityStatus = GetAbilityStatusFromSpec(*AbilitySpec);
+        if (AbilityStatus.MatchesTagExact(AuraGameplayTags::Ability_Status_Eligible))
         {
-            OutDescription = AuraAbility->GetDescription(AbilitySpec->Level);
-            OutNextLevelDescription = AuraAbility->GetNextLevelDescription(AbilitySpec->Level + 1);
+            OutDescription = UAuraAbilitySystemLibrary::GetAbilityDescription(this, AbilityTag, AbilitySpec->Level, EAbilityDescriptionType::Default);
+            OutNextLevelDescription = FString();
+            return true;
+        }
+        else
+        {
+            OutDescription = UAuraAbilitySystemLibrary::GetAbilityDescription(this, AbilityTag, AbilitySpec->Level, EAbilityDescriptionType::Default);
+            OutNextLevelDescription = UAuraAbilitySystemLibrary::GetAbilityDescription(this, AbilityTag, AbilitySpec->Level, EAbilityDescriptionType::Upgrade);
             return true;
         }
     }
-    if (const auto AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor()))
+    if (const auto AbilityInfo = UAuraAbilitySystemLibrary::GetAbilitiesInfo(GetAvatarActor()))
     {
-        OutDescription = UAuraGameplayAbility::GetLockedDescription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).RequirementLevel);
+        OutDescription = UAuraAbilitySystemLibrary::GetAbilityDescription(this, AbilityTag, 1, EAbilityDescriptionType::Require);
         OutNextLevelDescription = FString();
         return false;
     }
@@ -254,7 +261,7 @@ void UAuraAbilitySystemComponent::SpendSpellPoint(const FGameplayTag& AbilityTag
 
 void UAuraAbilitySystemComponent::UpdateAbilityStatuses(const int32 Level)
 {
-    if (const auto AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor()))
+    if (const auto AbilityInfo = UAuraAbilitySystemLibrary::GetAbilitiesInfo(GetAvatarActor()))
     {
         for (const auto& Info : AbilityInfo->AbilityInformation)
         {

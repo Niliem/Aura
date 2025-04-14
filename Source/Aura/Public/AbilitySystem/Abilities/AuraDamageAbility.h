@@ -14,12 +14,13 @@ class AURA_API UAuraDamageAbility : public UAuraGameplayAbility
 {
     GENERATED_BODY()
 
+public:
+    UFUNCTION(BlueprintPure, Category = "Damage", meta = (HidePin="Target"))
+    float GetDamageAtLevel(const FGameplayTag& DamageType, int32 Level);
+
 protected:
     UFUNCTION(BlueprintPure, Category = "Damage")
     FGameplayEffectSpecHandle MakeDamageEffectSpecHandle(UPARAM(ref) FGameplayEffectContextHandle& ContextHandle) const;
-
-    UFUNCTION(BlueprintPure, Category = "Damage", meta = (HidePin="Target"))
-    float GetDamageAtLevel(const FGameplayTag& DamageType, int32 Level);
 
     UFUNCTION(BlueprintCallable, Category = "Damage")
     UAnimMontage* GetAbilityMontage() const;

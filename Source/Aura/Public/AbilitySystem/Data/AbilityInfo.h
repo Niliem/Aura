@@ -24,6 +24,15 @@ struct FAuraAbilityInfo
     int32 RequirementLevel = 1;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FText Name;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (MultiLine = "true"))
+    FText Description;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (MultiLine = "true"))
+    FText UpgradeDescription;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<const UTexture2D> Icon = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
