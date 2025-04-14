@@ -7,7 +7,7 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "SpellMenuWidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnSelectAbility, bool, bCanSpenPoint, bool, bCanEquip);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnSelectAbility, bool, bCanSpenPoint, bool, bCanEquip, FString, Description, FString, NextLevelDescription);
 
 /**
  *
@@ -36,7 +36,7 @@ public:
 private:
     FGameplayTag SelectedAbilityTag;
 
-    void ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints) const;
+    void ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints);
 
     FGameplayTag GetSelectedAbilityStatusTag();
 };

@@ -40,6 +40,14 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
                 ProcessAbilitySelection(StatusTag, GetAuraPlayerState()->GetSpellPoints());
             }
         });
+    GetAuraAbilitySystemComponent()->OnAbilityGiven.AddLambda(
+        [this](const FGameplayTag& AbilityTag)
+        {
+            if (SelectedAbilityTag.MatchesTagExact(AbilityTag))
+            {
+                ProcessAbilitySelection(GetSelectedAbilityStatusTag(), GetAuraPlayerState()->GetSpellPoints());
+            }
+        });
 }
 
 void USpellMenuWidgetController::SelectAbility(const FGameplayTag& AbilityTag)
@@ -54,7 +62,7 @@ void USpellMenuWidgetController::SpendSpellPoint()
     GetAuraAbilitySystemComponent()->SpendSpellPoint(SelectedAbilityTag);
 }
 
-void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints) const
+void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints)
 {
     bool bCanEquipAbility = false;
     bool bCanSpendPoints = false;
@@ -78,7 +86,14 @@ void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& Sta
         }
     }
 
-    OnSelectAbility.Broadcast(bCanSpendPoints, bCanEquipAbility);
+    FString Description = FString();
+    FString NextLevelDescription = FString();
+    if (SelectedAbilityTag.IsValid())
+    {
+        GetAuraAbilitySystemComponent()->GetDescriptionsByAbilityTag(SelectedAbilityTag, Description, NextLevelDescription);
+    }
+
+    OnSelectAbility.Broadcast(bCanSpendPoints, bCanEquipAbility, Description, NextLevelDescription);
 }
 
 FGameplayTag USpellMenuWidgetController::GetSelectedAbilityStatusTag()

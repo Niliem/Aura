@@ -194,6 +194,28 @@ FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const F
     return nullptr;
 }
 
+bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription)
+{
+    if (const auto AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+    {
+        if (UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec->Ability))
+        {
+            OutDescription = AuraAbility->GetDescription(AbilitySpec->Level);
+            OutNextLevelDescription = AuraAbility->GetNextLevelDescription(AbilitySpec->Level + 1);
+            return true;
+        }
+    }
+    if (const auto AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor()))
+    {
+        OutDescription = UAuraGameplayAbility::GetLockedDescription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).RequirementLevel);
+        OutNextLevelDescription = FString();
+        return false;
+    }
+    OutDescription = FString();
+    OutNextLevelDescription = FString();
+    return false;
+}
+
 void UAuraAbilitySystemComponent::AssignAbilityToInputTag(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag)
 {
     if (auto AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
@@ -263,6 +285,13 @@ void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
         bStartupAbilitiesGiven = true;
         OnAbilitiesGiven.Broadcast();
     }
+}
+
+void UAuraAbilitySystemComponent::OnGiveAbility(FGameplayAbilitySpec& AbilitySpec)
+{
+    Super::OnGiveAbility(AbilitySpec);
+
+    OnAbilityGiven.Broadcast(GetAbilityTagFromSpec(AbilitySpec));
 }
 
 void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffect(const FActiveGameplayEffectHandle Handle)

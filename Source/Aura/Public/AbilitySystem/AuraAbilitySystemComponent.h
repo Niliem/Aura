@@ -11,6 +11,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsDelegate, const FGameplayTag
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGivenDelegate);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag&, int32);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnAbilityGiven, const FGameplayTag&);
 
 /**
  *
@@ -33,6 +34,7 @@ public:
     FEffectAssetTagsDelegate EffectAssetTags;
     FAbilitiesGivenDelegate OnAbilitiesGiven;
     FAbilityStatusChanged OnAbilityStatusChanged;
+    FOnAbilityGiven OnAbilityGiven;
 
     bool bStartupAbilitiesGiven = false;
 
@@ -44,6 +46,8 @@ public:
     static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 
     FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
+
+    bool GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
 
     void AssignAbilityToInputTag(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag);
     void AssignAbilityToInputTag(FGameplayAbilitySpec& AbilitySpec, const FGameplayTag& InputTag);
@@ -68,6 +72,7 @@ protected:
     void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 Level);
 
     virtual void OnRep_ActivateAbilities() override;
+    virtual void OnGiveAbility(FGameplayAbilitySpec& AbilitySpec) override;
 
 private:
     void ExecuteActivePeriodicEffect(const FActiveGameplayEffectHandle Handle);
