@@ -20,7 +20,11 @@ public:
 
     virtual void OnAvatarSet(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
 
-    virtual FString GetDescription(const int32 Level);
-    virtual FString GetNextLevelDescription(const int32 Level);
+    UFUNCTION(BlueprintNativeEvent)
+    FString GetDescription(const int32 Level);
+
+    UFUNCTION(BlueprintNativeEvent)
+    FString GetNextLevelDescription(const int32 Level);
+
     static FString GetLockedDescription(const int32 Level);
 };

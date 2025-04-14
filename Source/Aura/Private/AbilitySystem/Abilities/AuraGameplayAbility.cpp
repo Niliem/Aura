@@ -24,12 +24,12 @@ void UAuraGameplayAbility::OnAvatarSet(const FGameplayAbilityActorInfo* ActorInf
     }
 }
 
-FString UAuraGameplayAbility::GetDescription(const int32 Level)
+FString UAuraGameplayAbility::GetDescription_Implementation(const int32 Level)
 {
     return FString::Printf(TEXT("<Default>%s, </><Level>%i</>"), L"Default ability name", Level);
 }
 
-FString UAuraGameplayAbility::GetNextLevelDescription(const int32 Level)
+FString UAuraGameplayAbility::GetNextLevelDescription_Implementation(const int32 Level)
 {
     return FString::Printf(TEXT("<Default>Next level: %s, </><Level>%i</>"), L"Default ability name", Level);
 }

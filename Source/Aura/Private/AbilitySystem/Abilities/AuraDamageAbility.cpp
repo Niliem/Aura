@@ -17,6 +17,15 @@ FGameplayEffectSpecHandle UAuraDamageAbility::MakeDamageEffectSpecHandle(FGamepl
     return DamageEffectSpecHandle;
 }
 
+float UAuraDamageAbility::GetDamageAtLevel(const FGameplayTag& DamageType, int32 Level)
+{
+    if (const auto ScalableDamage = DamageTypes.Find(DamageType))
+    {
+        return ScalableDamage->GetValueAtLevel(Level);
+    }
+    return 0.0f;
+}
+
 UAnimMontage* UAuraDamageAbility::GetAbilityMontage() const
 {
     if (AbilityMontages.Num() <= 0)
