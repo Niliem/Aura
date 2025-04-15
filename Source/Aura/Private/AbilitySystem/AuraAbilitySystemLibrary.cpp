@@ -211,8 +211,7 @@ FString UAuraAbilitySystemLibrary::GetAbilityDescription(const UObject* WorldCon
         "%s"
         "%s"
         "\n"
-        "%s\n"
-        "\n"),
+        "%s\n"),
         *Info.Name.ToString(),
         *LevelDescription,
         *(ManaCostDescription+CooldownDescription),
