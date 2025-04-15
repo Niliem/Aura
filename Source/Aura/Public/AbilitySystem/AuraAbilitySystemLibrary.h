@@ -62,7 +62,28 @@ public:
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|AbilityInfo", meta = (DefaultToSelf = "WorldContextObject"))
     static UAbilityInfo* GetAbilitiesInfo(const UObject* WorldContextObject);
 
-    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|AbilityInfo", meta = (DefaultToSelf = "WorldContextObject"))
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityTag(const UGameplayAbility* Ability);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityStatusTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityStatusTag(const UGameplayAbility* Ability);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityTypeTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityTypeTag(const UGameplayAbility* Ability);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+
+    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|Ability", meta = (DefaultToSelf = "WorldContextObject"))
     static FString GetAbilityDescription(const UObject* WorldContextObject, const FGameplayTag& AbilityTag, int32 Level, EAbilityDescriptionType DescriptionType = EAbilityDescriptionType::Default);
 
     static void FormatAbilityDescription(UGameplayAbility* Ability, int32 Level, FText& OutDescription);

@@ -8,6 +8,7 @@
 #include "SpellMenuWidgetController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnSelectAbility, bool, bCanSpenPoint, bool, bCanEquip, FString, Description, FString, NextLevelDescription);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipSelectionDelegate, const FGameplayTag&, AbilityType);
 
 /**
  *
@@ -27,8 +28,19 @@ public:
     UFUNCTION(BlueprintCallable, Category= "Spell Menu")
     void SpendSpellPoint();
 
+    FGameplayTag GetSelectedAbilityType();
+
+    UFUNCTION(BlueprintCallable, Category= "Spell Menu")
+    void EquipButtonPressed();
+
     UPROPERTY(BlueprintAssignable, Category = "Spell Menu")
     FOnStatChangedDelegate OnSpellPointsChanged;
+
+    UPROPERTY(BlueprintAssignable, Category = "Spell Menu")
+    FWaitForEquipSelectionDelegate WaitForEquipDelegate;
+
+    UPROPERTY(BlueprintAssignable, Category = "Spell Menu")
+    FWaitForEquipSelectionDelegate StopWaitingForEquipDelegate;
 
     UPROPERTY(BlueprintAssignable, Category = "Spell Menu")
     FOnSelectAbility OnSelectAbility;

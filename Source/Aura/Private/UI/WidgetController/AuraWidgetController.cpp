@@ -2,6 +2,7 @@
 
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "Player/AuraPlayerController.h"
@@ -32,14 +33,14 @@ void UAuraWidgetController::BroadcastAbilityInfo()
     BroadcastDelegate.BindLambda(
         [this](const FGameplayAbilitySpec& AbilitySpec)
         {
-            const FGameplayTag AbilityTag = GetAuraAbilitySystemComponent()->GetAbilityTagFromSpec(AbilitySpec);
+            const FGameplayTag AbilityTag = UAuraAbilitySystemLibrary::GetAbilityTagFromSpec(AbilitySpec);
             if (!AbilityTag.IsValid())
                 return;
 
             FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
-            Info.StatusTag = GetAuraAbilitySystemComponent()->GetAbilityStatusFromSpec(AbilitySpec);
-            Info.TypeTag = GetAuraAbilitySystemComponent()->GetAbilityTypeFromSpec(AbilitySpec);
-            Info.InputTag = GetAuraAbilitySystemComponent()->GetInputTagFromSpec(AbilitySpec);
+            Info.StatusTag = UAuraAbilitySystemLibrary::GetAbilityStatusTagFromSpec(AbilitySpec);
+            Info.TypeTag = UAuraAbilitySystemLibrary::GetAbilityTypeTagFromSpec(AbilitySpec);
+            Info.InputTag = UAuraAbilitySystemLibrary::GetAbilityInputTagFromSpec(AbilitySpec);
             if (const FGameplayTagContainer* Tags = AbilitySpec.Ability.Get()->GetCooldownTags())
             {
                 for (const auto& CooldownTag : Tags->GetGameplayTagArray())

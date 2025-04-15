@@ -4,6 +4,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
 UAuraGameplayAbility::UAuraGameplayAbility()
@@ -16,7 +17,7 @@ void UAuraGameplayAbility::OnAvatarSet(const FGameplayAbilityActorInfo* ActorInf
 {
     Super::OnAvatarSet(ActorInfo, Spec);
 
-    if (UAuraAbilitySystemComponent::GetAbilityTypeFromSpec(Spec).MatchesTagExact(AuraGameplayTags::Ability_Type_Passive))
+    if (UAuraAbilitySystemLibrary::GetAbilityTypeTagFromSpec(Spec).MatchesTagExact(AuraGameplayTags::Ability_Type_Passive))
     {
         if (UAbilitySystemComponent* SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo())
         {

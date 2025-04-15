@@ -93,90 +93,6 @@ void UAuraAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate
     }
 }
 
-FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
-{
-    if (AbilitySpec.Ability)
-    {
-        for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
-        {
-            if (!Tag.MatchesTag(AuraGameplayTags::Ability_Status) && !Tag.MatchesTag(AuraGameplayTags::Ability_Type))
-            {
-                if (Tag.MatchesTag(AuraGameplayTags::Ability))
-                {
-                    return Tag;
-                }
-            }
-        }
-    }
-    return FGameplayTag();
-}
-
-FGameplayTag UAuraAbilitySystemComponent::GetAbilityStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec)
-{
-    for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
-    {
-        if (Tag.MatchesTag(AuraGameplayTags::Ability_Status))
-        {
-            return Tag;
-        }
-    }
-    if (AbilitySpec.Ability)
-    {
-        for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
-        {
-            if (Tag.MatchesTag(AuraGameplayTags::Ability_Status))
-            {
-                return Tag;
-            }
-        }
-    }
-    return FGameplayTag();
-}
-
-FGameplayTag UAuraAbilitySystemComponent::GetAbilityTypeFromSpec(const FGameplayAbilitySpec& AbilitySpec)
-{
-    for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
-    {
-        if (Tag.MatchesTag(AuraGameplayTags::Ability_Type))
-        {
-            return Tag;
-        }
-    }
-    if (AbilitySpec.Ability)
-    {
-        for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
-        {
-            if (Tag.MatchesTag(AuraGameplayTags::Ability_Type))
-            {
-                return Tag;
-            }
-        }
-    }
-    return FGameplayTag();
-}
-
-FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
-{
-    for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
-    {
-        if (Tag.MatchesTag(AuraGameplayTags::InputTag))
-        {
-            return Tag;
-        }
-    }
-    if (AbilitySpec.Ability)
-    {
-        for (auto Tag : AbilitySpec.Ability.Get()->GetAssetTags())
-        {
-            if (Tag.MatchesTag(AuraGameplayTags::InputTag))
-            {
-                return Tag;
-            }
-        }
-    }
-    return FGameplayTag();
-}
-
 FGameplayAbilitySpec* UAuraAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
 {
     FScopedAbilityListLock ActiveScopeLock(*this);
@@ -198,7 +114,7 @@ bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag
 {
     if (const auto AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
     {
-        const auto AbilityStatus = GetAbilityStatusFromSpec(*AbilitySpec);
+        const auto AbilityStatus = UAuraAbilitySystemLibrary::GetAbilityStatusTagFromSpec(*AbilitySpec);
         if (AbilityStatus.MatchesTagExact(AuraGameplayTags::Ability_Status_Eligible))
         {
             OutDescription = UAuraAbilitySystemLibrary::GetAbilityDescription(this, AbilityTag, AbilitySpec->Level, EAbilityDescriptionType::Default);
@@ -241,7 +157,7 @@ void UAuraAbilitySystemComponent::AssignAbilityToInputTag(FGameplayAbilitySpec& 
 
 void UAuraAbilitySystemComponent::ClearInputTag(FGameplayAbilitySpec* AbilitySpec)
 {
-    const FGameplayTag Input = GetInputTagFromSpec(*AbilitySpec);
+    const FGameplayTag Input = UAuraAbilitySystemLibrary::GetAbilityInputTagFromSpec(*AbilitySpec);
     AbilitySpec->GetDynamicSpecSourceTags().RemoveTag(Input);
     MarkAbilitySpecDirty(*AbilitySpec);
 }
@@ -298,7 +214,7 @@ void UAuraAbilitySystemComponent::OnGiveAbility(FGameplayAbilitySpec& AbilitySpe
 {
     Super::OnGiveAbility(AbilitySpec);
 
-    OnAbilityGiven.Broadcast(GetAbilityTagFromSpec(AbilitySpec));
+    OnAbilityGiven.Broadcast(UAuraAbilitySystemLibrary::GetAbilityTagFromSpec(AbilitySpec));
 }
 
 void UAuraAbilitySystemComponent::ExecuteActivePeriodicEffect(const FActiveGameplayEffectHandle Handle)
@@ -337,7 +253,7 @@ void UAuraAbilitySystemComponent::ServerSpendSpellPoint_Implementation(const FGa
         FScopedPredictionWindow SpellPointsWindow(this, true);
         HandleGameplayEvent(SpellPointsPayload.EventTag, &SpellPointsPayload);
 
-        FGameplayTag Status = GetAbilityStatusFromSpec(*AbilitySpec);
+        FGameplayTag Status = UAuraAbilitySystemLibrary::GetAbilityStatusTagFromSpec(*AbilitySpec);
         if (Status.MatchesTagExact(AuraGameplayTags::Ability_Status_Eligible))
         {
             AbilitySpec->GetDynamicSpecSourceTags().RemoveTag(AuraGameplayTags::Ability_Status_Eligible);

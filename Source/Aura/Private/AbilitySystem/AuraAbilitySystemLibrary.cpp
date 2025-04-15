@@ -137,6 +137,107 @@ UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilitiesInfo(const UObject* WorldCo
     return nullptr;
 }
 
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    if (AbilitySpec.Ability)
+    {
+        return GetAbilityTag(AbilitySpec.Ability.Get());
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityTag(const UGameplayAbility* Ability)
+{
+    if (Ability)
+    {
+        for (auto Tag : Ability->GetAssetTags())
+        {
+            if (!Tag.MatchesTag(AuraGameplayTags::Ability_Status) && !Tag.MatchesTag(AuraGameplayTags::Ability_Type))
+            {
+                if (Tag.MatchesTag(AuraGameplayTags::Ability))
+                {
+                    return Tag;
+                }
+            }
+        }
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityStatusTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
+    {
+        if (Tag.MatchesTag(AuraGameplayTags::Ability_Status))
+        {
+            return Tag;
+        }
+    }
+    if (AbilitySpec.Ability)
+    {
+        return GetAbilityStatusTag(AbilitySpec.Ability.Get());
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityStatusTag(const UGameplayAbility* Ability)
+{
+    if (Ability)
+    {
+        for (auto Tag : Ability->GetAssetTags())
+        {
+            if (Tag.MatchesTag(AuraGameplayTags::Ability_Status))
+            {
+                return Tag;
+            }
+        }
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityTypeTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
+    {
+        if (Tag.MatchesTag(AuraGameplayTags::Ability_Type))
+        {
+            return Tag;
+        }
+    }
+    if (AbilitySpec.Ability)
+    {
+        return GetAbilityTypeTag(AbilitySpec.Ability.Get());
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityTypeTag(const UGameplayAbility* Ability)
+{
+    if (Ability)
+    {
+        for (auto Tag : Ability->GetAssetTags())
+        {
+            if (Tag.MatchesTag(AuraGameplayTags::Ability_Type))
+            {
+                return Tag;
+            }
+        }
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    for (auto Tag : AbilitySpec.GetDynamicSpecSourceTags())
+    {
+        if (Tag.MatchesTag(AuraGameplayTags::InputTag))
+        {
+            return Tag;
+        }
+    }
+    return FGameplayTag();
+}
+
 FString UAuraAbilitySystemLibrary::GetAbilityDescription(const UObject* WorldContextObject, const FGameplayTag& AbilityTag, int32 Level, EAbilityDescriptionType DescriptionType)
 {
     const auto Infos = GetAbilitiesInfo(WorldContextObject);

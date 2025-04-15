@@ -40,11 +40,6 @@ public:
 
     void ForEachAbility(const FForEachAbility& Delegate);
 
-    static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
-    static FGameplayTag GetAbilityStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
-    static FGameplayTag GetAbilityTypeFromSpec(const FGameplayAbilitySpec& AbilitySpec);
-    static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
-
     FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
 
     bool GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);

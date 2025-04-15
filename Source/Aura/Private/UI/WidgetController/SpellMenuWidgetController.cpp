@@ -5,6 +5,7 @@
 
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "Player/AuraPlayerState.h"
 
@@ -53,6 +54,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 void USpellMenuWidgetController::SelectAbility(const FGameplayTag& AbilityTag)
 {
     SelectedAbilityTag = AbilityTag;
+    StopWaitingForEquipDelegate.Broadcast(FGameplayTag());
 
     ProcessAbilitySelection(GetSelectedAbilityStatusTag(), GetAuraPlayerState()->GetSpellPoints());
 }
@@ -60,6 +62,30 @@ void USpellMenuWidgetController::SelectAbility(const FGameplayTag& AbilityTag)
 void USpellMenuWidgetController::SpendSpellPoint()
 {
     GetAuraAbilitySystemComponent()->SpendSpellPoint(SelectedAbilityTag);
+}
+
+FGameplayTag USpellMenuWidgetController::GetSelectedAbilityType()
+{
+    FGameplayTag AbilityType = FGameplayTag();
+    if (const FGameplayAbilitySpec* AbilitySpec = GetAuraAbilitySystemComponent()->GetSpecFromAbilityTag(SelectedAbilityTag))
+    {
+        AbilityType = UAuraAbilitySystemLibrary::GetAbilityTypeTagFromSpec(*AbilitySpec);
+    }
+
+    if (!AbilityType.IsValid() && AbilityInfo)
+    {
+        FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(SelectedAbilityTag);
+        if (Info.Ability)
+        {
+            AbilityType = UAuraAbilitySystemLibrary::GetAbilityTypeTag(Info.Ability.GetDefaultObject());
+        }
+    }
+    return AbilityType;
+}
+
+void USpellMenuWidgetController::EquipButtonPressed()
+{
+    WaitForEquipDelegate.Broadcast(GetSelectedAbilityType());
 }
 
 void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints)
@@ -102,7 +128,7 @@ FGameplayTag USpellMenuWidgetController::GetSelectedAbilityStatusTag()
     {
         if (const FGameplayAbilitySpec* AbilitySpec = GetAuraAbilitySystemComponent()->GetSpecFromAbilityTag(SelectedAbilityTag))
         {
-            return GetAuraAbilitySystemComponent()->GetAbilityStatusFromSpec(*AbilitySpec);
+            return UAuraAbilitySystemLibrary::GetAbilityStatusTagFromSpec(*AbilitySpec);
         }
     }
     return FGameplayTag::EmptyTag;
