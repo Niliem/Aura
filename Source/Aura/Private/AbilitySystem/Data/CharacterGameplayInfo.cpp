@@ -15,6 +15,7 @@ void UAbilitySet::GiveToAbilitySystem(UAbilitySystemComponent* AbilitySystemComp
     for (const auto& GameplayAbilitySet : GameplayAbilitySets)
     {
         FGameplayAbilitySpec GameplayAbilitySpec = FGameplayAbilitySpec(GameplayAbilitySet.GameplayAbility, GameplayAbilitySet.AbilityLevel);
+        GameplayAbilitySpec.GetDynamicSpecSourceTags().AddTag(AuraGameplayTags::Ability_Status_Unlocked);
         AbilitySystemComponent->GiveAbility(GameplayAbilitySpec);
     }
 }
@@ -52,7 +53,7 @@ void UAbilityInputBindings::BindAbilityInputs(UAbilitySystemComponent* AbilitySy
         {
             if (AbilityInputBinding.InputTag.IsValid())
             {
-                AuraAbilitySystemComponent->AssignAbilityToInputTag(AbilityInputBinding.AbilityTag, AbilityInputBinding.InputTag);
+                AuraAbilitySystemComponent->EquipAbility(AbilityInputBinding.AbilityTag, AbilityInputBinding.InputTag);
             }
         }
     }

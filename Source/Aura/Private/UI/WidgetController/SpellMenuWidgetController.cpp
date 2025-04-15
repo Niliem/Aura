@@ -49,14 +49,41 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
                 ProcessAbilitySelection(GetSelectedAbilityStatusTag(), GetAuraPlayerState()->GetSpellPoints());
             }
         });
+    GetAuraAbilitySystemComponent()->OnAbilityEquipped.AddLambda(
+        [this](const FGameplayTag& AbilityTag, const FGameplayTag& InputTag, const FGameplayTag& PrevInputTag)
+        {
+            SelectAbility(AbilityTag);
+
+            if (PrevInputTag.IsValid())
+            {
+                FAuraAbilityInfo PrevInputInfo;
+                PrevInputInfo.AbilityTag = FGameplayTag();
+                PrevInputInfo.InputTag = PrevInputTag;
+                AbilityInfoDelegate.Broadcast(PrevInputInfo);
+            }
+
+            if (AbilityInfo)
+            {
+                FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+                Info.StatusTag = AuraGameplayTags::Ability_Status_Equipped;
+                Info.InputTag = InputTag;
+                AbilityInfoDelegate.Broadcast(Info);
+            }
+        });
 }
 
 void USpellMenuWidgetController::SelectAbility(const FGameplayTag& AbilityTag)
 {
     SelectedAbilityTag = AbilityTag;
     StopWaitingForEquipDelegate.Broadcast(FGameplayTag());
+    bWaitingForEquipSelection = false;
 
     ProcessAbilitySelection(GetSelectedAbilityStatusTag(), GetAuraPlayerState()->GetSpellPoints());
+}
+
+void USpellMenuWidgetController::EquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& InputSlotTag)
+{
+    GetAuraAbilitySystemComponent()->EquipAbility(AbilityTag, InputSlotTag);
 }
 
 void USpellMenuWidgetController::SpendSpellPoint()
@@ -64,28 +91,26 @@ void USpellMenuWidgetController::SpendSpellPoint()
     GetAuraAbilitySystemComponent()->SpendSpellPoint(SelectedAbilityTag);
 }
 
-FGameplayTag USpellMenuWidgetController::GetSelectedAbilityType()
-{
-    FGameplayTag AbilityType = FGameplayTag();
-    if (const FGameplayAbilitySpec* AbilitySpec = GetAuraAbilitySystemComponent()->GetSpecFromAbilityTag(SelectedAbilityTag))
-    {
-        AbilityType = UAuraAbilitySystemLibrary::GetAbilityTypeTagFromSpec(*AbilitySpec);
-    }
-
-    if (!AbilityType.IsValid() && AbilityInfo)
-    {
-        FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(SelectedAbilityTag);
-        if (Info.Ability)
-        {
-            AbilityType = UAuraAbilitySystemLibrary::GetAbilityTypeTag(Info.Ability.GetDefaultObject());
-        }
-    }
-    return AbilityType;
-}
-
 void USpellMenuWidgetController::EquipButtonPressed()
 {
-    WaitForEquipDelegate.Broadcast(GetSelectedAbilityType());
+    WaitForEquipDelegate.Broadcast(GetSelectedAbilityTypeTag());
+    bWaitingForEquipSelection = true;
+}
+
+void USpellMenuWidgetController::SelectInputSlot(const FGameplayTag& InputSlotTag, const FGameplayTag& AbilityType)
+{
+    if (!bWaitingForEquipSelection)
+    {
+        return;
+    }
+
+    FGameplayTag SelectedAbilityType = GetSelectedAbilityTypeTag();
+    if (!SelectedAbilityType.MatchesTagExact(AbilityType))
+    {
+        return;
+    }
+
+    EquipAbility(SelectedAbilityTag, InputSlotTag);
 }
 
 void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints)
@@ -120,6 +145,25 @@ void USpellMenuWidgetController::ProcessAbilitySelection(const FGameplayTag& Sta
     }
 
     OnSelectAbility.Broadcast(bCanSpendPoints, bCanEquipAbility, Description, NextLevelDescription);
+}
+
+FGameplayTag USpellMenuWidgetController::GetSelectedAbilityTypeTag()
+{
+    FGameplayTag AbilityType = FGameplayTag();
+    if (const FGameplayAbilitySpec* AbilitySpec = GetAuraAbilitySystemComponent()->GetSpecFromAbilityTag(SelectedAbilityTag))
+    {
+        AbilityType = UAuraAbilitySystemLibrary::GetAbilityTypeTagFromSpec(*AbilitySpec);
+    }
+
+    if (!AbilityType.IsValid() && AbilityInfo)
+    {
+        FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(SelectedAbilityTag);
+        if (Info.Ability)
+        {
+            AbilityType = UAuraAbilitySystemLibrary::GetAbilityTypeTag(Info.Ability.GetDefaultObject());
+        }
+    }
+    return AbilityType;
 }
 
 FGameplayTag USpellMenuWidgetController::GetSelectedAbilityStatusTag()

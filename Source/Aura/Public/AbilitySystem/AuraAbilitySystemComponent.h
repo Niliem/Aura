@@ -12,6 +12,7 @@ DECLARE_MULTICAST_DELEGATE(FAbilitiesGivenDelegate);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag&, const FGameplayTag&, int32);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnAbilityGiven, const FGameplayTag&);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnAbilityEquipped, const FGameplayTag&, const FGameplayTag&, const FGameplayTag&);
 
 /**
  *
@@ -35,6 +36,7 @@ public:
     FAbilitiesGivenDelegate OnAbilitiesGiven;
     FAbilityStatusChanged OnAbilityStatusChanged;
     FOnAbilityGiven OnAbilityGiven;
+    FOnAbilityEquipped OnAbilityEquipped;
 
     bool bStartupAbilitiesGiven = false;
 
@@ -46,11 +48,13 @@ public:
 
     void AssignAbilityToInputTag(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag);
     void AssignAbilityToInputTag(FGameplayAbilitySpec& AbilitySpec, const FGameplayTag& InputTag);
-    void ClearInputTag(FGameplayAbilitySpec* AbilitySpec);
+    FGameplayTag ClearAbilityInputTag(FGameplayAbilitySpec* AbilitySpec);
+    void ClearAbilitiesFromInputTag(const FGameplayTag& InputTag);
 
     void UpgradeAttribute(const FGameplayTag& AttributeEventTag);
 
     void SpendSpellPoint(const FGameplayTag& AbilityTag);
+    void EquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag);
 
     void UpdateAbilityStatuses(const int32 Level = 1);
 protected:
@@ -60,11 +64,17 @@ protected:
     UFUNCTION(Server, Reliable)
     void ServerSpendSpellPoint(const FGameplayTag& AbilityTag);
 
+    UFUNCTION(Server, Reliable)
+    void ServerEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag);
+
     UFUNCTION(Client, Reliable)
     void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle);
 
     UFUNCTION(Client, Reliable)
     void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 Level);
+
+    UFUNCTION(Client, Reliable)
+    void ClientEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag, const FGameplayTag& PrevInputTag);
 
     virtual void OnRep_ActivateAbilities() override;
     virtual void OnGiveAbility(FGameplayAbilitySpec& AbilitySpec) override;

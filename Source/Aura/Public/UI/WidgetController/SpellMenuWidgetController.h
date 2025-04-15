@@ -26,12 +26,16 @@ public:
     void SelectAbility(const FGameplayTag& AbilityTag);
 
     UFUNCTION(BlueprintCallable, Category= "Spell Menu")
-    void SpendSpellPoint();
+    void EquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& InputSlotTag);
 
-    FGameplayTag GetSelectedAbilityType();
+    UFUNCTION(BlueprintCallable, Category= "Spell Menu")
+    void SpendSpellPoint();
 
     UFUNCTION(BlueprintCallable, Category= "Spell Menu")
     void EquipButtonPressed();
+
+    UFUNCTION(BlueprintCallable, Category= "Spell Menu")
+    void SelectInputSlot(const FGameplayTag& InputSlotTag, const FGameplayTag& AbilityType);
 
     UPROPERTY(BlueprintAssignable, Category = "Spell Menu")
     FOnStatChangedDelegate OnSpellPointsChanged;
@@ -51,4 +55,7 @@ private:
     void ProcessAbilitySelection(const FGameplayTag& StatusTag, int32 SpellPoints);
 
     FGameplayTag GetSelectedAbilityStatusTag();
+    FGameplayTag GetSelectedAbilityTypeTag();
+
+    bool bWaitingForEquipSelection = false;
 };

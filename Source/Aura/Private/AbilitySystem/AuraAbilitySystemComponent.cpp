@@ -141,7 +141,7 @@ bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag
 
 void UAuraAbilitySystemComponent::AssignAbilityToInputTag(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag)
 {
-    if (auto AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+    if (const auto AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
     {
         AssignAbilityToInputTag(*AbilitySpec, InputTag);
     }
@@ -149,17 +149,45 @@ void UAuraAbilitySystemComponent::AssignAbilityToInputTag(const FGameplayTag& Ab
 
 void UAuraAbilitySystemComponent::AssignAbilityToInputTag(FGameplayAbilitySpec& AbilitySpec, const FGameplayTag& InputTag)
 {
-    ClearInputTag(&AbilitySpec);
-    AbilitySpec.GetDynamicSpecSourceTags().AddTag(InputTag);
-    AbilitySpec.GetDynamicSpecSourceTags().AddTag(AuraGameplayTags::Ability_Status_Equipped);
-    MarkAbilitySpecDirty(AbilitySpec);
+    const FGameplayTag& AbilityStatus = UAuraAbilitySystemLibrary::GetAbilityStatusTagFromSpec(AbilitySpec);
+    const bool bCanEquipAbility = (AbilityStatus.MatchesTagExact(AuraGameplayTags::Ability_Status_Equipped) || AbilityStatus.MatchesTagExact(AuraGameplayTags::Ability_Status_Unlocked));
+    if (bCanEquipAbility)
+    {
+        ClearAbilitiesFromInputTag(InputTag);
+
+        const FGameplayTag& PrevInputTag = ClearAbilityInputTag(&AbilitySpec);
+        AbilitySpec.GetDynamicSpecSourceTags().AddTag(InputTag);
+
+        if (AbilityStatus.MatchesTagExact(AuraGameplayTags::Ability_Status_Unlocked))
+        {
+            AbilitySpec.GetDynamicSpecSourceTags().RemoveTag(AuraGameplayTags::Ability_Status_Unlocked);
+            AbilitySpec.GetDynamicSpecSourceTags().AddTag(AuraGameplayTags::Ability_Status_Equipped);
+        }
+
+        MarkAbilitySpecDirty(AbilitySpec);
+        ClientEquipAbility(UAuraAbilitySystemLibrary::GetAbilityTagFromSpec(AbilitySpec), InputTag, PrevInputTag);
+    }
 }
 
-void UAuraAbilitySystemComponent::ClearInputTag(FGameplayAbilitySpec* AbilitySpec)
+FGameplayTag UAuraAbilitySystemComponent::ClearAbilityInputTag(FGameplayAbilitySpec* AbilitySpec)
 {
-    const FGameplayTag Input = UAuraAbilitySystemLibrary::GetAbilityInputTagFromSpec(*AbilitySpec);
-    AbilitySpec->GetDynamicSpecSourceTags().RemoveTag(Input);
+    const FGameplayTag& InputTag = UAuraAbilitySystemLibrary::GetAbilityInputTagFromSpec(*AbilitySpec);
+    AbilitySpec->GetDynamicSpecSourceTags().RemoveTag(InputTag);
     MarkAbilitySpecDirty(*AbilitySpec);
+    return InputTag;
+}
+
+void UAuraAbilitySystemComponent::ClearAbilitiesFromInputTag(const FGameplayTag& InputTag)
+{
+    FScopedAbilityListLock ActiveScopeLock(*this);
+    for (auto& AbilitySpec : GetActivatableAbilities())
+    {
+        const FGameplayTag& CurrentInputTag = UAuraAbilitySystemLibrary::GetAbilityInputTagFromSpec(AbilitySpec);
+        if (InputTag.MatchesTagExact(CurrentInputTag))
+        {
+            ClearAbilityInputTag(&AbilitySpec);
+        }
+    }
 }
 
 void UAuraAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeEventTag)
@@ -172,6 +200,14 @@ void UAuraAbilitySystemComponent::SpendSpellPoint(const FGameplayTag& AbilityTag
     if (AbilityTag.IsValid())
     {
         ServerSpendSpellPoint(AbilityTag);
+    }
+}
+
+void UAuraAbilitySystemComponent::EquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag)
+{
+    if (AbilityTag.IsValid())
+    {
+        ServerEquipAbility(AbilityTag, InputTag);
     }
 }
 
@@ -266,15 +302,24 @@ void UAuraAbilitySystemComponent::ServerSpendSpellPoint_Implementation(const FGa
             AbilitySpec->Level++;
         }
 
-        ClientUpdateAbilityStatus(AbilityTag, Status, 1);
-
         MarkAbilitySpecDirty(*AbilitySpec);
+        ClientUpdateAbilityStatus(AbilityTag, Status, 1);
     }
+}
+
+void UAuraAbilitySystemComponent::ServerEquipAbility_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag)
+{
+    AssignAbilityToInputTag(AbilityTag, InputTag);
 }
 
 void UAuraAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 Level)
 {
     OnAbilityStatusChanged.Broadcast(AbilityTag, StatusTag, Level);
+}
+
+void UAuraAbilitySystemComponent::ClientEquipAbility_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag, const FGameplayTag& PrevInputTag)
+{
+    OnAbilityEquipped.Broadcast(AbilityTag, InputTag, PrevInputTag);
 }
 
 void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveGameplayHandle)
