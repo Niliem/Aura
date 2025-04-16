@@ -43,7 +43,6 @@ public:
     void ForEachAbility(const FForEachAbility& Delegate);
 
     FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
-
     bool GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
 
     void AssignAbilityToInputTag(const FGameplayTag& AbilityTag, const FGameplayTag& InputTag);

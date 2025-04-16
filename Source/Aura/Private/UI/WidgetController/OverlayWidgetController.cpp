@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "UI/WidgetController/OverlayWidgetController.h"
+
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "Player/AuraPlayerState.h"
@@ -64,6 +67,32 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
                 }
             }
         });
+    GetAuraAbilitySystemComponent()->OnAbilityEquipped.AddLambda(
+    [this](const FGameplayTag& AbilityTag, const FGameplayTag& InputTag, const FGameplayTag& PrevInputTag)
+    {
+        if (PrevInputTag.IsValid())
+        {
+            FAuraAbilityInfo PrevInputInfo;
+            PrevInputInfo.AbilityTag = FGameplayTag();
+            PrevInputInfo.InputTag = PrevInputTag;
+            AbilityInfoDelegate.Broadcast(PrevInputInfo);
+        }
+
+        if (AbilityInfo)
+        {
+            FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+            Info.StatusTag = AuraGameplayTags::Ability_Status_Equipped;
+            Info.InputTag = InputTag;
+
+            if (const FGameplayAbilitySpec* AbilitySpec = GetAuraAbilitySystemComponent()->GetSpecFromAbilityTag(AbilityTag))
+            {
+                Info.TypeTag = UAuraAbilitySystemLibrary::GetAbilityTypeTagFromSpec(*AbilitySpec);
+                Info.CooldownTag = UAuraAbilitySystemLibrary::GetAbilityCooldownTagFromSpec(*AbilitySpec);
+            }
+
+            AbilityInfoDelegate.Broadcast(Info);
+        }
+    });
 
     AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAttributeSet()->GetHealthAttribute()).AddLambda(
         [this](const FOnAttributeChangeData& Data)

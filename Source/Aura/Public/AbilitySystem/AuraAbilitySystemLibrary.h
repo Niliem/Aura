@@ -56,10 +56,12 @@ public:
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
     static int32 GetStencilValueFromEnum(const EStencilValue StencilValue);
 
-    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageTypes")
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|DamageTypes")
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);
 
-    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|AbilityInfo", meta = (DefaultToSelf = "WorldContextObject"))
+
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|AbilityInfo", meta = (DefaultToSelf = "WorldContextObject"))
     static UAbilityInfo* GetAbilitiesInfo(const UObject* WorldContextObject);
 
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
@@ -83,10 +85,18 @@ public:
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
     static FGameplayTag GetAbilityInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 
-    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|Ability", meta = (DefaultToSelf = "WorldContextObject"))
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityCooldownTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability")
+    static FGameplayTag GetAbilityCooldownTag(const UGameplayAbility* Ability);
+
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Ability", meta = (DefaultToSelf = "WorldContextObject"))
     static FString GetAbilityDescription(const UObject* WorldContextObject, const FGameplayTag& AbilityTag, int32 Level, EAbilityDescriptionType DescriptionType = EAbilityDescriptionType::Default);
 
     static void FormatAbilityDescription(UGameplayAbility* Ability, int32 Level, FText& OutDescription);
+
+
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static void ExecuteActivePeriodicEffectsWithTags(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTagContainer Tags);

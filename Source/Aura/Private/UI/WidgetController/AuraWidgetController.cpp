@@ -41,13 +41,7 @@ void UAuraWidgetController::BroadcastAbilityInfo()
             Info.StatusTag = UAuraAbilitySystemLibrary::GetAbilityStatusTagFromSpec(AbilitySpec);
             Info.TypeTag = UAuraAbilitySystemLibrary::GetAbilityTypeTagFromSpec(AbilitySpec);
             Info.InputTag = UAuraAbilitySystemLibrary::GetAbilityInputTagFromSpec(AbilitySpec);
-            if (const FGameplayTagContainer* Tags = AbilitySpec.Ability.Get()->GetCooldownTags())
-            {
-                for (const auto& CooldownTag : Tags->GetGameplayTagArray())
-                {
-                    Info.CooldownTag = CooldownTag;
-                }
-            }
+            Info.CooldownTag = UAuraAbilitySystemLibrary::GetAbilityCooldownTagFromSpec(AbilitySpec);
             AbilityInfoDelegate.Broadcast(Info);
         });
     GetAuraAbilitySystemComponent()->ForEachAbility(BroadcastDelegate);

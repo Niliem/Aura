@@ -238,6 +238,27 @@ FGameplayTag UAuraAbilitySystemLibrary::GetAbilityInputTagFromSpec(const FGamepl
     return FGameplayTag();
 }
 
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityCooldownTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    if (AbilitySpec.Ability)
+    {
+        return GetAbilityCooldownTag(AbilitySpec.Ability.Get());
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UAuraAbilitySystemLibrary::GetAbilityCooldownTag(const UGameplayAbility* Ability)
+{
+    if (const FGameplayTagContainer* Tags = Ability->GetCooldownTags())
+    {
+        for (const auto& CooldownTag : Tags->GetGameplayTagArray())
+        {
+            return CooldownTag;
+        }
+    }
+    return FGameplayTag();
+}
+
 FString UAuraAbilitySystemLibrary::GetAbilityDescription(const UObject* WorldContextObject, const FGameplayTag& AbilityTag, int32 Level, EAbilityDescriptionType DescriptionType)
 {
     const auto Infos = GetAbilitiesInfo(WorldContextObject);
