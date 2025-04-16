@@ -60,6 +60,7 @@ namespace AuraGameplayTags
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_Status_Negative_Physical_Bleed, "Effect.Status.Negative.Physical.Bleed", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_Status_Negative_Elemental_Burn, "Effect.Status.Negative.Elemental.Burn", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Effect_Status_Negative_Elemental_Shock, "Effect.Status.Negative.Elemental.Shock", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Character_Status_Healthy, "Character.Status.Healthy", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(Character_Status_Dead, "Character.Status.Dead", "");

@@ -23,4 +23,6 @@ public:
     UPROPERTY(EditDefaultsOnly, Category = "Damage Types")
     TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Damage Types")
+    TMap<FGameplayTag, FGameplayTag> DamageTypesToStatuses;
 };

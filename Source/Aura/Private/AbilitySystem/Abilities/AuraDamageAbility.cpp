@@ -9,19 +9,23 @@ FGameplayEffectSpecHandle UAuraDamageAbility::MakeDamageEffectSpecHandle(FGamepl
     const UAbilitySystemComponent* SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
     const FGameplayEffectSpecHandle DamageEffectSpecHandle = SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), ContextHandle);
 
-    for (const auto& Damage : DamageTypes)
+    if (DamageType.IsValid() && DamageCurve.IsValid())
     {
-        const float ScaledDamage = Damage.Value.GetValueAtLevel(GetAbilityLevel());
-        UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageEffectSpecHandle, Damage.Key, ScaledDamage);
+        const float ScaledDamage = DamageCurve.GetValueAtLevel(GetAbilityLevel());
+        UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageEffectSpecHandle, DamageType, ScaledDamage);
     }
+
     return DamageEffectSpecHandle;
 }
 
-float UAuraDamageAbility::GetDamageAtLevel(const FGameplayTag& DamageType, int32 Level)
+float UAuraDamageAbility::GetDamageAtLevel(const FGameplayTag& InDamageType, int32 Level) const
 {
-    if (const auto ScalableDamage = DamageTypes.Find(DamageType))
+    if (DamageType.IsValid() && DamageType.MatchesTagExact(InDamageType))
     {
-        return ScalableDamage->GetValueAtLevel(Level);
+        if (DamageCurve.IsValid())
+        {
+            return DamageCurve.GetValueAtLevel(Level);
+        }
     }
     return 0.0f;
 }

@@ -16,7 +16,7 @@ class AURA_API UAuraDamageAbility : public UAuraGameplayAbility
 
 public:
     UFUNCTION(BlueprintPure, Category = "Damage", meta = (HidePin="Target"))
-    float GetDamageAtLevel(const FGameplayTag& DamageType, int32 Level);
+    float GetDamageAtLevel(const FGameplayTag& DamageType, int32 Level) const;
 
 protected:
     UFUNCTION(BlueprintPure, Category = "Damage")
@@ -28,8 +28,11 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage")
     TSubclassOf<UGameplayEffect> DamageEffectClass;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Damage", Meta = (Categories = "DamageType"))
+    FGameplayTag DamageType;
+
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
-    TMap<FGameplayTag, FScalableFloat> DamageTypes;
+    FScalableFloat DamageCurve;
 
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     TArray<TObjectPtr<UAnimMontage>> AbilityMontages;

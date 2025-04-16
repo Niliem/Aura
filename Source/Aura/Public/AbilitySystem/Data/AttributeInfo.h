@@ -16,7 +16,7 @@ struct FAuraAttributeInfo
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     FGameplayAttribute Attribute = FGameplayAttribute();
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (Categories = "Attribute"))
     FGameplayTag Tag = FGameplayTag();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

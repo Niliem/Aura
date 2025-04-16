@@ -17,7 +17,7 @@ struct FAuraAbilityInfo
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TSubclassOf<UGameplayAbility> Ability = nullptr;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Meta = (Categories = "Ability"))
     FGameplayTag AbilityTag = FGameplayTag();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
