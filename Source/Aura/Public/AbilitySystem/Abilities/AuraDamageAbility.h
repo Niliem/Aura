@@ -34,6 +34,18 @@ protected:
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     FScalableFloat DamageCurve;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Debuff")
+    float DebuffChance = 20.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Debuff")
+    float DebuffDamage = 5.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Debuff")
+    float DebuffFrequency = 1.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Debuff")
+    float DebuffDuration = 5.0f;
+
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     TArray<TObjectPtr<UAnimMontage>> AbilityMontages;
 };

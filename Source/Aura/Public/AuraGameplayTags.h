@@ -64,6 +64,8 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_Status_Negative_Elemental_Burn);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_Status_Negative_Elemental_Shock);
 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Effect_Status_Negative_Elemental_Shock);
+
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Healthy);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Dead);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(Character_Status_Immortal);
@@ -75,14 +77,19 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Elemental_Arcane);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType_Elemental_Lightning);
 
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_IncomingXP);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_AttributePoints);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_SpellPoints);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Strength);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Intelligence);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Resilience);
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Vigor);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Attribute_Damage);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Attribute_IncomingXP);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Attribute_AttributePoints);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Attribute_SpellPoints);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Attribute_Strength);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Attribute_Intelligence);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Attribute_Resilience);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Attribute_Vigor);
+
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Debuff_Chance);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Debuff_Damage);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Debuff_Duration);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Debuff_Frequency);
 
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LMB);

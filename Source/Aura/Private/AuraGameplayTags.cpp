@@ -73,14 +73,19 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Elemental_Arcane, "DamageType.Elemental.Arcane", "Arcane damage type");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType_Elemental_Lightning, "DamageType.Elemental.Lightning", "Lightning damage type");
 
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Damage, "SetByCaller.Damage", "SetByCaller tag used by damage gameplay effects.");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_IncomingXP, "SetByCaller.IncomingXP", "SetByCaller tag used by IncomingXP gameplay effects.");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_AttributePoints, "SetByCaller.AttributePoints", "SetByCaller tag used by AttributePoints gameplay effects.");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_SpellPoints, "SetByCaller.SpellPoints", "SetByCaller tag used by SpellPoints gameplay effects.");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Strength, "SetByCaller.Strength", "SetByCaller tag used by Strength gameplay effects.");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Intelligence, "SetByCaller.Intelligence", "SetByCaller tag used by Intelligence gameplay effects.");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Resilience, "SetByCaller.Resilience", "SetByCaller tag used by Resilience gameplay effects.");
-    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Vigor, "SetByCaller.Vigor", "SetByCaller tag used by Vigor gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Attribute_Damage, "SetByCaller.Attribute.Damage", "SetByCaller tag used by damage gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Attribute_IncomingXP, "SetByCaller.Attribute.IncomingXP", "SetByCaller tag used by IncomingXP gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Attribute_AttributePoints, "SetByCaller.Attribute.AttributePoints", "SetByCaller tag used by AttributePoints gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Attribute_SpellPoints, "SetByCaller.Attribute.SpellPoints", "SetByCaller tag used by SpellPoints gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Attribute_Strength, "SetByCaller.Attribute.Strength", "SetByCaller tag used by Strength gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Attribute_Intelligence, "SetByCaller.Attribute.Intelligence", "SetByCaller tag used by Intelligence gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Attribute_Resilience, "SetByCaller.Attribute.Resilience", "SetByCaller tag used by Resilience gameplay effects.");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Attribute_Vigor, "SetByCaller.Attribute.Vigor", "SetByCaller tag used by Vigor gameplay effects.");
+
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Debuff_Chance, "SetByCaller.Debuff.Chance", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Debuff_Damage, "SetByCaller.Debuff.Damage", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Debuff_Duration, "SetByCaller.Debuff.Duration", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Debuff_Frequency, "SetByCaller.Debuff.Frequency", "");
 
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag, "InputTag", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_LMB, "InputTag.LMB", "Input Tag for Left Mouse Button");
