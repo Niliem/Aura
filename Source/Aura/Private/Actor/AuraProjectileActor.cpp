@@ -5,7 +5,6 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
-#include "Components/AudioComponent.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
@@ -43,43 +42,55 @@ void AAuraProjectileActor::Destroyed()
 {
     if (!bHit && !HasAuthority())
     {
-        UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-        UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-        bHit = true;
+        OnHit();
     }
     Super::Destroyed();
 }
 
+void AAuraProjectileActor::OnHit()
+{
+    UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+    UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+}
+
 void AAuraProjectileActor::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    if (!DamageEffectSpecHandle.Data.IsValid() || DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
+    if (!IsValid(GetOwner()))
     {
-        return;
-    }
-
-    if (UAuraAbilitySystemLibrary::IsOnSameTeam(DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(), OtherActor))
-    {
-        return;
-    }
-
-    if (!bHit)
-    {
-        UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-        UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
         bHit = true;
+        Destroy();
+        return;
     }
+
+    if (GetOwner() == OtherActor)
+    {
+        return;
+    }
+
+    if (UAuraAbilitySystemLibrary::IsOnSameTeam(GetOwner(), OtherActor))
+    {
+        return;
+    }
+
+    OnHit();
 
     if (HasAuthority())
     {
-        if (auto TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+        if (IsValid(DamageEffectParams.SourceAbilitySystemComponent))
         {
-            TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+            if (auto TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+            {
+                DamageEffectParams.TargetAbilitySystemComponent = TargetAbilitySystemComponent;
+                UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+            }
         }
 
         Destroy();
     }
     else
     {
+        SetActorHiddenInGame(true);
+        Sphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         bHit = true;
     }
 }

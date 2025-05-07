@@ -3,9 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystem/AuraAbilityTypes.h"
 #include "GameFramework/Actor.h"
-#include "GameplayEffectTypes.h"
-
 #include "AuraProjectileActor.generated.h"
 
 class USphereComponent;
@@ -24,11 +23,12 @@ public:
     TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
 
     UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = "true"))
-    FGameplayEffectSpecHandle DamageEffectSpecHandle;
+    FDamageEffectParams DamageEffectParams;
 
 protected:
     virtual void BeginPlay() override;
     virtual void Destroyed() override;
+    void OnHit();
 
     UFUNCTION()
     void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

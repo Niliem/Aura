@@ -28,20 +28,9 @@ void UAuraProjectileAbility::SpawnProjectile(const FVector& TargetLocation, FGam
     SpawnTransform.SetRotation(Rotation.Quaternion());
 
     AAuraProjectileActor* Projectile =
-        GetWorld()->SpawnActorDeferred<AAuraProjectileActor>(ProjectileActorClass, SpawnTransform, GetOwningActorFromActorInfo(), Cast<APawn>(GetOwningActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+        GetWorld()->SpawnActorDeferred<AAuraProjectileActor>(ProjectileActorClass, SpawnTransform, GetAvatarActorFromActorInfo(), Cast<APawn>(GetAvatarActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-    const UAbilitySystemComponent* SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
-    FGameplayEffectContextHandle ContextHandle = SourceAbilitySystemComponent->MakeEffectContext();
-    ContextHandle.SetAbility(this);
-    ContextHandle.AddSourceObject(Projectile);
-    TArray<TWeakObjectPtr<AActor>> Actors;
-    Actors.Add(Projectile);
-    ContextHandle.AddActors(Actors);
-    FHitResult HitResult;
-    HitResult.Location = TargetLocation;
-    ContextHandle.AddHitResult(HitResult);
-
-    Projectile->DamageEffectSpecHandle = MakeDamageEffectSpecHandle(ContextHandle);
+    Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 
     Projectile->FinishSpawning(SpawnTransform);
 }
