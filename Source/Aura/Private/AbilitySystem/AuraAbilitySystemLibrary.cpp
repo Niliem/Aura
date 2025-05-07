@@ -131,6 +131,13 @@ TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToResi
     return TMap<FGameplayTag, FGameplayTag>();
 }
 
+TMap<FGameplayTag, FGameplayTag> UAuraAbilitySystemLibrary::GetDamageTypesToDebuffs(const UObject* WorldContextObject)
+{
+    if (const auto AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject)))
+        return AuraGameMode->DamageTypesToStatuses;
+    return TMap<FGameplayTag, FGameplayTag>();
+}
+
 FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams)
 {
     FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();

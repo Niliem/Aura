@@ -62,6 +62,10 @@ public:
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|DamageTypes")
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);
 
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|DamageTypes")
+    static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToDebuffs(const UObject* WorldContextObject);
+
+
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|DamageEffect")
     static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
 
