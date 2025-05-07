@@ -11,7 +11,7 @@ FGameplayEffectSpecHandle UAuraDamageAbility::MakeDamageEffectSpecHandle(FGamepl
 
     if (DamageType.IsValid() && DamageCurve.IsValid())
     {
-        const float ScaledDamage = DamageCurve.GetValueAtLevel(GetAbilityLevel());
+        const float ScaledDamage = GetDamageAtLevel(DamageType, GetAbilityLevel());
         UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageEffectSpecHandle, DamageType, ScaledDamage);
     }
 
@@ -28,6 +28,24 @@ float UAuraDamageAbility::GetDamageAtLevel(const FGameplayTag& InDamageType, int
         }
     }
     return 0.0f;
+}
+
+FDamageEffectParams UAuraDamageAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor) const
+{
+    FDamageEffectParams DamageParams;
+    DamageParams.WorldContextObject = GetAvatarActorFromActorInfo();
+    DamageParams.DamageGameplayEffectClass = DamageEffectClass;
+    DamageParams.SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
+    DamageParams.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+    DamageParams.BaseDamage = GetDamageAtLevel(DamageType, GetAbilityLevel());
+    DamageParams.AbilityLevel = GetAbilityLevel();
+    DamageParams.DamageType = DamageType;
+    DamageParams.DebuffChance = DebuffChance;
+    DamageParams.DebuffDamage = DebuffDamage;
+    DamageParams.DebuffFrequency = DebuffFrequency;
+    DamageParams.DebuffDuration = DebuffDuration;
+
+    return DamageParams;
 }
 
 UAnimMontage* UAuraDamageAbility::GetAbilityMontage() const

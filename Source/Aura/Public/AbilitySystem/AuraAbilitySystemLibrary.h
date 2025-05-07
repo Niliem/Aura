@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "AuraAbilitySystemLibrary.generated.h"
 
+
 class UOverlayWidgetController;
 class UAttributeMenuWidgetController;
 class USpellMenuWidgetController;
@@ -13,7 +14,9 @@ class UAbilitySystemComponent;
 class UGameplayAbility;
 class UAbilityInfo;
 
+struct FGameplayEffectContextHandle;
 struct FWidgetControllerParams;
+struct FDamageEffectParams;
 
 UENUM(BlueprintType)
 enum class EAbilityDescriptionType : uint8
@@ -59,6 +62,8 @@ public:
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|DamageTypes")
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToResistances(const UObject* WorldContextObject);
 
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|DamageEffect")
+    static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
 
 
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|AbilityInfo", meta = (DefaultToSelf = "WorldContextObject"))
@@ -96,8 +101,6 @@ public:
 
     static void FormatAbilityDescription(UGameplayAbility* Ability, int32 Level, FText& OutDescription);
 
-
-
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static void ExecuteActivePeriodicEffectsWithTags(UAbilitySystemComponent* AbilitySystemComponent, FGameplayTagContainer Tags);
 
@@ -112,4 +115,6 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bIsCriticalHit);
+
+
 };

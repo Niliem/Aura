@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystem/AuraAbilityTypes.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 #include "AuraDamageAbility.generated.h"
 
@@ -17,6 +18,9 @@ class AURA_API UAuraDamageAbility : public UAuraGameplayAbility
 public:
     UFUNCTION(BlueprintPure, Category = "Damage", meta = (HidePin="Target"))
     float GetDamageAtLevel(const FGameplayTag& DamageType, int32 Level) const;
+
+    UFUNCTION(BlueprintPure, Category = "Damage")
+    FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
 
 protected:
     UFUNCTION(BlueprintPure, Category = "Damage")
