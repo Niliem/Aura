@@ -35,6 +35,9 @@ struct FDamageEffectParams
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     float AbilityLevel = 1.0f;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Damage")
+    float DeathImpulseMagnitude = 0.0f;
+
     UPROPERTY(EditDefaultsOnly, Category = "Damage", Meta = (Categories = "DamageType"))
     FGameplayTag DamageType;
 
