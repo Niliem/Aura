@@ -6,12 +6,17 @@
 #include "AbilitySystem/Data/CharacterGameplayInfo.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AuraGameplayTags.h"
+#include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Aura/Aura.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
     PrimaryActorTick.bCanEverTick = false;
+
+    BurnDebuffNiagaraComponent = CreateDefaultSubobject<UDebuffNiagaraComponent>("BurnDebuffComponent");
+    BurnDebuffNiagaraComponent->SetupAttachment(GetRootComponent());
+    BurnDebuffNiagaraComponent->DebuffTag = AuraGameplayTags::Effect_Status_Negative_Elemental_Burn;
 
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
     GetCapsuleComponent()->SetGenerateOverlapEvents(false);
@@ -129,6 +134,16 @@ void AAuraCharacterBase::UpdateMinionCount_Implementation(int32 Amount)
     MinionCount = FMath::Max(0, MinionCount + Amount);
 }
 
+FOnASCRegistered AAuraCharacterBase::GetOnASCRegisteredDelegate()
+{
+    return OnASCRegistered;
+}
+
+FOnDeath AAuraCharacterBase::GetOnDeathDelegate()
+{
+    return OnDeath;
+}
+
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 {
     UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
@@ -149,6 +164,8 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 
     GetCharacterMovement()->StopMovementImmediately();
     GetCharacterMovement()->DisableMovement();
+
+    OnDeath.Broadcast(this);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const

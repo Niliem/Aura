@@ -7,8 +7,12 @@
 #include "GameplayTagContainer.h"
 #include "CombatInterface.generated.h"
 
+class UAbilitySystemComponent;
 class UAnimMontage;
 class UNiagaraSystem;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegistered, UAbilitySystemComponent*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, DeadActor);
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI, BlueprintType)
@@ -54,4 +58,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     void UpdateMinionCount(int32 Amount);
+
+    virtual FOnASCRegistered GetOnASCRegisteredDelegate() = 0;
+    virtual FOnDeath GetOnDeathDelegate() = 0;
 };
