@@ -39,6 +39,7 @@ FDamageEffectParams UAuraDamageAbility::MakeDamageEffectParamsFromClassDefaults(
     DamageParams.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
     DamageParams.BaseDamage = GetDamageAtLevel(DamageType, GetAbilityLevel());
     DamageParams.AbilityLevel = GetAbilityLevel();
+    DamageParams.DeathImpulseMagnitude = DeathImpulseMagnitude;
     DamageParams.DamageType = DamageType;
     DamageParams.DebuffChance = DebuffChance;
     DamageParams.DebuffDamage = DebuffDamage;

@@ -49,6 +49,11 @@ public:
         return DamageType;
     }
 
+    FVector GetDeathImpulse() const
+    {
+        return DeathImpulse;
+    }
+
     void SetIsBlockedHit(bool bInIsBlockedHit)
     {
         bIsBlockedHit = bInIsBlockedHit;
@@ -82,6 +87,11 @@ public:
     void SetDamageType(TSharedPtr<FGameplayTag> InDamageType)
     {
         DamageType = InDamageType;
+    }
+
+    void SetDeathImpulse(const FVector& InDeathImpulse)
+    {
+        DeathImpulse = InDeathImpulse;
     }
 
     virtual FAuraGameplayEffectContext* Duplicate() const
@@ -122,6 +132,9 @@ protected:
     float DebuffFrequency = 0.0f;
 
     TSharedPtr<FGameplayTag> DamageType;
+
+    UPROPERTY()
+    FVector DeathImpulse = FVector::ZeroVector;
 };
 
 template <>
