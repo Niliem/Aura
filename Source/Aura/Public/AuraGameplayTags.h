@@ -105,6 +105,7 @@ namespace AuraGameplayTags
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_Slingshot);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Montage_Ranged_FireBolt);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_DeathXP);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_LevelUp);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_IncomingXP);
     UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_AttributePoints);

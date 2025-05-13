@@ -115,12 +115,12 @@ int32 AAuraEnemy::GetCharacterLevel() const
     return Level;
 }
 
-void AAuraEnemy::Die_Implementation()
+void AAuraEnemy::Die_Implementation(const FVector& DeathImpulse)
 {
     SetLifeSpan(2.0f);
     HealthWidget->SetVisibility(false);
     AuraAIController->GetBrainComponent()->StopLogic("Dead");
-    Super::Die_Implementation();
+    Super::Die_Implementation(DeathImpulse);
 }
 
 void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)

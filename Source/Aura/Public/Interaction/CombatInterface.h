@@ -45,7 +45,7 @@ public:
     bool IsDead() const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
-    void Die();
+    void Die(const FVector& DeathImpulse);
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     int32 GetXPReward() const;

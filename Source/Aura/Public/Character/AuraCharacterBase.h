@@ -42,7 +42,7 @@ public:
     virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
     virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
     virtual bool IsDead_Implementation() const override;
-    virtual void Die_Implementation() override;
+    virtual void Die_Implementation(const FVector& DeathImpulse) override;
     virtual int32 GetXPReward_Implementation() const override;
     virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
     virtual int32 GetMinionCount_Implementation() const override;
@@ -54,7 +54,7 @@ public:
     FOnDeath OnDeath;
 
     UFUNCTION(NetMulticast, Reliable)
-    virtual void MulticastHandleDeath();
+    virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 
 protected:
     virtual void BeginPlay() override;

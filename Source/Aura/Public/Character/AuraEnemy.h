@@ -35,7 +35,7 @@ public:
 
     // Inherited via ICombatInterface
     virtual int32 GetCharacterLevel() const override;
-    virtual void Die_Implementation() override;
+    virtual void Die_Implementation(const FVector& DeathImpulse) override;
 
     void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 

@@ -131,18 +131,19 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
             }
             else
             {
-                FGameplayEventData DeathPayload;
-                DeathPayload.EventTag = AuraGameplayTags::GameplayEvent_Death;
-                DeathPayload.Target = Props.TargetCharacter;
-                DeathPayload.Instigator = Props.SourceCharacter;
+                FGameplayEventData OnDeathXPPayload;
+                OnDeathXPPayload.EventTag = AuraGameplayTags::GameplayEvent_DeathXP;
+                OnDeathXPPayload.Target = Props.TargetCharacter;
+                OnDeathXPPayload.Instigator = Props.SourceCharacter;
 
-                if (DeathPayload.Target->Implements<UCombatInterface>())
+                if (OnDeathXPPayload.Target->Implements<UCombatInterface>())
                 {
-                    DeathPayload.EventMagnitude = ICombatInterface::Execute_GetXPReward(DeathPayload.Target);
+                    OnDeathXPPayload.EventMagnitude = ICombatInterface::Execute_GetXPReward(OnDeathXPPayload.Target);
+                    ICombatInterface::Execute_Die(Props.TargetCharacter, UAuraAbilitySystemLibrary::GetDeathImpulse(Props.EffectContextHandle));
                 }
 
                 FScopedPredictionWindow NewScopedWindow(Props.TargetAbilitySystemComponent, true);
-                Props.TargetAbilitySystemComponent->HandleGameplayEvent(DeathPayload.EventTag, &DeathPayload);
+                Props.TargetAbilitySystemComponent->HandleGameplayEvent(OnDeathXPPayload.EventTag, &OnDeathXPPayload);
             }
 
             const bool bIsBlockedHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);

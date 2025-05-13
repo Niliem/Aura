@@ -105,11 +105,11 @@ bool AAuraCharacterBase::IsDead_Implementation() const
     return GetAbilitySystemComponent()->HasMatchingGameplayTag(AuraGameplayTags::Character_Status_Dead);
 }
 
-void AAuraCharacterBase::Die_Implementation()
+void AAuraCharacterBase::Die_Implementation(const FVector& DeathImpulse)
 {
     Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
     GetAbilitySystemComponent()->SetLooseGameplayTagCount(AuraGameplayTags::Character_Status_Dead, 1);
-    MulticastHandleDeath();
+    MulticastHandleDeath(DeathImpulse);
 }
 
 int32 AAuraCharacterBase::GetXPReward_Implementation() const
@@ -144,18 +144,20 @@ FOnDeath AAuraCharacterBase::GetOnDeathDelegate()
     return OnDeath;
 }
 
-void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
 {
     UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 
     Weapon->SetSimulatePhysics(true);
     Weapon->SetEnableGravity(true);
     Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+    Weapon->AddImpulse(DeathImpulse);
 
     GetMesh()->SetSimulatePhysics(true);
     GetMesh()->SetEnableGravity(true);
     GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
     GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+    GetMesh()->AddImpulse(DeathImpulse);
 
     GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
