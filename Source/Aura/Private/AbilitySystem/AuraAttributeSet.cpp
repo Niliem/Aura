@@ -137,6 +137,11 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
             const bool bIsBlockedHit = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
             const bool bIsCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
             ShowFloatingDamageText(Props, LocalIncomingDamage, bIsBlockedHit, bIsCriticalHit);
+
+            if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Props.EffectContextHandle))
+            {
+
+            }
         }
     }
     if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())

@@ -135,7 +135,27 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
         const bool bDebuff = FMath::RandRange(1, 100) < EffectiveDebuffChance;
         if (bDebuff)
         {
+            FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
+            UAuraAbilitySystemLibrary::SetIsSuccessfulDebuff(ContextHandle, true);
+            UAuraAbilitySystemLibrary::SetDamageType(ContextHandle, DamageTypeTag);
 
+            const float DebufDamage = Spec.GetSetByCallerMagnitude(AuraGameplayTags::SetByCaller_Debuff_Damage, false, DefaultIfNotFoundMagnitude);
+            if (!FMath::IsNearlyEqual(DebufDamage, DefaultIfNotFoundMagnitude))
+            {
+                UAuraAbilitySystemLibrary::SetDebuffDamage(ContextHandle, DebufDamage);
+            }
+
+            const float DebufDuration = Spec.GetSetByCallerMagnitude(AuraGameplayTags::SetByCaller_Debuff_Duration, false, DefaultIfNotFoundMagnitude);
+            if (!FMath::IsNearlyEqual(DebufDuration, DefaultIfNotFoundMagnitude))
+            {
+                UAuraAbilitySystemLibrary::SetDebuffDamage(ContextHandle, DebufDuration);
+            }
+
+            const float DebufFrequency = Spec.GetSetByCallerMagnitude(AuraGameplayTags::SetByCaller_Debuff_Frequency, false, DefaultIfNotFoundMagnitude);
+            if (!FMath::IsNearlyEqual(DebufFrequency, DefaultIfNotFoundMagnitude))
+            {
+                UAuraAbilitySystemLibrary::SetDebuffDamage(ContextHandle, DebufFrequency);
+            }
         }
     }
 
