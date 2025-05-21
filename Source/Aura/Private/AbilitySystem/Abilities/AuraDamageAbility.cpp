@@ -3,6 +3,7 @@
 #include "AbilitySystem/Abilities/AuraDamageAbility.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
 FGameplayEffectSpecHandle UAuraDamageAbility::MakeDamageEffectSpecHandle(FGameplayEffectContextHandle& ContextHandle) const
@@ -58,6 +59,16 @@ FDamageEffectParams UAuraDamageAbility::MakeDamageEffectParamsFromClassDefaults(
     DamageParams.DebuffDuration = DebuffDuration;
 
     return DamageParams;
+}
+
+void UAuraDamageAbility::FormatAbilityDescription(int32 Level, FText& OutDescription)
+{
+    OutDescription = FText::FormatNamed(OutDescription,
+    "Dmg_Fire",
+    GetDamageAtLevel(AuraGameplayTags::DamageType_Elemental_Fire, Level),
+    "Dmg_Fire_Next",
+    GetDamageAtLevel(AuraGameplayTags::DamageType_Elemental_Fire, Level + 1)
+    );
 }
 
 UAnimMontage* UAuraDamageAbility::GetAbilityMontage() const

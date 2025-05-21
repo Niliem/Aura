@@ -428,12 +428,7 @@ void UAuraAbilitySystemLibrary::FormatAbilityDescription(UGameplayAbility* Abili
 {
     if (UAuraDamageAbility* DamageAbility = Cast<UAuraDamageAbility>(Ability))
     {
-        OutDescription = FText::FormatNamed(OutDescription,
-            "Dmg_Fire",
-            DamageAbility->GetDamageAtLevel(AuraGameplayTags::DamageType_Elemental_Fire, Level),
-            "Dmg_Fire_Next",
-            DamageAbility->GetDamageAtLevel(AuraGameplayTags::DamageType_Elemental_Fire, Level + 1)
-            );
+        DamageAbility->FormatAbilityDescription(Level, OutDescription);
     }
 }
 

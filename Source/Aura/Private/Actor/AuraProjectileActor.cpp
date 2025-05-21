@@ -34,6 +34,7 @@ AAuraProjectileActor::AAuraProjectileActor()
 void AAuraProjectileActor::BeginPlay()
 {
     Super::BeginPlay();
+    SetReplicateMovement(true);
     SetLifeSpan(LifeSpan);
     Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectileActor::OnSphereOverlap);
 }

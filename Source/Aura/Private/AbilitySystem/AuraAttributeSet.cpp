@@ -239,14 +239,20 @@ void UAuraAttributeSet::ShowFloatingDamageText(const FEffectProperties& Props, f
 {
     if (Props.SourceCharacter != Props.TargetCharacter)
     {
-        if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(Props.SourceCharacter->Controller))
+        if (IsValid(Props.SourceCharacter))
         {
-            PlayerController->ClientShowFloatingDamageNumber(Damage, Props.TargetCharacter, bIsBlockedHit, bIsCriticalHit);
-            return;
+            if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(Props.SourceCharacter->Controller))
+            {
+                PlayerController->ClientShowFloatingDamageNumber(Damage, Props.TargetCharacter, bIsBlockedHit, bIsCriticalHit);
+                return;
+            }
         }
-        if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(Props.TargetCharacter->Controller))
+        if (IsValid(Props.TargetCharacter))
         {
-            PlayerController->ClientShowFloatingDamageNumber(Damage, Props.TargetCharacter, bIsBlockedHit, bIsCriticalHit);
+            if (AAuraPlayerController* PlayerController = Cast<AAuraPlayerController>(Props.TargetCharacter->Controller))
+            {
+                PlayerController->ClientShowFloatingDamageNumber(Damage, Props.TargetCharacter, bIsBlockedHit, bIsCriticalHit);
+            }
         }
     }
 }

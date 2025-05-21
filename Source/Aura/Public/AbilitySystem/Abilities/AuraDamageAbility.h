@@ -22,6 +22,8 @@ public:
     UFUNCTION(BlueprintPure, Category = "Damage")
     FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
 
+    virtual void FormatAbilityDescription(int32 Level, FText& OutDescription);
+
 protected:
     UFUNCTION(BlueprintPure, Category = "Damage")
     FGameplayEffectSpecHandle MakeDamageEffectSpecHandle(UPARAM(ref) FGameplayEffectContextHandle& ContextHandle) const;
