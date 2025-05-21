@@ -15,6 +15,7 @@
 #include "Interaction/PlayerInterface.h"
 #include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
 #include "Aura/AuraLogChannels.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -127,6 +128,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
                     FGameplayTagContainer TagContaier;
                     TagContaier.AddTag(AuraGameplayTags::Ability_HitReact);
                     Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContaier);
+
+                    const FVector KnockbackImpulse = UAuraAbilitySystemLibrary::GetKnockbackImpulse(Props.EffectContextHandle);
+                    if (KnockbackImpulse.Length() > 0.0f)
+                    {
+                        Props.TargetCharacter->GetCharacterMovement()->StopMovementImmediately();
+                        Props.TargetCharacter->LaunchCharacter(KnockbackImpulse, true, true);
+                    }
                 }
             }
             else

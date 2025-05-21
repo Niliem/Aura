@@ -35,6 +35,15 @@ struct FDamageEffectParams
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     float AbilityLevel = 1.0f;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Knockback")
+    float KnockbackChance = 0.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Knockback")
+    float KnockbackForceMagnitude = 0.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Knockback")
+    FVector KnockbackImpulse = FVector::ZeroVector;
+
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     float DeathImpulseMagnitude = 0.0f;
 

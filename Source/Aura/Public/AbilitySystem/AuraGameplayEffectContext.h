@@ -54,6 +54,11 @@ public:
         return DeathImpulse;
     }
 
+    FVector GetKnockbackImpulse() const
+    {
+        return KnockbackImpulse;
+    }
+
     void SetIsBlockedHit(bool bInIsBlockedHit)
     {
         bIsBlockedHit = bInIsBlockedHit;
@@ -92,6 +97,11 @@ public:
     void SetDeathImpulse(const FVector& InDeathImpulse)
     {
         DeathImpulse = InDeathImpulse;
+    }
+
+    void SetKnockbackImpulse(const FVector& InKnockbackImpulse)
+    {
+        KnockbackImpulse = InKnockbackImpulse;
     }
 
     virtual FAuraGameplayEffectContext* Duplicate() const
@@ -135,6 +145,9 @@ protected:
 
     UPROPERTY()
     FVector DeathImpulse = FVector::ZeroVector;
+
+    UPROPERTY()
+    FVector KnockbackImpulse = FVector::ZeroVector;
 };
 
 template <>

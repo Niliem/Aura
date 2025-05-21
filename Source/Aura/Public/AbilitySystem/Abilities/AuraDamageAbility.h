@@ -38,8 +38,14 @@ protected:
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     FScalableFloat DamageCurve;
 
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Knockback")
+    float KnockbackChance = 30.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Damage|Knockback")
+    float KnockbackForceMagnitude = 600.0f;
+
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
-    float DeathImpulseMagnitude = 60.0f;
+    float DeathImpulseMagnitude = 600.0f;
 
     UPROPERTY(EditDefaultsOnly, Category = "Damage|Debuff")
     float DebuffChance = 20.0f;

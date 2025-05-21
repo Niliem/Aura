@@ -3,6 +3,7 @@
 #include "AbilitySystem/Abilities/AuraDamageAbility.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
 FGameplayEffectSpecHandle UAuraDamageAbility::MakeDamageEffectSpecHandle(FGameplayEffectContextHandle& ContextHandle) const
 {
@@ -39,7 +40,17 @@ FDamageEffectParams UAuraDamageAbility::MakeDamageEffectParamsFromClassDefaults(
     DamageParams.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
     DamageParams.BaseDamage = GetDamageAtLevel(DamageType, GetAbilityLevel());
     DamageParams.AbilityLevel = GetAbilityLevel();
+    DamageParams.KnockbackChance = KnockbackChance;
+    DamageParams.KnockbackForceMagnitude = KnockbackForceMagnitude;
     DamageParams.DeathImpulseMagnitude = DeathImpulseMagnitude;
+    if (IsValid(TargetActor))
+    {
+        FRotator Rotation = (TargetActor->GetActorLocation() - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
+        Rotation.Pitch = 45.f;
+        const FVector ToTarget = Rotation.Vector();
+        DamageParams.DeathImpulse = ToTarget * DeathImpulseMagnitude;
+        DamageParams.KnockbackImpulse = ToTarget * KnockbackForceMagnitude;
+    }
     DamageParams.DamageType = DamageType;
     DamageParams.DebuffChance = DebuffChance;
     DamageParams.DebuffDamage = DebuffDamage;

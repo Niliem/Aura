@@ -66,7 +66,7 @@ public:
     static TMap<FGameplayTag, FGameplayTag> GetDamageTypesToDebuffs(const UObject* WorldContextObject);
 
 
-    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|DamageEffect")
+    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|DamageEffect")
     static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
 
 
@@ -132,6 +132,9 @@ public:
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static FVector GetDeathImpulse(const FGameplayEffectContextHandle& EffectContextHandle);
 
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+    static FVector GetKnockbackImpulse(const FGameplayEffectContextHandle& EffectContextHandle);
+
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bIsBlockedHit);
 
@@ -155,5 +158,8 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
     static void SetDeathImpulse(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& DeathImpulse);
+
+    UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+    static void SetKnockbackImpulse(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& KnockbackImpulse);
 };
 
