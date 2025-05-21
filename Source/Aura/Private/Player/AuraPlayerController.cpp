@@ -10,6 +10,7 @@
 #include "AuraGameplayTags.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
+#include "NiagaraFunctionLibrary.h"
 #include "UI/Widget/FloatingTextWidgetComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
@@ -135,6 +136,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
                     bAutoRunning = true;
                 }
             }
+            UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
         }
         FollowTime = 0.0f;
         bTargeting = false;

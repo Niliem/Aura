@@ -8,6 +8,7 @@
 
 #include "AuraPlayerController.generated.h"
 
+class UNiagaraSystem;
 class UInputMappingContext;
 class UInputAction;
 class UAuraInputConfig;
@@ -82,8 +83,12 @@ private:
     bool bAutoRunning = false;
     float AutoRunAcceptanceRadius = 50.0f;
     bool bTargeting = false;
+
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<USplineComponent> Spline;
+
+    UPROPERTY(EditDefaultsOnly)
+    TObjectPtr<UNiagaraSystem> ClickNiagaraSystem;
 
     void AutoRun();
 
