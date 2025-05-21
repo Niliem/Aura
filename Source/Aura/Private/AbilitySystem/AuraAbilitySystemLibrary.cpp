@@ -17,6 +17,7 @@
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "Engine/OverlapResult.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD)
@@ -106,6 +107,50 @@ TArray<AActor*> UAuraAbilitySystemLibrary::GetLiveActorsWithinRadius(const UObje
     }
 
     return OutActors;
+}
+
+TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators)
+{
+    TArray<FRotator> Rotators;
+
+    const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2.0f, Axis);
+    if (NumRotators > 1)
+    {
+        const float DeltaSpread = UKismetMathLibrary::SafeDivide( Spread, (NumRotators - 1));
+
+        for (int i = 0; i < NumRotators; ++i)
+        {
+            const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * i, Axis);
+            Rotators.Add(Direction.Rotation());
+        }
+    }
+    else
+    {
+        Rotators.Add(Forward.Rotation());
+    }
+    return Rotators;
+}
+
+TArray<FVector> UAuraAbilitySystemLibrary::EvenlyRotatedVectors(const FVector& Forward, const FVector& Axis, float Spread, int32 NumVectors)
+{
+    TArray<FVector> Vectors;
+
+    const FVector LeftOfSpread = Forward.RotateAngleAxis(-Spread / 2.0f, Axis);
+    if (NumVectors > 1)
+    {
+        const float DeltaSpread = UKismetMathLibrary::SafeDivide( Spread, (NumVectors - 1));
+
+        for (int i = 0; i < NumVectors; ++i)
+        {
+            const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * i, Axis);
+            Vectors.Add(Direction);
+        }
+    }
+    else
+    {
+        Vectors.Add(Forward);
+    }
+    return Vectors;
 }
 
 bool UAuraAbilitySystemLibrary::IsOnSameTeam(const AActor* FirstActor, const AActor* SecondActor)

@@ -67,6 +67,11 @@ void AAuraProjectileActor::OnSphereOverlap(UPrimitiveComponent* OverlappedCompon
         return;
     }
 
+    if (OtherActor->IsA(AAuraProjectileActor::StaticClass()) && GetOwner() == OtherActor->GetOwner())
+    {
+        return;
+    }
+
     if (UAuraAbilitySystemLibrary::IsOnSameTeam(GetOwner(), OtherActor))
     {
         return;

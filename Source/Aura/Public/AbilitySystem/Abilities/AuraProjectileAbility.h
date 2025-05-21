@@ -38,8 +38,5 @@ protected:
     float OverridePitch = 0.0f;
 
     UFUNCTION(BlueprintCallable, Category = "Projectile")
-    void SpawnProjectile(const FVector& TargetLocation, FGameplayTag Socket, bool bOverridePitch = false, float PitchOverride = 0.0f);
-
-    UFUNCTION(BlueprintCallable, Category = "Projectile")
-    void SpawnProjectiles(const FVector& TargetLocation, FGameplayTag Socket, AActor* HomingTarget, bool bOverridePitch = false, float PitchOverride = 0.0f);
+    void SpawnProjectiles(const FVector& TargetLocation, FGameplayTag Socket, AActor* HomingTarget = nullptr, bool bOverridePitch = false, float PitchOverride = 0.0f);
 };
