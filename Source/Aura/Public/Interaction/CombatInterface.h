@@ -59,6 +59,9 @@ public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     void UpdateMinionCount(int32 Amount);
 
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
+    void SetInShockLoop(bool bInLoop);
+
     virtual FOnASCRegistered GetOnASCRegisteredDelegate() = 0;
     virtual FOnDeath GetOnDeathDelegate() = 0;
 };

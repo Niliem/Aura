@@ -17,12 +17,13 @@ void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& Inp
     if (!InputTag.IsValid())
         return;
 
+    FScopedAbilityListLock ActiveScopeLoc(*this);
     for (auto& AbilitySpec : GetActivatableAbilities())
     {
         if (AbilitySpec.Ability && AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
         {
             AbilitySpecInputPressed(AbilitySpec);
-            if (!AbilitySpec.IsActive())
+            if (AbilitySpec.IsActive())
             {
                 for (const UGameplayAbility* AbilityInstance : AbilitySpec.GetAbilityInstances())
                 {
@@ -38,6 +39,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& In
     if (!InputTag.IsValid())
         return;
 
+    FScopedAbilityListLock ActiveScopeLoc(*this);
     for (auto& AbilitySpec : GetActivatableAbilities())
     {
         if (AbilitySpec.Ability && AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
@@ -59,6 +61,7 @@ void UAuraAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputT
     if (!InputTag.IsValid())
         return;
 
+    FScopedAbilityListLock ActiveScopeLoc(*this);
     for (auto& AbilitySpec : GetActivatableAbilities())
     {
         if (AbilitySpec.Ability && AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
