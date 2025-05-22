@@ -97,6 +97,11 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Passive_1, "InputTag.Passive.1", "Input Tag for Passive 1");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Passive_2, "InputTag.Passive.2", "Input Tag for Passive 2");
 
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_Input_Pressed, "Player.Block.Input.Pressed", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_Input_Released, "Player.Block.Input.Released", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_Input_Held, "Player.Block.Input.Held", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(Player_Block_CursorTrace, "Player.Block.CursorTrace", "");
+
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Melee, "GameplayEvent.Montage.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_Slingshot, "GameplayEvent.Montage.Ranged.Slingshot", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_FireBolt, "GameplayEvent.Montage.Ranged.FireBolt", "");
