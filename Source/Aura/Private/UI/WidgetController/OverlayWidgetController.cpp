@@ -44,16 +44,6 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
         {
             OnLevelChanged.Broadcast(Level);
         });
-
-    if (GetAuraAbilitySystemComponent()->bStartupAbilitiesGiven)
-    {
-        BroadcastAbilityInfo();
-    }
-    else
-    {
-        GetAuraAbilitySystemComponent()->OnAbilitiesGiven.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);
-    }
-
     GetAuraAbilitySystemComponent()->EffectAssetTags.AddLambda(
         [this](const FGameplayTagContainer& AssetTags)
         {
@@ -93,6 +83,15 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
             AbilityInfoDelegate.Broadcast(Info);
         }
     });
+
+    if (GetAuraAbilitySystemComponent()->bStartupAbilitiesGiven)
+    {
+        BroadcastAbilityInfo();
+    }
+    else
+    {
+        GetAuraAbilitySystemComponent()->OnAbilitiesGiven.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);
+    }
 
     AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetAuraAttributeSet()->GetHealthAttribute()).AddLambda(
         [this](const FOnAttributeChangeData& Data)
