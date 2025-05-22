@@ -36,6 +36,9 @@ public:
     FVector GetCombatSocketLocation(const FGameplayTag& SocketTag) const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    USkeletalMeshComponent* GetCombatSocketMesh(const FGameplayTag& SocketTag) const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     UAnimMontage* GetHitReactMontage() const;
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")

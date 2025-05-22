@@ -41,6 +41,7 @@ public:
     // Inherited via ICombatInterface
     virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
     virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
+    virtual USkeletalMeshComponent* GetCombatSocketMesh_Implementation(const FGameplayTag& SocketTag) const override;
     virtual bool IsDead_Implementation() const override;
     virtual void Die_Implementation(const FVector& DeathImpulse) override;
     virtual int32 GetXPReward_Implementation() const override;

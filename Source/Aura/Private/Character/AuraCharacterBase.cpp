@@ -100,6 +100,27 @@ FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGamepl
     return FVector();
 }
 
+USkeletalMeshComponent* AAuraCharacterBase::GetCombatSocketMesh_Implementation(const FGameplayTag& SocketTag) const
+{
+    if (SocketTag.MatchesTagExact(AuraGameplayTags::Socket_Weapon) && IsValid(Weapon))
+    {
+        return Weapon;
+    }
+    if (SocketTag.MatchesTagExact(AuraGameplayTags::Socket_LeftHand))
+    {
+        return GetMesh();
+    }
+    if (SocketTag.MatchesTagExact(AuraGameplayTags::Socket_RightHand))
+    {
+        return GetMesh();
+    }
+    if (SocketTag.MatchesTagExact(AuraGameplayTags::Socket_Tail))
+    {
+        return GetMesh();
+    }
+    return nullptr;
+}
+
 bool AAuraCharacterBase::IsDead_Implementation() const
 {
     return GetAbilitySystemComponent()->HasMatchingGameplayTag(AuraGameplayTags::Character_Status_Dead);
