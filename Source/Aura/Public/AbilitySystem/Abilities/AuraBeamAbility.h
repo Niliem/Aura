@@ -19,7 +19,7 @@ public:
     void StoreCursorDataInfo(const FHitResult& HitResult);
 
     UFUNCTION(BlueprintCallable, Category = "Beam")
-    void StoreOwnerPlayerController();
+    void StoreOwnerVariables();
 
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Beam")
@@ -30,4 +30,7 @@ protected:
 
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Beam")
     TObjectPtr<APlayerController> OwnerPlayerController;
+
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Beam")
+    TObjectPtr<ACharacter> OwnerCharacter;
 };

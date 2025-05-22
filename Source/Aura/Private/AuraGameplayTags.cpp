@@ -100,6 +100,7 @@ namespace AuraGameplayTags
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Melee, "GameplayEvent.Montage.Melee", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_Slingshot, "GameplayEvent.Montage.Ranged.Slingshot", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_FireBolt, "GameplayEvent.Montage.Ranged.FireBolt", "");
+    UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Montage_Ranged_Electrocute, "GameplayEvent.Montage.Ranged.Electrocute", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Death, "GameplayEvent.Death", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_DeathXP, "GameplayEvent.DeathXP", "");
     UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_LevelUp, "GameplayEvent.LevelUp", "");

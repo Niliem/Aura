@@ -2,6 +2,7 @@
 
 
 #include "AbilitySystem/Abilities/AuraBeamAbility.h"
+#include "GameFramework/Character.h"
 
 void UAuraBeamAbility::StoreCursorDataInfo(const FHitResult& HitResult)
 {
@@ -16,10 +17,11 @@ void UAuraBeamAbility::StoreCursorDataInfo(const FHitResult& HitResult)
     }
 }
 
-void UAuraBeamAbility::StoreOwnerPlayerController()
+void UAuraBeamAbility::StoreOwnerVariables()
 {
     if (CurrentActorInfo)
     {
         OwnerPlayerController = CurrentActorInfo->PlayerController.Get();
+        OwnerCharacter = Cast<ACharacter>(CurrentActorInfo->AvatarActor);
     }
 }
