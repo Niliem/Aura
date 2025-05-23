@@ -27,6 +27,18 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Beam")
     void StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets);
 
+    UFUNCTION(BlueprintImplementableEvent, Category = "Beam")
+    void PrimaryTargetDied(AActor* DeadActor);
+
+    UFUNCTION(BlueprintCallable, Category = "Beam")
+    void UnbindPrimaryTargetDied(AActor* DeadActor);
+
+    UFUNCTION(BlueprintImplementableEvent, Category = "Beam")
+    void AdditionalTargetDied(AActor* DeadActor);
+
+    UFUNCTION(BlueprintCallable, Category = "Beam")
+    void UnbindAdditionalTargetDied(AActor* DeadActor);
+
 protected:
     virtual void FormatAbilityDescription(int32 Level, FText& OutDescription) override;
 

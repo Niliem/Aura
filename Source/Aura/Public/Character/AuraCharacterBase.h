@@ -48,11 +48,11 @@ public:
     virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
     virtual int32 GetMinionCount_Implementation() const override;
     virtual void UpdateMinionCount_Implementation(int32 Amount) override;
-    virtual FOnASCRegistered GetOnASCRegisteredDelegate() override;
-    virtual FOnDeath GetOnDeathDelegate() override;
+    virtual FOnASCRegisteredSignature& GetOnASCRegisteredDelegate() override;
+    virtual FOnDeathSignature& GetOnDeathDelegate() override;
 
-    FOnASCRegistered OnASCRegistered;
-    FOnDeath OnDeath;
+    FOnASCRegisteredSignature OnASCRegisteredDelegate;
+    FOnDeathSignature OnDeathDelegate;
 
     UFUNCTION(NetMulticast, Reliable)
     virtual void MulticastHandleDeath(const FVector& DeathImpulse);

@@ -155,14 +155,14 @@ void AAuraCharacterBase::UpdateMinionCount_Implementation(int32 Amount)
     MinionCount = FMath::Max(0, MinionCount + Amount);
 }
 
-FOnASCRegistered AAuraCharacterBase::GetOnASCRegisteredDelegate()
+FOnASCRegisteredSignature& AAuraCharacterBase::GetOnASCRegisteredDelegate()
 {
-    return OnASCRegistered;
+    return OnASCRegisteredDelegate;
 }
 
-FOnDeath AAuraCharacterBase::GetOnDeathDelegate()
+FOnDeathSignature& AAuraCharacterBase::GetOnDeathDelegate()
 {
-    return OnDeath;
+    return OnDeathDelegate;
 }
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
@@ -188,7 +188,7 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
     GetCharacterMovement()->StopMovementImmediately();
     GetCharacterMovement()->DisableMovement();
 
-    OnDeath.Broadcast(this);
+    OnDeathDelegate.Broadcast(this);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const

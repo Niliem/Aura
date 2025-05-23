@@ -11,8 +11,8 @@ class UAbilitySystemComponent;
 class UAnimMontage;
 class UNiagaraSystem;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegistered, UAbilitySystemComponent*);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AActor*, DeadActor);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnASCRegisteredSignature, UAbilitySystemComponent*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeathSignature, AActor*, DeadActor);
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI, BlueprintType)
@@ -65,6 +65,6 @@ public:
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
     void SetInShockLoop(bool bInLoop);
 
-    virtual FOnASCRegistered GetOnASCRegisteredDelegate() = 0;
-    virtual FOnDeath GetOnDeathDelegate() = 0;
+    virtual FOnASCRegisteredSignature& GetOnASCRegisteredDelegate() = 0;
+    virtual FOnDeathSignature& GetOnDeathDelegate() = 0;
 };

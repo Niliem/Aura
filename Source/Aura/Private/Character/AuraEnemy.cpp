@@ -71,7 +71,7 @@ void AAuraEnemy::InitAbilityActorInfo()
     GetAbilitySystemComponent()->InitAbilityActorInfo(this, this);
     Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent())->AbilityActorInfoSet();
 
-    OnASCRegistered.Broadcast(GetAbilitySystemComponent());
+    OnASCRegisteredDelegate.Broadcast(GetAbilitySystemComponent());
 
     EnemyWidgetController = NewObject<UEnemyWidgetController>(this, EnemyWidgetControllerClass);
     EnemyWidgetController->SetWidgetControllerParams({nullptr, nullptr, GetAbilitySystemComponent(), GetAttributeSet()});
