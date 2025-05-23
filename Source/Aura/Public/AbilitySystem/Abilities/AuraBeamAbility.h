@@ -21,6 +21,8 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Beam")
     void StoreOwnerVariables();
 
+    UFUNCTION(BlueprintCallable, Category = "Beam")
+    void TraceFirstTarget(const FVector& BeamStartLocation, const FVector& BeamTargetLocation);
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Beam")
     FVector CursorHitLocation;
