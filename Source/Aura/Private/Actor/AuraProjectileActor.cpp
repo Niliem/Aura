@@ -9,6 +9,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Aura/Aura.h"
+#include "Interaction/CombatInterface.h"
 
 AAuraProjectileActor::AAuraProjectileActor()
 {
@@ -37,6 +38,17 @@ void AAuraProjectileActor::BeginPlay()
     SetReplicateMovement(true);
     SetLifeSpan(LifeSpan);
     Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectileActor::OnSphereOverlap);
+
+    if (HasAuthority())
+    {
+        if (ProjectileMovementComponent->HomingTargetComponent.IsValid())
+        {
+            if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(ProjectileMovementComponent->HomingTargetComponent))
+            {
+                CombatInterface->GetOnDeathDelegate().AddUniqueDynamic(this, &AAuraProjectileActor::OnHomingTargetDeath);
+            }
+        }
+    }
 }
 
 void AAuraProjectileActor::Destroyed()
@@ -109,5 +121,15 @@ void AAuraProjectileActor::OnSphereOverlap(UPrimitiveComponent* OverlappedCompon
         SetActorHiddenInGame(true);
         Sphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         bHit = true;
+    }
+}
+
+void AAuraProjectileActor::OnHomingTargetDeath(AActor* DeadActor)
+{
+    ProjectileMovementComponent->bIsHomingProjectile = false;
+
+    if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(DeadActor))
+    {
+        CombatInterface->GetOnDeathDelegate().RemoveDynamic(this, &AAuraProjectileActor::OnHomingTargetDeath);
     }
 }
