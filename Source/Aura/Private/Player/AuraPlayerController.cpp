@@ -62,7 +62,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
     Super::PlayerTick(DeltaTime);
 
-    GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+    GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), false, CursorHit);
 
     TraceTargetUnderCursor();
     AutoRun();

@@ -2,6 +2,7 @@
 
 #include "AbilitySystem/AbilityTasks/AbilityTask_TargetDataUnderCursor.h"
 #include "AbilitySystemComponent.h"
+#include "Aura/Aura.h"
 
 UAbilityTask_TargetDataUnderCursor* UAbilityTask_TargetDataUnderCursor::CreateTargetDataUnderCursor(UGameplayAbility* OwningAbility)
 {
@@ -43,7 +44,7 @@ void UAbilityTask_TargetDataUnderCursor::SendTargetDataUnderCursor()
         if (ActorInfo->PlayerController.IsValid())
         {
             FHitResult CursorHit;
-            ActorInfo->PlayerController->GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+            ActorInfo->PlayerController->GetHitResultUnderCursor(ECC_Target, false, CursorHit);
             Data->HitResult = CursorHit;
         }
     }

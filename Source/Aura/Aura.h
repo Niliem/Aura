@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 
 constexpr auto ECC_Projectile = ECollisionChannel::ECC_GameTraceChannel1;
+constexpr auto ECC_Target = ECollisionChannel::ECC_GameTraceChannel2;
 
 // Stencil values
-     
+
 constexpr auto  STENCIL_RED = 250;
 constexpr auto  STENCIL_BLUE = 251;
 constexpr auto  STENCIL_TAN = 252;
-     
+
 UENUM(BlueprintType)
 enum class EStencilValue : uint8
 {
