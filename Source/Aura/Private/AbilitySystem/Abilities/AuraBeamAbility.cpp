@@ -2,6 +2,8 @@
 
 
 #include "AbilitySystem/Abilities/AuraBeamAbility.h"
+
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -41,4 +43,31 @@ void UAuraBeamAbility::TraceFirstTarget(const FVector& BeamStartLocation, const 
         CursorHitLocation = HitResult.ImpactPoint;
         CursorHitTarget = HitResult.GetActor();
     }
+}
+
+void UAuraBeamAbility::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets)
+{
+    TArray<AActor*> ActorsToIgnore;
+    ActorsToIgnore.Add(OwnerCharacter);
+    ActorsToIgnore.Add(CursorHitTarget);
+
+    TArray<AActor*> OutTargets = UAuraAbilitySystemLibrary::GetLiveActorsWithinRadius(GetAvatarActorFromActorInfo(), AActor::StaticClass(), ActorsToIgnore, 850.0f, CursorHitTarget->GetActorLocation());
+    OutAdditionalTargets = UAuraAbilitySystemLibrary::GetClosestActors(OutTargets, GetNumShockTargets(GetAbilityLevel()), CursorHitTarget->GetActorLocation());
+}
+
+void UAuraBeamAbility::FormatAbilityDescription(int32 Level, FText& OutDescription)
+{
+    Super::FormatAbilityDescription(Level, OutDescription);
+
+    OutDescription = FText::FormatNamed(OutDescription,
+    "Target_Num",
+    GetNumShockTargets(Level),
+    "Target_Num_Next",
+    GetNumShockTargets(Level + 1)
+    );
+}
+
+int32 UAuraBeamAbility::GetNumShockTargets_Implementation(int32 Level) const
+{
+    return NumShockTargets;
 }

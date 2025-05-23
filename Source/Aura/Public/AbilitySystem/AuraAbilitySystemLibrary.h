@@ -53,6 +53,9 @@ public:
     UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
     static TArray<AActor*> GetLiveActorsWithinRadius(const UObject* WorldContextObject, TSubclassOf<AActor> RequiredActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin);
 
+    UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|Gameplay")
+    static TArray<AActor*> GetClosestActors(const TArray<AActor*>& Actors, int32 MaxActorsNum, const FVector& OriginLocation);
+
     UFUNCTION(BlueprintPure, Category= "AuraAbilitySystemLibrary|Gameplay")
     static TArray<FRotator> EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators);
 

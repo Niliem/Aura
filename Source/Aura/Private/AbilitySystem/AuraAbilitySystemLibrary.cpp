@@ -109,6 +109,33 @@ TArray<AActor*> UAuraAbilitySystemLibrary::GetLiveActorsWithinRadius(const UObje
     return OutActors;
 }
 
+TArray<AActor*> UAuraAbilitySystemLibrary::GetClosestActors(const TArray<AActor*>& Actors, int32 MaxActorsNum, const FVector& OriginLocation)
+{
+    TArray<AActor*> OutActors;
+
+    if (MaxActorsNum < 1 || Actors.IsEmpty())
+        return OutActors;
+
+    OutActors = Actors;
+
+    if (OutActors.Num() <= MaxActorsNum)
+        return OutActors;
+
+    Algo::Sort(OutActors, [&OriginLocation](const AActor* A, const AActor* B)
+    {
+        const float DistanceA = FVector::DistSquared(A->GetActorLocation(), OriginLocation);
+        const float DistanceB = FVector::DistSquared(B->GetActorLocation(), OriginLocation);
+        return DistanceA < DistanceB;
+    });
+
+    if (OutActors.Num() > MaxActorsNum)
+    {
+        OutActors.RemoveAt(MaxActorsNum, OutActors.Num() - MaxActorsNum);
+    }
+
+    return OutActors;
+}
+
 TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators)
 {
     TArray<FRotator> Rotators;

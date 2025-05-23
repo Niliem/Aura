@@ -23,7 +23,16 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "Beam")
     void TraceFirstTarget(const FVector& BeamStartLocation, const FVector& BeamTargetLocation);
+
+    UFUNCTION(BlueprintCallable, Category = "Beam")
+    void StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets);
+
 protected:
+    virtual void FormatAbilityDescription(int32 Level, FText& OutDescription) override;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Beam")
+    int32 NumShockTargets = 0;
+
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Beam")
     FVector CursorHitLocation;
 
@@ -35,4 +44,7 @@ protected:
 
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Beam")
     TObjectPtr<ACharacter> OwnerCharacter;
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Ability", meta = (HidePin="Target"))
+    int32 GetNumShockTargets(int32 Level) const;
 };
