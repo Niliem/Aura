@@ -108,7 +108,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
         const float LocalIncomingDamage = GetIncomingDamage();
         SetIncomingDamage(0.0f);
 
-        if (Props.TargetCharacter->Implements<UCombatInterface>())
+        if (IsValid(Props.TargetCharacter) && Props.TargetCharacter->Implements<UCombatInterface>())
         {
             if (ICombatInterface::Execute_IsDead(Props.TargetCharacter))
             {
@@ -122,7 +122,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
             SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
             if (NewHealth > 0.0f)
             {
-                if (Props.SourceCharacter != Props.TargetCharacter)
+                if (IsValid(Props.TargetCharacter) && Props.SourceCharacter != Props.TargetCharacter)
                 {
                     // TODO: Change it to GameplayEvent
                     FGameplayTagContainer TagContaier;

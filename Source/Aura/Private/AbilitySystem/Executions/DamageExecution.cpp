@@ -197,7 +197,7 @@ void UDamageExecution::Execute_Implementation(const FGameplayEffectCustomExecuti
         }
 
         const float SourceDebuffChance = Spec.GetSetByCallerMagnitude(AuraGameplayTags::SetByCaller_Debuff_Chance, false, DefaultIfNotFoundMagnitude);
-        if (FMath::IsNearlyEqual(SourceDebuffChance, DefaultIfNotFoundMagnitude))
+        if (FMath::IsNearlyEqual(SourceDebuffChance, DefaultIfNotFoundMagnitude) || SourceDebuffChance <= 0.0f)
         {
             continue;
         }
