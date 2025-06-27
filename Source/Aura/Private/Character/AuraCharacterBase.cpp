@@ -18,6 +18,10 @@ AAuraCharacterBase::AAuraCharacterBase()
     BurnDebuffNiagaraComponent->SetupAttachment(GetRootComponent());
     BurnDebuffNiagaraComponent->DebuffTag = AuraGameplayTags::Effect_Status_Negative_Elemental_Burn;
 
+    ShockDebuffNiagaraComponent = CreateDefaultSubobject<UDebuffNiagaraComponent>("ShockDebuffComponent");
+    ShockDebuffNiagaraComponent->SetupAttachment(GetRootComponent());
+    ShockDebuffNiagaraComponent->DebuffTag = AuraGameplayTags::Effect_Status_Negative_Elemental_Shock;
+
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
     GetCapsuleComponent()->SetGenerateOverlapEvents(false);
     GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
@@ -169,19 +173,19 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& Deat
 {
     UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
 
-    Weapon->SetSimulatePhysics(true);
-    Weapon->SetEnableGravity(true);
-    Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-    Weapon->AddImpulse(DeathImpulse);
+    //Weapon->SetSimulatePhysics(true);
+    //Weapon->SetEnableGravity(true);
+    //Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+    //Weapon->AddImpulse(DeathImpulse);
 
-    GetMesh()->SetSimulatePhysics(true);
-    GetMesh()->SetEnableGravity(true);
-    GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-    GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
-    GetMesh()->AddImpulse(DeathImpulse);
+    //GetMesh()->SetSimulatePhysics(true);
+    //GetMesh()->SetEnableGravity(true);
+    //GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+    //GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+    //GetMesh()->AddImpulse(DeathImpulse);
 
-    GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
-    GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+    //GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
+    //GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
     Dissolve();
 
@@ -233,4 +237,9 @@ bool AAuraCharacterBase::HasAnyMatchingGameplayTags(const FGameplayTagContainer&
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation() const
 {
     return HitReactMontage;
+}
+
+UAnimMontage* AAuraCharacterBase::GetStunMontage_Implementation() const
+{
+    return StunMontage;
 }

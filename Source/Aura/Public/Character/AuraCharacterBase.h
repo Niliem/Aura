@@ -40,6 +40,7 @@ public:
 
     // Inherited via ICombatInterface
     virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
+    virtual UAnimMontage* GetStunMontage_Implementation() const override;
     virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
     virtual USkeletalMeshComponent* GetCombatSocketMesh_Implementation(const FGameplayTag& SocketTag) const override;
     virtual bool IsDead_Implementation() const override;
@@ -98,6 +99,9 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Debuff")
     TObjectPtr<UDebuffNiagaraComponent> BurnDebuffNiagaraComponent;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Debuff")
+    TObjectPtr<UDebuffNiagaraComponent> ShockDebuffNiagaraComponent;
+
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -124,4 +128,7 @@ protected:
 private:
     UPROPERTY(EditDefaultsOnly, Category = "Abilities")
     TObjectPtr<UAnimMontage> HitReactMontage;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Abilities")
+    TObjectPtr<UAnimMontage> StunMontage;
 };

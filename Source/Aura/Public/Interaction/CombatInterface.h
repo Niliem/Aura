@@ -41,6 +41,9 @@ public:
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
     UAnimMontage* GetHitReactMontage() const;
 
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+    UAnimMontage* GetStunMontage() const;
+
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Combat")
     void SetFacingTarget(const FVector& TargetLocation);
 
